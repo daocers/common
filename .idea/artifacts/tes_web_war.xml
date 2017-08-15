@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="tes-web:war">
-    <output-path>$PROJECT_DIR$/tes-web/target</output-path>
-    <root id="archive" name="tes.war">
-      <element id="artifact" artifact-name="tes-web:war exploded" />
-    </root>
-  </artifact>
-</component>
