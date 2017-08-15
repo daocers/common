@@ -24,21 +24,22 @@ public class UserController {
     private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     /**
-    * 列表，分页显示
-    * @param user  查询数据
-    * @param curPage 当前页码，从1开始
-    * @param showCount 当前页码显示数目
-    * @param model
-    * @return
-    */
+     * 列表，分页显示
+     *
+     * @param user      查询数据
+     * @param curPage   当前页码，从1开始
+     * @param showCount 当前页码显示数目
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/list")
-    public String list(User user, Integer curPage, Integer showCount, ModelMap model){
-        try{
+    public String list(User user, Integer curPage, Integer showCount, ModelMap model) {
+        try {
             PageInfo<User> pageInfo = new PageInfo<>(showCount, curPage);
-            pageInfo = userService.listByObject(user, pageInfo);
+            pageInfo = userService.findByObject(user, pageInfo);
             model.put("pi", pageInfo);
             model.put("user", user);
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error("获取列表失败", e);
             model.put("errMsg", "获取列表失败");
         }
@@ -47,19 +48,20 @@ public class UserController {
     }
 
     /**
-    * 查询数据后跳转到对应的编辑页面
-    * @param id 查询数据，一般查找id
-    * @param model
-    * @return
-    */
+     * 查询数据后跳转到对应的编辑页面
+     *
+     * @param id    查询数据，一般查找id
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String toEdit(Integer id, ModelMap model){
-        try{
-            if(id != null){
+    public String toEdit(Integer id, ModelMap model) {
+        try {
+            if (id != null) {
                 User user = userService.findById(id);
                 model.put("user", user);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error("获取信息失败", e);
             model.put("errMsg", "获取信息失败");
         }
@@ -67,16 +69,21 @@ public class UserController {
     }
 
     /**
-    * 保存结果，根据是否带有id来表示更新或者新增
-    * @param user
-    * @param model
-    * @return
-    */
+     * 保存结果，根据是否带有id来表示更新或者新增
+     *
+     * @param user
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String save(User user, ModelMap model){
-        try{
-            userService.saveOrUpdate(user);
-        }catch (Exception e){
+    public String save(User user, ModelMap model) {
+        try {
+            if (user.getId() == null) {
+                userService.save(user);
+            } else {
+                userService.updateById(user);
+            }
+        } catch (Exception e) {
             logger.error("保存失败", e);
             model.put("user", user);
             model.put("errMsg", "保存失败");
@@ -86,34 +93,36 @@ public class UserController {
     }
 
     /**
-    * 异步请求 获取全部
-    * @param user 查询条件
-    * @return
-    */
+     * 异步请求 获取全部
+     *
+     * @param user 查询条件
+     * @return
+     */
     @RequestMapping(value = "/listAll")
     @ResponseBody
-    public String listAll(User user){
-        try{
-            List<User> list = userService.findAllByObject(user);
+    public String listAll(User user) {
+        try {
+            List<User> list = userService.findByObject(user);
             return JsonUtil.toJsonString(list);
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error("获取全部列表失败", e);
             return "-1";
         }
     }
 
     /**
-    * 异步请求 删除
-    * @param user id
-    * @return
-    */
+     * 异步请求 删除
+     *
+     * @param user id
+     * @return
+     */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public String delete(User user){
-        try{
+    public String delete(User user) {
+        try {
             userService.delete(user);
             return "0";
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error("删除失败", e);
             return "-1";
         }

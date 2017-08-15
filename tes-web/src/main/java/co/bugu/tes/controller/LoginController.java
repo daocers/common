@@ -20,15 +20,17 @@ public class LoginController {
 
     /**
      * 登陆请求页面
+     *
      * @return
      */
     @RequestMapping("login")
-    public String toLogin(){
+    public String toLogin() {
         return "login/login";
     }
 
     /**
      * 登陆
+     *
      * @param username
      * @param password
      * @param rememberMe
@@ -36,18 +38,18 @@ public class LoginController {
      */
     @RequestMapping(value = "signIn", method = RequestMethod.POST)
     @ResponseBody
-    public String signIn(String username, String password, Integer rememberMe){
+    public String signIn(String username, String password, Integer rememberMe) {
         UsernamePasswordToken token = new UsernamePasswordToken(username, password);
         token.setRememberMe(rememberMe == 0);
         Subject subject = SecurityUtils.getSubject();
-        try{
+        try {
             subject.login(token);
-            if(subject.isAuthenticated()){
+            if (subject.isAuthenticated()) {
                 return "redirect:/";
-            }else{
+            } else {
                 return "login/login";
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error("登录失败", e);
             return "-1";
         }
@@ -55,10 +57,11 @@ public class LoginController {
 
     /**
      * 退出登录
+     *
      * @return
      */
     @RequestMapping(value = "/signOut", method = RequestMethod.POST)
-    public String signOut(){
+    public String signOut() {
         SecurityUtils.getSubject().logout();
         return "login/login";
     }

@@ -1,7 +1,106 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="139253cd-08cc-4fa3-a31e-cbaa81d0b107" name="Default" comment="" />
+    <list default="true" id="139253cd-08cc-4fa3-a31e-cbaa81d0b107" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/authority/add.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/authority/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/authority/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/authority/manage.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/branch/batchAdd.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/branch/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/branch/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/branch/manage.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/department/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/department/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/exam/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/exam/exam.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/exam/examine-bak.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/exam/examine.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/exam/history.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/exam/index.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/exam/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/exam/note.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/exam/number-input.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/exam/result.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/favourite/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/favourite/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/index/index-bak.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/index/index.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/index/login.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/page/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/page/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/paper/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/paper/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/paper/manage.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/paper/show.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/paper_policy/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/paper_policy/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/paper_policy/show.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/profile/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/profile/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/property/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/property/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/property_item/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/property_item/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/question/answer.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/question/batchAdd.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/question/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/question/import.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/question/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/question_bank/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/question_bank/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/question_meta_info/download.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/question_meta_info/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/question_meta_info/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/question_policy/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/question_policy/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/record/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/record/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/role/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/role/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/scene/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/scene/index.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/scene/join.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/scene/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/scene/preview-content.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/scene/preview.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/scene/score.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/scene/selectPolicy.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/scene/selectUser.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/scene/setUser.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/station/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/station/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/system_param/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/system_param/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/template/foot.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/template/frame.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/template/goods-header.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/template/header.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/template/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/template/menu-left.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/template/menu-top.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/template/menu.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/template/navi.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/template/page-nav.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/template/sources.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/trade/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/trade/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/trade/record.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/type_in/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/type_in/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/user/changePassword.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/user/edit.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/user/list.jsp" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/tes-web/src/main/webapp/views/user/register.jsp" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/RolePermissionXController.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/UserRoleXController.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/LoginController.java" afterPath="$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/LoginController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/PermissionController.java" afterPath="$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/PermissionController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/RoleController.java" afterPath="$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/RoleController.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/UserController.java" afterPath="$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/UserController.java" />
+    </list>
     <ignored path="$PROJECT_DIR$/web/target/" />
     <ignored path="$PROJECT_DIR$/framework/target/" />
     <ignored path="$PROJECT_DIR$/framework/framework-core/target/" />
@@ -22,7 +121,7 @@
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="304">
-              <caret line="16" column="45" lean-forward="true" selection-start-line="16" selection-start-column="45" selection-end-line="16" selection-end-column="45" />
+              <caret line="16" column="45" lean-forward="false" selection-start-line="16" selection-start-column="45" selection-end-line="16" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -32,7 +131,7 @@
         <entry file="file://$PROJECT_DIR$/tes-web/src/main/resources/servlet/dispatcher-servlet.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="304">
-              <caret line="16" column="46" lean-forward="true" selection-start-line="16" selection-start-column="46" selection-end-line="16" selection-end-column="46" />
+              <caret line="16" column="46" lean-forward="false" selection-start-line="16" selection-start-column="46" selection-end-line="16" selection-end-column="46" />
               <folding />
             </state>
           </provider>
@@ -48,17 +147,93 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="38">
-              <caret line="2" column="10" lean-forward="false" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="10" />
+            <state relative-caret-position="57">
+              <caret line="3" column="8" lean-forward="false" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RoleMapper.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tes-web/src/main/resources/mapper/RoleMapper.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="513">
+              <caret line="27" column="34" lean-forward="false" selection-start-line="27" selection-start-column="34" selection-end-line="27" selection-end-column="34" />
+              <folding>
+                <marker date="1502755846493" expanded="true" signature="765:868" ph="select from role" />
+                <marker date="1502755846493" expanded="true" signature="950:1004" ph="delete from " />
+                <marker date="1502755846493" expanded="true" signature="2289:2814" ph="update role " />
+                <marker date="1502755846493" expanded="true" signature="2929:2990" ph="select from role" />
+                <marker date="1502755846493" expanded="true" signature="3085:3256" ph="SELECT from role" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RoleController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/RoleController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="287">
+              <caret line="106" column="31" lean-forward="false" selection-start-line="106" selection-start-column="31" selection-end-line="106" selection-end-column="31" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="add.jsp" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tes-web/src/main/webapp/views/authority/add.jsp">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UserController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/UserController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1077">
+              <caret line="107" column="40" lean-forward="false" selection-start-line="107" selection-start-column="40" selection-end-line="107" selection-end-column="40" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoginController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/LoginController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-44">
+              <caret line="26" column="28" lean-forward="false" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="28" />
+              <folding>
+                <element signature="e#790#791#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PermissionController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/PermissionController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="488">
+              <caret line="40" column="46" lean-forward="false" selection-start-line="40" selection-start-column="46" selection-end-line="40" selection-end-column="46" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>listByObject</find>
+    </findStrings>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GradleLocalSettings">
     <option name="externalProjectsViewState">
@@ -72,6 +247,11 @@
         <option value="$PROJECT_DIR$/tes-web/src/main/resources/servlet/dispatcher-servlet.xml" />
         <option value="$PROJECT_DIR$/tes-web/src/main/resources/spring/spring-shiro.xml" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/RolePermissionXController.java" />
+        <option value="$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/PermissionController.java" />
+        <option value="$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/RoleController.java" />
+        <option value="$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/UserController.java" />
+        <option value="$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/LoginController.java" />
       </list>
     </option>
   </component>
@@ -89,11 +269,12 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="244" />
-    <option name="y" value="77" />
+    <option name="x" value="-19" />
+    <option name="y" value="20" />
     <option name="width" value="1936" />
     <option name="height" value="1056" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
@@ -123,6 +304,282 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tes-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tes-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tes-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tes-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="login" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tes-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="webapp" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="authority" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tes-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="resources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tes-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tes-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="model" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tes-web" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="main" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="java" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controller" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="common" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="framework" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -132,6 +589,11 @@
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../.." />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\CODE\daocers\common\tes-web\src\main\webapp\views" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -537,15 +999,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1502754435201</updated>
-      <workItem from="1502754439350" duration="1279000" />
+      <workItem from="1502754439350" duration="2231000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1279000" />
+    <option name="totallyTimeSpent" value="2231000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="244" y="77" width="1936" height="1056" extended-state="0" />
+    <frame x="-19" y="20" width="1936" height="1056" extended-state="0" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -565,7 +1027,7 @@
       <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -594,7 +1056,7 @@
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
-          <caret line="16" column="45" lean-forward="true" selection-start-line="16" selection-start-column="45" selection-end-line="16" selection-end-column="45" />
+          <caret line="16" column="45" lean-forward="false" selection-start-line="16" selection-start-column="45" selection-end-line="16" selection-end-column="45" />
           <folding />
         </state>
       </provider>
@@ -602,7 +1064,7 @@
     <entry file="file://$PROJECT_DIR$/tes-web/src/main/resources/servlet/dispatcher-servlet.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="304">
-          <caret line="16" column="46" lean-forward="true" selection-start-line="16" selection-start-column="46" selection-end-line="16" selection-end-column="46" />
+          <caret line="16" column="46" lean-forward="false" selection-start-line="16" selection-start-column="46" selection-end-line="16" selection-end-column="46" />
           <folding />
         </state>
       </provider>
@@ -617,8 +1079,80 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="38">
-          <caret line="2" column="10" lean-forward="false" selection-start-line="2" selection-start-column="10" selection-end-line="2" selection-end-column="10" />
+        <state relative-caret-position="57">
+          <caret line="3" column="8" lean-forward="false" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tes-web/src/main/resources/mapper/RoleMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="513">
+          <caret line="27" column="34" lean-forward="false" selection-start-line="27" selection-start-column="34" selection-end-line="27" selection-end-column="34" />
+          <folding>
+            <marker date="1502755846493" expanded="true" signature="765:868" ph="select from role" />
+            <marker date="1502755846493" expanded="true" signature="950:1004" ph="delete from " />
+            <marker date="1502755846493" expanded="true" signature="2289:2814" ph="update role " />
+            <marker date="1502755846493" expanded="true" signature="2929:2990" ph="select from role" />
+            <marker date="1502755846493" expanded="true" signature="3085:3256" ph="SELECT from role" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/RolePermissionXController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="532">
+          <caret line="77" column="47" lean-forward="false" selection-start-line="77" selection-start-column="35" selection-end-line="77" selection-end-column="47" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/UserRoleXController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="19" column="13" lean-forward="false" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/PermissionController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="488">
+          <caret line="40" column="46" lean-forward="false" selection-start-line="40" selection-start-column="46" selection-end-line="40" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/LoginController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-44">
+          <caret line="26" column="28" lean-forward="false" selection-start-line="26" selection-start-column="28" selection-end-line="26" selection-end-column="28" />
+          <folding>
+            <element signature="e#790#791#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/UserController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1077">
+          <caret line="107" column="40" lean-forward="false" selection-start-line="107" selection-start-column="40" selection-end-line="107" selection-end-column="40" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tes-web/src/main/java/co/bugu/tes/controller/RoleController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="287">
+          <caret line="106" column="31" lean-forward="false" selection-start-line="106" selection-start-column="31" selection-end-line="106" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tes-web/src/main/webapp/views/authority/add.jsp">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>

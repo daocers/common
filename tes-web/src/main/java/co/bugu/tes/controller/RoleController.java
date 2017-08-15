@@ -24,21 +24,22 @@ public class RoleController {
     private static Logger logger = LoggerFactory.getLogger(RoleController.class);
 
     /**
-    * 列表，分页显示
-    * @param role  查询数据
-    * @param curPage 当前页码，从1开始
-    * @param showCount 当前页码显示数目
-    * @param model
-    * @return
-    */
+     * 列表，分页显示
+     *
+     * @param role      查询数据
+     * @param curPage   当前页码，从1开始
+     * @param showCount 当前页码显示数目
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/list")
-    public String list(Role role, Integer curPage, Integer showCount, ModelMap model){
-        try{
+    public String list(Role role, Integer curPage, Integer showCount, ModelMap model) {
+        try {
             PageInfo<Role> pageInfo = new PageInfo<>(showCount, curPage);
-            pageInfo = roleService.listByObject(role, pageInfo);
+            pageInfo = roleService.findByObject(role, pageInfo);
             model.put("pi", pageInfo);
             model.put("role", role);
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error("获取列表失败", e);
             model.put("errMsg", "获取列表失败");
         }
@@ -47,19 +48,20 @@ public class RoleController {
     }
 
     /**
-    * 查询数据后跳转到对应的编辑页面
-    * @param id 查询数据，一般查找id
-    * @param model
-    * @return
-    */
+     * 查询数据后跳转到对应的编辑页面
+     *
+     * @param id    查询数据，一般查找id
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/edit", method = RequestMethod.GET)
-    public String toEdit(Integer id, ModelMap model){
-        try{
-            if(id != null){
+    public String toEdit(Integer id, ModelMap model) {
+        try {
+            if (id != null) {
                 Role role = roleService.findById(id);
                 model.put("role", role);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error("获取信息失败", e);
             model.put("errMsg", "获取信息失败");
         }
@@ -67,16 +69,21 @@ public class RoleController {
     }
 
     /**
-    * 保存结果，根据是否带有id来表示更新或者新增
-    * @param role
-    * @param model
-    * @return
-    */
+     * 保存结果，根据是否带有id来表示更新或者新增
+     *
+     * @param role
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String save(Role role, ModelMap model){
-        try{
-            roleService.saveOrUpdate(role);
-        }catch (Exception e){
+    public String save(Role role, ModelMap model) {
+        try {
+            if (role.getId() == null) {
+                roleService.save(role);
+            } else {
+                roleService.updateById(role);
+            }
+        } catch (Exception e) {
             logger.error("保存失败", e);
             model.put("role", role);
             model.put("errMsg", "保存失败");
@@ -86,34 +93,36 @@ public class RoleController {
     }
 
     /**
-    * 异步请求 获取全部
-    * @param role 查询条件
-    * @return
-    */
+     * 异步请求 获取全部
+     *
+     * @param role 查询条件
+     * @return
+     */
     @RequestMapping(value = "/listAll")
     @ResponseBody
-    public String listAll(Role role){
-        try{
-            List<Role> list = roleService.findAllByObject(role);
+    public String listAll(Role role) {
+        try {
+            List<Role> list = roleService.findByObject(role);
             return JsonUtil.toJsonString(list);
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error("获取全部列表失败", e);
             return "-1";
         }
     }
 
     /**
-    * 异步请求 删除
-    * @param role id
-    * @return
-    */
+     * 异步请求 删除
+     *
+     * @param role id
+     * @return
+     */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public String delete(Role role){
-        try{
+    public String delete(Role role) {
+        try {
             roleService.delete(role);
             return "0";
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.error("删除失败", e);
             return "-1";
         }
