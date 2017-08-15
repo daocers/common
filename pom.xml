@@ -8,6 +8,7 @@
     <modules>
         <module>tes-web</module>
         <module>framework</module>
+        <module>web-demo</module>
     </modules>
     <name>tes Maven Webapp</name>
     <url>http://maven.apache.org</url>
