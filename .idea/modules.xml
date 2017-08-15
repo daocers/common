@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/framework/framework-core/framework-core.iml" filepath="$PROJECT_DIR$/framework/framework-core/framework-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/framework/framework-util/framework-util.iml" filepath="$PROJECT_DIR$/framework/framework-util/framework-util.iml" />
       <module fileurl="file://$PROJECT_DIR$/tes-web/tes-web.iml" filepath="$PROJECT_DIR$/tes-web/tes-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/web-demo/web-demo.iml" filepath="$PROJECT_DIR$/web-demo/web-demo.iml" />
     </modules>
   </component>
 </project>

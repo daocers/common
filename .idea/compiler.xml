@@ -9,6 +9,7 @@
         <module name="framework-core" />
         <module name="framework-util" />
         <module name="tes-web" />
+        <module name="web-demo" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -17,6 +18,7 @@
       <module name="framework-core" target="1.8" />
       <module name="framework-util" target="1.8" />
       <module name="tes-web" target="1.8" />
+      <module name="web-demo" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
