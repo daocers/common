@@ -1,11 +1,10 @@
 package co.bugu.framework.util;
 
-import com.alibaba.fastjson.JSON;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.io.xml.XmlFriendlyNameCoder;
 import com.thoughtworks.xstream.io.xml.XppDriver;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
@@ -14,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,6 +28,7 @@ public class XmlUtil {
 
     /**
      * 解析request，生成map数据
+     *
      * @param @param  request
      * @param @return
      * @param @throws Exception
@@ -65,34 +64,35 @@ public class XmlUtil {
 
     public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, ClassNotFoundException {
 
-        Book book = new Book();
-        book.setId(121);
-        book.setName("this is a good book");
-        book.setAuthorName("daocers");
-
-        Line line = new Line();
-        line.setLineNumber(100);
-        line.setData("this is the 100th data");
-        Line line1 = new Line();
-        line1.setLineNumber(101);
-        line1.setData("this is the 101th data;.....");
-        List<Line> lines = new ArrayList<>();
-        lines.add(line);
-        lines.add(line1);
-        book.setLineList(lines);
-
-
-        String xml = objToXml(book, FIELD_POLICY_UNDERLINE);
-        System.out.println(xml);
-        System.out.println("**********************************");
-
-        Book book1 = xmlToObj(xml, Book.class, FIELD_POLICY_UNDERLINE);
-        System.out.println(JSON.toJSONString(book1, true));
+//        Book book = new Book();
+//        book.setId(121);
+//        book.setName("this is a good book");
+//        book.setAuthorName("daocers");
+//
+//        Line line = new Line();
+//        line.setLineNumber(100);
+//        line.setData("this is the 100th data");
+//        Line line1 = new Line();
+//        line1.setLineNumber(101);
+//        line1.setData("this is the 101th data;.....");
+//        List<Line> lines = new ArrayList<>();
+//        lines.add(line);
+//        lines.add(line1);
+//        book.setLineList(lines);
+//
+//
+//        String xml = objToXml(book, FIELD_POLICY_UNDERLINE);
+//        System.out.println(xml);
+//        System.out.println("**********************************");
+//
+//        Book book1 = xmlToObj(xml, Book.class, FIELD_POLICY_UNDERLINE);
+//        System.out.println(JSON.toJSONString(book1, true));
 
     }
 
     /**
      * javabean 转换为xml
+     *
      * @param object
      * @return
      * @throws NoSuchMethodException
@@ -106,6 +106,7 @@ public class XmlUtil {
 
     /**
      * 从xml转换为对象
+     *
      * @param xml
      * @param tClass
      * @param <T>
@@ -120,6 +121,7 @@ public class XmlUtil {
 
     /**
      * 处理别名
+     *
      * @param tClass
      * @throws NoSuchMethodException
      * @throws InvocationTargetException
@@ -133,10 +135,10 @@ public class XmlUtil {
 
 //      处理字段别名
         Field[] fields = tClass.getDeclaredFields();
-        for(Field field: fields){
+        for (Field field : fields) {
             Type type = field.getGenericType();
-            if(type instanceof ParameterizedType){
-                String className = ((ParameterizedType)type).getActualTypeArguments()[0].getTypeName();
+            if (type instanceof ParameterizedType) {
+                String className = ((ParameterizedType) type).getActualTypeArguments()[0].getTypeName();
                 xStream.alias(className2var(className), Class.forName(className));
             }
             String fieldAlias = getAliasOfField(field, fieldPolicy);
@@ -149,6 +151,7 @@ public class XmlUtil {
 
     /**
      * class类转换为变量
+     *
      * @param className
      * @return
      */
@@ -161,12 +164,12 @@ public class XmlUtil {
     public static String getAliasOfClass(Class clazz) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Annotation annotation = clazz.getAnnotation(XStreamAlias.class);
         String alias = null;
-        if(annotation != null){
+        if (annotation != null) {
             Method valueMethod = annotation.annotationType().getDeclaredMethod("value");
             alias = (String) valueMethod.invoke(annotation, null);
         }
 
-        if(StringUtils.isEmpty(alias)){
+        if (StringUtils.isEmpty(alias)) {
             String className = clazz.getName();
             className = className.substring(className.lastIndexOf(".") + 1);
             alias = className.substring(0, 1).toLowerCase() + className.substring(1);
@@ -177,18 +180,18 @@ public class XmlUtil {
     public static String getAliasOfField(Field field, String fieldPolicy) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Annotation annotation = field.getAnnotation(XStreamAlias.class);
         String alias = null;
-        if(annotation != null){
+        if (annotation != null) {
             Method valueMethod = annotation.annotationType().getDeclaredMethod("value");
             alias = (String) valueMethod.invoke(annotation, null);
         }
 
-        if(StringUtils.isEmpty(alias)){
-            if(FIELD_POLICY_UNDERLINE.equals(fieldPolicy)){
+        if (StringUtils.isEmpty(alias)) {
+            if (FIELD_POLICY_UNDERLINE.equals(fieldPolicy)) {
                 String fieldName = field.getName();
                 alias = camelToUnderLine(fieldName);
-            }else if(FIELD_POLICY_ORIGINAL.equals(fieldPolicy)){
+            } else if (FIELD_POLICY_ORIGINAL.equals(fieldPolicy)) {
                 alias = field.getName();
-            }else{
+            } else {
                 alias = field.getName();
             }
 
@@ -198,14 +201,15 @@ public class XmlUtil {
 
     /**
      * 驼峰命名法转换为下环线表示
+     *
      * @param source
      * @return
      */
-    private static String camelToUnderLine(String source){
+    private static String camelToUnderLine(String source) {
         source = source.substring(0, 1).toLowerCase() + source.substring(1);
         StringBuilder builder = new StringBuilder();
-        for(char c: source.toCharArray()){
-            if((c >= 'A' && c <= 'Z')|| c == '$'){
+        for (char c : source.toCharArray()) {
+            if ((c >= 'A' && c <= 'Z') || c == '$') {
                 builder.append("_");
             }
             builder.append(("" + c).toLowerCase());

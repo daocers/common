@@ -2,11 +2,12 @@ package co.bugu.framework.core.service.impl;
 
 import co.bugu.framework.core.dao.BaseDao;
 import co.bugu.framework.core.dao.PageInfo;
+import co.bugu.framework.core.exception.TesJedisException;
 import co.bugu.framework.core.service.IBaseService;
 import co.bugu.framework.core.util.JedisUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -37,55 +38,46 @@ public class BaseServiceImpl<T> implements IBaseService<T> {
     }
 
     @Override
-    public int save(T record) {
-        String key = JedisUtil.getKey(record);
-        if(StringUtils.isNotEmpty(key)){
-            JedisUtil.del(key);
-        }
+    public int save(T record) throws IOException, TesJedisException {
+        JedisUtil.delObject(record);
         int num = baseDao.insert(nameSpace + "insert", record);
-        if(StringUtils.isNotEmpty(key)){
-            JedisUtil.setJson(key, record);
-        }
+        JedisUtil.setObject(record);
         return num;
     }
 
     @Override
-    public int updateById(T record) {
-        String key = JedisUtil.getKey(record);
-        if(StringUtils.isNotEmpty(key)){
-            JedisUtil.del(key);
-        }
+    public int updateById(T record) throws TesJedisException, IOException {
+        JedisUtil.delObject(record);
         int num = baseDao.update(nameSpace + "updateById", record);
-        if(StringUtils.isNotEmpty(key)){
-            JedisUtil.setJson(key, record);
-        }
+        JedisUtil.setObject(record);
         return num;
     }
 
     @Override
-    public int delete(T record) {
-        String key = JedisUtil.getKey(record);
-        if(StringUtils.isNotEmpty(key)){
-            JedisUtil.del(key);
-        }
+    public int delete(T record) throws TesJedisException {
+        JedisUtil.delObject(record);
         return baseDao.delete(nameSpace + "deleteById", record);
     }
 
     @Override
-    public T findById(Integer id) {
+    public T findById(Integer id) throws Exception {
         ParameterizedType parameterizedType = (ParameterizedType) this.getClass().getGenericSuperclass();
         String type = parameterizedType.getActualTypeArguments()[0].getTypeName();
-        String key = type + "_" + id;
         T res = null;
         try {
-            res = JedisUtil.getJson(key, (Class<T>) Class.forName(type));
+            res = JedisUtil.getObject(id, (Class<T>) Class.forName(type));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(res == null){
+            res = baseDao.selectOne(nameSpace + "selectById", id);
         }
         if(res != null){
-            return res;
+            JedisUtil.setObject(res);
         }
-        return baseDao.selectOne(nameSpace + "selectById", id);
+        return res;
     }
 
     @Override

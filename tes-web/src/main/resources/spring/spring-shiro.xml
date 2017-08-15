@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!-- 配置权限管理器 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
@@ -79,4 +79,13 @@
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager"/>
     </bean>
+
+
+    <bean id="authorityCheckAspect" class="co.bugu.tes.aop.AuthorityCheckAspect"/>
+    <aop:config proxy-target-class="true">
+        <aop:aspect ref="authorityCheckAspect">
+            <aop:pointcut id="beforePoint" expression="execution(* co.bugu.tes.controller.*.*(..))"/>
+            <aop:before method="before" pointcut-ref="beforePoint"/>
+        </aop:aspect>
+    </aop:config>
 </beans>

@@ -20,6 +20,6 @@ public class PermissionServiceImpl extends BaseServiceImpl<Permission> implement
     @Override
     public List<Permission> findByRoleId(Integer roleId) {
         List<Permission> permissionList = baseDao.selectList("tes.permission.findByRoleId", roleId);
-        return null;
+        return permissionList;
     }
 }
