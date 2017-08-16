@@ -27,6 +27,11 @@
             <artifactId>framework-util</artifactId>
             <version>1.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>RELEASE</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>ccb-tes</finalName>
