@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 @Controller
 public class TestController {
 
-    @RequestMapping("/test")
+    @RequestMapping("/conf.dev.test")
     @ResponseBody
     public String test(){
         return "good" + Thread.currentThread();

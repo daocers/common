@@ -40,10 +40,10 @@
                 <%--<select class="form-control" name="type">--%>
                 <%--<option value="-1">全部</option>--%>
                 <%--<option value="0"--%>
-                <%--<c:if test="${param.type == 0}">selected</c:if>>操作权限--%>
+                <%--<c:if conf.dev.test="${param.type == 0}">selected</c:if>>操作权限--%>
                 <%--</option>--%>
                 <%--<option value="2"--%>
-                <%--<c:if test="${param.type == 2}">selected</c:if>>菜单权限--%>
+                <%--<c:if conf.dev.test="${param.type == 2}">selected</c:if>>菜单权限--%>
                 <%--</option>--%>
                 <%--</select>--%>
                 <%--</div>--%>

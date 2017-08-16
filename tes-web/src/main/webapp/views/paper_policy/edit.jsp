@@ -111,7 +111,7 @@
                                             <option value="">请选择</option>
                                             <c:forEach items="${data[index.index]}" var="questionPolicy">
                                                 <option value="${questionPolicy.id}"
-                                                    <%--<c:if test="${paperPolicy.content}">selected</c:if>--%>
+                                                    <%--<c:if conf.dev.test="${paperPolicy.content}">selected</c:if>--%>
                                                         count="${questionPolicy.count}">${questionPolicy.name}</option>
                                             </c:forEach>
                                         </select>

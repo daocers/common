@@ -88,19 +88,19 @@
                             <td>${scene.department == null ? "" : scene.department.name}</td>
                             <td>
                                 ${statusMap.get(scene.status)}
-                                <%--<c:if test="${scene.status == 0}">--%>
+                                <%--<c:if conf.dev.test="${scene.status == 0}">--%>
                                     <%--信息待完善--%>
                                 <%--</c:if>--%>
-                                <%--<c:if test="${scene.status == 1}">--%>
+                                <%--<c:if conf.dev.test="${scene.status == 1}">--%>
                                     <%--创建成功--%>
                                 <%--</c:if>--%>
-                                <%--<c:if test="${scene.status == 2}">--%>
+                                <%--<c:if conf.dev.test="${scene.status == 2}">--%>
                                     <%--已开场--%>
                                 <%--</c:if>--%>
-                                <%--<c:if test="${scene.status == 3}">--%>
+                                <%--<c:if conf.dev.test="${scene.status == 3}">--%>
                                     <%--已封场--%>
                                 <%--</c:if>--%>
-                                <%--<c:if test="${scene.status == 4}">--%>
+                                <%--<c:if conf.dev.test="${scene.status == 4}">--%>
                                     <%--已取消--%>
                                 <%--</c:if>--%>
                             </td>

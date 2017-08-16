@@ -11,6 +11,11 @@
     <packaging>war</packaging>
     <name>web Maven Webapp</name>
     <url>http://maven.apache.org</url>
+
+    <properties>
+        <package.environment>test</package.environment>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>co.bugu.framework</groupId>
@@ -24,6 +29,50 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>tes</finalName>
+        <finalName>ccb-tes</finalName>
+        <plugins>
+            <!-- war打包插件, 设定war包名称不带版本号 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <warName>${project.artifactId}</warName>
+                    <archive>
+                        <addMavenDescriptor>false</addMavenDescriptor>
+                    </archive>
+                    <webResources>
+                        <resource>
+                            <!-- this is relative to the pom.xml directory -->
+                            <directory>src/main/resources/</directory>
+                            <targetPath>WEB-INF/classes</targetPath>
+                            <includes>
+                                <include>**/*.xml</include>
+                                <include>**/*.properties</include>
+                                <include>**/*.composite</include>
+                            </includes>
+                            <excludes>
+                                <exclude>*dev/</exclude>
+                                <exclude>*test/</exclude>
+                                <exclude>*prod/</exclude>
+                            </excludes>
+                            <filtering>true</filtering>
+                        </resource>
+                        <resource>
+                            <!-- this is relative to the pom.xml directory -->
+                            <directory>src/main/resources/${package.environment}</directory>
+                            <targetPath>WEB-INF/classes</targetPath>
+                            <includes>
+                                <include>**/*.xml</include>
+                                <include>**/*.properties</include>
+                                <include>**/*.composite</include>
+                            </includes>
+                            <filtering>true</filtering>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
+
 </project>

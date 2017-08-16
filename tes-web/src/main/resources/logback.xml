@@ -9,17 +9,17 @@
     <property name="log.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50}:%L - %msg%n"/>
 
     <!-- 控制台设置 -->
-    <appender name="consoleAppender" class="ch.qos.logback.co.bugu.framework.core.ConsoleAppender">
+    <appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${log.pattern}</pattern>
         </encoder>
     </appender>
 
     <!-- DEBUG -->
-    <appender name="debugAppender" class="ch.qos.logback.co.bugu.framework.core.rolling.RollingFileAppender">
+    <appender name="debugAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 文件路径 -->
         <file>${log.filePath}/debug.log</file>
-        <rollingPolicy class="ch.qos.logback.co.bugu.framework.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 文件名称 -->
             <fileNamePattern>${log.filePath}/debug/debug.%d{yyyy-MM-dd}.log.gz
             </fileNamePattern>
@@ -37,10 +37,10 @@
     </appender>
 
     <!-- INFO -->
-    <appender name="infoAppender" class="ch.qos.logback.co.bugu.framework.core.rolling.RollingFileAppender">
+    <appender name="infoAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 文件路径 -->
         <file>${log.filePath}/info.log</file>
-        <rollingPolicy class="ch.qos.logback.co.bugu.framework.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 文件名称 -->
             <fileNamePattern>${log.filePath}/info/info.%d{yyyy-MM-dd}.log.gz
             </fileNamePattern>
@@ -58,10 +58,10 @@
     </appender>
 
     <!-- ERROR -->
-    <appender name="errorAppender" class="ch.qos.logback.co.bugu.framework.core.rolling.RollingFileAppender">
+    <appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- 文件路径 -->
         <file>${log.filePath}/error.log</file>
-        <rollingPolicy class="ch.qos.logback.co.bugu.framework.core.rolling.TimeBasedRollingPolicy">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 文件名称 -->
             <fileNamePattern>${log.filePath}/error/error.%d{yyyy-MM-dd}.log.gz
             </fileNamePattern>

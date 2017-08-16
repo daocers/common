@@ -7,7 +7,12 @@
 
     <aop:aspectj-autoproxy proxy-target-class="true"/>
 
+    <context:property-placeholder file-encoding="utf-8" location="classpath:conf/jdbc.properties"/>
+    <context:property-placeholder file-encoding="utf-8" location="classpath:conf/redis.properties"/>
+
+    <import resource="classpath:spring/spring-beans.xml"/>
     <import resource="classpath:spring/spring-shiro.xml"/>
+    <import resource="classpath:spring/spring-datasource.xml"/>
 
     <context:component-scan base-package="co.bugu.tes.service"/>
 </beans>

@@ -7,7 +7,7 @@ import java.util.Properties;
 /**
  * Created by daocers on 2016/5/30.
  */
-@RequestMapping(value = "/test")
+@RequestMapping(value = "/conf.dev.test")
 public class BuguProperties {
     private Properties properties;
 

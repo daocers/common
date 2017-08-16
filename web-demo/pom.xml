@@ -16,7 +16,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>3.8.1</version>
-            <scope>test</scope>
+            <scope>conf.dev.test</scope>
         </dependency>
     </dependencies>
     <build>
