@@ -13,5 +13,11 @@
         <plugin interceptor="co.bugu.framework.core.mybatis.SqlParamInterceptor">
             <property name="method" value="*findByObject"/>
         </plugin>
+        <!--<plugin interceptor="co.bugu.framework.core.mybatis.ParameterInterceptor">-->
+        <!--<property name="method" value="findByObject"/>-->
+        <!--</plugin>-->
+        <!--<plugin interceptor="co.bugu.framework.core.mybatis.StatementInterceptor">-->
+        <!--<property name="method" value="findByObject"/>-->
+        <!--</plugin>-->
     </plugins>
 </configuration>
