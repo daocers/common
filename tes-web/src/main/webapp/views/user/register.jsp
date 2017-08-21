@@ -37,7 +37,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-2">姓名</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="text" name="profile.name" value="${user.profile.name}"
+                            <input class="form-control" type="text" name="name" value="${user.name}"
                                    required minlength="2" maxlength="10">
                             <span class="help-block with-errors">用户姓名</span>
                         </div>

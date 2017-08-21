@@ -7,7 +7,11 @@ import java.util.Properties;
 
 /**
  * Created by QDHL on 2017/8/16.
+ * 此处不好处理，query方法有重载
  */
+@Intercepts({
+        @Signature(type = Executor.class, method = "", args = {})
+})
 public class ExecutorInterceptor implements Interceptor {
     @Override
     public Object intercept(Invocation invocation) throws Throwable {

@@ -38,29 +38,43 @@ public class BaseServiceImpl<T> implements IBaseService<T> {
     }
 
     @Override
-    public int save(T record) throws IOException, TesJedisException {
-        JedisUtil.delObject(record);
+    public int save(T record)  {
         int num = baseDao.insert(nameSpace + "insert", record);
-        JedisUtil.setObject(record);
+        try {
+            JedisUtil.setObject(record);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TesJedisException e) {
+            e.printStackTrace();
+        }
         return num;
     }
 
     @Override
-    public int updateById(T record) throws TesJedisException, IOException {
-        JedisUtil.delObject(record);
+    public int updateById(T record){
         int num = baseDao.update(nameSpace + "updateById", record);
-        JedisUtil.setObject(record);
+        try {
+            JedisUtil.setObject(record);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (TesJedisException e) {
+            e.printStackTrace();
+        }
         return num;
     }
 
     @Override
-    public int delete(T record) throws TesJedisException {
-        JedisUtil.delObject(record);
+    public int delete(T record) {
+        try {
+            JedisUtil.delObject(record);
+        } catch (TesJedisException e) {
+            e.printStackTrace();
+        }
         return baseDao.delete(nameSpace + "deleteById", record);
     }
 
     @Override
-    public T findById(Integer id) throws Exception {
+    public T findById(Integer id)  {
         ParameterizedType parameterizedType = (ParameterizedType) this.getClass().getGenericSuperclass();
         String type = parameterizedType.getActualTypeArguments()[0].getTypeName();
         T res = null;
@@ -75,7 +89,13 @@ public class BaseServiceImpl<T> implements IBaseService<T> {
             res = baseDao.selectOne(nameSpace + "selectById", id);
         }
         if(res != null){
-            JedisUtil.setObject(res);
+            try {
+                JedisUtil.setObject(res);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (TesJedisException e) {
+                e.printStackTrace();
+            }
         }
         return res;
     }

@@ -2,22 +2,20 @@ package co.bugu.framework.core.service;
 
 
 import co.bugu.framework.core.dao.PageInfo;
-import co.bugu.framework.core.exception.TesJedisException;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
  * Created by record on 2017/1/5.
  */
 public interface IBaseService<T> {
-    int save(T record) throws IOException, TesJedisException;
+    int save(T record);
 
-    int updateById(T record) throws TesJedisException, IOException;
+    int updateById(T record);
 
-    int delete(T record) throws TesJedisException;
+    int delete(T record);
 
-    T findById(Integer id) throws Exception;
+    T findById(Integer id);
 
     List<T> findByObject(T record);
 
