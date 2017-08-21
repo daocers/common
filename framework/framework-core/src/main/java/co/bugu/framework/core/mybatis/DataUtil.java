@@ -1,141 +1,22 @@
 package co.bugu.framework.core.mybatis;
 
-import co.bugu.framework.core.util.ReflectUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.executor.parameter.ParameterHandler;
-import org.apache.ibatis.executor.statement.RoutingStatementHandler;
-import org.apache.ibatis.executor.statement.StatementHandler;
-import org.apache.ibatis.mapping.*;
-import org.apache.ibatis.plugin.*;
-import org.apache.ibatis.reflection.MetaObject;
-import org.apache.ibatis.reflection.SystemMetaObject;
-import org.apache.ibatis.scripting.defaults.DefaultParameterHandler;
+import org.apache.ibatis.mapping.BoundSql;
+import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.mapping.ResultMapping;
 import org.apache.ibatis.scripting.xmltags.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.util.*;
-import java.util.regex.Pattern;
 
 /**
- * Created by daocers on 2017/2/19.
+ * Created by QDHL on 2017/8/21.
  */
-@Intercepts({
-//        @Signature(type = Executor.class, method = "", args = null ),
-        @Signature(type = ParameterHandler.class, method = "setParameters", args = {PreparedStatement.class}),
-//        @Signature(type = ResultSetHandler.class, method = "handleResultSets", args = {Statement.class}),
-        @Signature(type = StatementHandler.class, method = "prepare", args = {Connection.class})
-})
-public class SqlParamInterceptor implements Interceptor {
-    private static Logger logger = LoggerFactory.getLogger(SqlParamInterceptor.class);
-    private static Map<Class, Map<String, String>> resultMappingInfo = new HashMap<>();
-    private static String method;
-
-    @Override
-    public Object intercept(Invocation invocation) throws Throwable {
-        long begin = System.currentTimeMillis();
-        Map<String, Object> searchParam = ThreadLocalUtil.get();
-        Object target = invocation.getTarget();
-        if (target instanceof ParameterHandler) {
-            DefaultParameterHandler parameterHandler = (DefaultParameterHandler) target;
-            MappedStatement mappedStatement = (MappedStatement) ReflectUtil.get(parameterHandler, "mappedStatement");
-            if (!needIntercept(mappedStatement)) {
-                return invocation.proceed();
-            }
-            if (SqlCommandType.SELECT != mappedStatement.getSqlCommandType()) {
-                return invocation.proceed();
-            }
-            BoundSql boundSql = (BoundSql) ReflectUtil.get(parameterHandler, "boundSql");
-            Object paramObj = boundSql.getParameterObject();
-            SqlSource targetSqlSource = getTargetDynamicSqlSource(mappedStatement, boundSql, searchParam);
-            ReflectUtil.setValue(parameterHandler, "boundSql", targetSqlSource.getBoundSql(paramObj));
-            ReflectUtil.setValue(mappedStatement, "sqlSource", targetSqlSource);
-            ThreadLocalUtil.remove();
-            long end = System.currentTimeMillis();
-            logger.debug("ParameterHandler 执行时长：{}毫秒", end - begin);
-
-
-        }
-
-        if (target instanceof StatementHandler) {
-
-            StatementHandler statementHandler = (StatementHandler) invocation.getTarget();
-            MetaObject metaStatementHandler = SystemMetaObject.forObject(statementHandler);
-            // 分离代理对象链(由于目标类可能被多个拦截器拦截，从而形成多次代理，通过下面的两次循环
-            // 可以分离出最原始的的目标类)
-            while (metaStatementHandler.hasGetter("h")) {
-                Object object = metaStatementHandler.getValue("h");
-                metaStatementHandler = SystemMetaObject.forObject(object);
-            }
-            // 分离最后一个代理对象的目标类
-            while (metaStatementHandler.hasGetter("target")) {
-                Object object = metaStatementHandler.getValue("target");
-                metaStatementHandler = SystemMetaObject.forObject(object);
-            }
-//            MappedStatement mappedStatement = (MappedStatement) invocation.getArgs()[0];
-            MappedStatement mappedStatement = (MappedStatement) metaStatementHandler.getValue("delegate.mappedStatement");
-
-            if (!needIntercept(mappedStatement)) {
-                return invocation.proceed();
-            }
-
-            if (SqlCommandType.SELECT != mappedStatement.getSqlCommandType()) {
-                return invocation.proceed();
-            }
-            RoutingStatementHandler handler = (RoutingStatementHandler) target;
-            BoundSql boundSql = statementHandler.getBoundSql();
-            Object paramObj = boundSql.getParameterObject();
-            Map<String, Object> searchParameter = ThreadLocalUtil.get();
-
-            //           没有初始化，新进行初始化操作。
-            if (resultMappingInfo.size() == 0) {
-                initPropertyColumnMap(mappedStatement);
-            }
-
-            SqlSource dynamicSqlSource = getTargetDynamicSqlSource(mappedStatement, boundSql, searchParameter);
-            ReflectUtil.setValue(boundSql, "sql", dynamicSqlSource.getBoundSql(paramObj).getSql());
-            /**
-             * 清除掉查询参数，防止对后续请求造成干扰
-             */
-            long end = System.currentTimeMillis();
-
-            logger.debug("StatementInterceptor 执行时长：{}毫秒", end - begin);
-        }
-        logger.debug("intercept 拦截： {}", invocation);
-        return invocation.proceed();
-    }
-
-    /**
-     * 确定是否需要拦截
-     *
-     * @param mappedStatement
-     * @return
-     */
-    private boolean needIntercept(MappedStatement mappedStatement) {
-        String id = mappedStatement.getId();
-        return Pattern.matches(method, id);
-    }
-
-    @Override
-    public Object plugin(Object target) {
-        logger.debug("plugin： {}", target);
-        return Plugin.wrap(target, this);
-    }
-
-    @Override
-    public void setProperties(Properties properties) {
-        String m = (String) properties.get("method");
-        if (StringUtils.isNotEmpty(m)) {
-            if (m.contains("*")) {
-                m = m.replaceAll("\\*", "\\\\S*");
-            }
-            method = m;
-
-        }
-    }
+public class DataUtil {
+    private static Logger logger = LoggerFactory.getLogger(DataUtil.class);
+    public static Map<Class, Map<String, String>> resultMappingInfo = new HashMap<>();
 
 
     /**
@@ -143,7 +24,7 @@ public class SqlParamInterceptor implements Interceptor {
      *
      * @return
      */
-    private DynamicSqlSource getTargetDynamicSqlSource(MappedStatement mappedStatement, BoundSql boundSql, Map<String, Object> searchParam) throws Exception {
+    public static DynamicSqlSource getTargetDynamicSqlSource(MappedStatement mappedStatement, BoundSql boundSql, Map<String, Object> searchParam) throws Exception {
         boolean sqlMode = false;
         Object paramObject = null;
         String sql = "";
@@ -240,13 +121,48 @@ public class SqlParamInterceptor implements Interceptor {
         return null;
     }
 
+
+    /**
+     * 初始化property和column的对应关系
+     *
+     * @param mappedStatement
+     */
+    public static synchronized void initPropertyColumnMap(MappedStatement mappedStatement) {
+        Collection<MappedStatement> mappedStatementList = mappedStatement.getConfiguration().getMappedStatements();
+        Iterator iter = mappedStatementList.iterator();
+        while (iter.hasNext()) {
+            Object obj = iter.next();
+            if (obj instanceof MappedStatement) {
+                MappedStatement ms = (MappedStatement) obj;
+                if (ms.getResultMaps().size() == 1) {
+                    Class type = ms.getResultMaps().get(0).getType();
+                    Map<String, String> map = new HashMap<>();
+                    List<ResultMapping> resultMappings = ms.getResultMaps().get(0).getResultMappings();
+                    for (ResultMapping resultMapping : resultMappings) {
+                        if (resultMapping.getJdbcType() != null) {
+                            String column = resultMapping.getColumn();
+                            String property = resultMapping.getProperty();
+//                            boolean isId = false;
+//                            if(resultMapping.getFlags().contains(ResultFlag.ID)){
+//                                isId = true;
+//                            }
+                            map.put(property, column);
+                        }
+                    }
+                    resultMappingInfo.put(type, map);
+                }
+            }
+        }
+    }
+
+
     /**
      * 直接传查询参数，进行等值查询
      *
      * @param paramObject
      * @return
      */
-    private Map<String, Object> processSearchParam(Object paramObject) throws IllegalAccessException {
+    public static Map<String, Object> processSearchParam(Object paramObject) throws IllegalAccessException {
         Map<String, Object> searchParam = new HashMap<>();
         if (paramObject == null) {
             return searchParam;
@@ -282,7 +198,7 @@ public class SqlParamInterceptor implements Interceptor {
      * @param relation
      * @return
      */
-    private String processRelation(String relation, String column, String property) throws Exception {
+    public static String processRelation(String relation, String column, String property) throws Exception {
         String res = null;
         if (StringUtils.isNotEmpty(relation)) {
             if ("EQ".equals(relation)) {
@@ -336,47 +252,13 @@ public class SqlParamInterceptor implements Interceptor {
 
 
     /**
-     * 初始化property和column的对应关系
-     *
-     * @param mappedStatement
-     */
-    private synchronized void initPropertyColumnMap(MappedStatement mappedStatement) {
-        Collection<MappedStatement> mappedStatementList = mappedStatement.getConfiguration().getMappedStatements();
-        Iterator iter = mappedStatementList.iterator();
-        while (iter.hasNext()) {
-            Object obj = iter.next();
-            if (obj instanceof MappedStatement) {
-                MappedStatement ms = (MappedStatement) obj;
-                if (ms.getResultMaps().size() == 1) {
-                    Class type = ms.getResultMaps().get(0).getType();
-                    Map<String, String> map = new HashMap<>();
-                    List<ResultMapping> resultMappings = ms.getResultMaps().get(0).getResultMappings();
-                    for (ResultMapping resultMapping : resultMappings) {
-                        if (resultMapping.getJdbcType() != null) {
-                            String column = resultMapping.getColumn();
-                            String property = resultMapping.getProperty();
-//                            boolean isId = false;
-//                            if(resultMapping.getFlags().contains(ResultFlag.ID)){
-//                                isId = true;
-//                            }
-                            map.put(property, column);
-                        }
-                    }
-                    resultMappingInfo.put(type, map);
-                }
-            }
-        }
-    }
-
-
-    /**
      * 获取排序sql语句段
      *
      * @param sortTypeMap
      * @param sortIndexMap
      * @return
      */
-    private String getOrderSQL(Map<String, String> sortTypeMap, Map<Integer, String> sortIndexMap) {
+    public static String getOrderSQL(Map<String, String> sortTypeMap, Map<Integer, String> sortIndexMap) {
         String resSQL = "";
         if (sortIndexMap == null || sortIndexMap.size() == 0) {
             return "";
@@ -407,4 +289,5 @@ public class SqlParamInterceptor implements Interceptor {
         }
         return resSQL;
     }
+
 }
