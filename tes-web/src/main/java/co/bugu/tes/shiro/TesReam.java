@@ -7,15 +7,16 @@ import co.bugu.tes.service.IPermissionService;
 import co.bugu.tes.service.IRoleService;
 import co.bugu.tes.service.IUserService;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.shiro.SecurityUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
+import org.apache.shiro.codec.Base64;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Base64;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -31,35 +32,36 @@ public class TesReam extends AuthorizingRealm {
 
     /**
      * 为当前登录的Subject授予角色和权限
+     *
      * @se e  经测试:本例中该方法的调用时机为需授权资源被访问时
      * @se e 经测试:并且每次访问需授权资源时都会执行该方法中的逻辑,这表明本例中默认并未启用AuthorizationCache
      * @se e 个人感觉若使用了Spring3.1开始提供的ConcurrentMapCache支持,则可灵活决定是否启用AuthorizationCache
      * @se e  比如说这里从数据库获取权限信息时,先去访问Spring3.1提供的缓存,而不使用Shior提供的AuthorizationCache
      */
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals){
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
         //获取当前登录的用户名,等价于(String)principals.fromRealm(this.getName()).iterator().next()
-        String currentUsername = (String)super.getAvailablePrincipal(principals);
+        String currentUsername = (String) super.getAvailablePrincipal(principals);
         User user = new User();
         user.setUsername(currentUsername);
         List<User> userList = userService.findByObject(user);
-        if(CollectionUtils.isNotEmpty(userList) && userList.size() == 1){
+        if (CollectionUtils.isNotEmpty(userList) && userList.size() == 1) {
             user = userList.get(0);
             List<Role> roleList = roleService.findByUserId(user.getId());
-            if(CollectionUtils.isNotEmpty(roleList)){
-                for(Role role: roleList){
+            if (CollectionUtils.isNotEmpty(roleList)) {
+                for (Role role : roleList) {
                     info.addRole(role.getCode());
                     List<Permission> permissionList = permissionService.findByRoleId(role.getId());
-                    if(CollectionUtils.isNotEmpty(permissionList)){
-                        for(Permission permission: permissionList){
+                    if (CollectionUtils.isNotEmpty(permissionList)) {
+                        for (Permission permission : permissionList) {
                             info.addStringPermission(permission.getCode());
                         }
                     }
                 }
             }
             return info;
-        }else{
+        } else {
             //若该方法什么都不做直接返回null的话,就会导致任何用户访问/admin/listUser.jsp时都会自动跳转到unauthorizedUrl指定的地址
             //详见applicationContext.xml中的<bean id="shiroFilter">的配置
             return null;
@@ -70,6 +72,7 @@ public class TesReam extends AuthorizingRealm {
 
     /**
      * 验证当前登录的Subject
+     *
      * @se e 经测试:本例中该方法的调用时机为LoginController.login()方法中执行Subject.login()时
      */
     @Override
@@ -77,17 +80,29 @@ public class TesReam extends AuthorizingRealm {
         //获取基于用户名和密码的令牌
         //实际上这个authcToken是从LoginController里面currentUser.login(token)传过来的
         //两个token的引用都是一样的,本例中是org.apache.shiro.authc.UsernamePasswordToken@33799a1e
-        UsernamePasswordToken token = (UsernamePasswordToken)authcToken;
+        UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
         String username = token.getUsername();
+        String password = "";
+        StringBuilder builder = new StringBuilder();
+        if (ArrayUtils.isNotEmpty(token.getPassword())) {
+            for (char c : token.getPassword()) {
+                builder.append(c);
+            }
+        }else{
+            return null;
+        }
+        password = builder.toString();
+
         User user = new User();
         user.setUsername(username);
         List<User> userList = userService.findByObject(user);
-        if(CollectionUtils.isNotEmpty(userList) && userList.size() == 1){
-            user = userList.get(0);
-            if(user.getPassword().equals(((UsernamePasswordToken) authcToken).getPassword())){
-                return new SimpleAuthenticationInfo(user.getName(), user.getPassword(), getName());
+        if (CollectionUtils.isNotEmpty(userList) && userList.size() == 1) {
+            //加密后的password
+            password = Base64.encodeToString((password + user.getSalt()).getBytes());
+            if (password.equals(userList.get(0).getPassword())) {
+                return new SimpleAuthenticationInfo(username, token.getPassword(), getName());
             }
-        }else{
+        } else {
             return null;
         }
 //        System.out.println("验证当前Subject时获取到token为" + ReflectionToStringBuilder.toString(token, ToStringStyle.MULTI_LINE_STYLE));
@@ -118,9 +133,10 @@ public class TesReam extends AuthorizingRealm {
 
     /**
      * 将一些数据放到ShiroSession中,以便于其它地方使用
+     *
      * @s ee  比如Controller,使用时直接用HttpSession.getAttribute(key)就可以取到
      */
-    private void setSession(Object key, Object value){
+    private void setSession(Object key, Object value) {
 //        Subject currentUser = SecurityUtils.getSubject();
 //        if(null != currentUser){
 //            Session session = currentUser.getSession();

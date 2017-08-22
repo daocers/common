@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=gbk">
     <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
-    <title>欢迎登录丨布谷培训</title>
+    <title>用户注册丨布谷培训</title>
     <meta name="robots" content="all">
     <!--<link href="https://js.51job.com/in/css/2017/public/base.css" rel="stylesheet" type="text/css" />-->
     <!--<link href="https://js.51job.com/in/css/2017/public/form.css" rel="stylesheet" type="text/css" />-->
@@ -62,7 +62,7 @@
             <img class="slogen" width="180" height="25" src="../../assets/img/login/slogen.png" alt="在线考试就到布谷培训">
 
             <span class="gp" style="display:"></span>
-            <span class="tl" style="display:">欢迎登录</span>
+            <span class="tl" style="display:">用户注册</span>
             <p class="nlink n2">
                 <a href="/index.do">首页</a>
                 <a href="/help/index.do" target="_blank">帮助中心</a>
@@ -106,7 +106,7 @@
         <div class="lr_rt">
             <input type="hidden" id="lang" name="lang" value="c"/>
             <input type="hidden" id="scode" name="scode" value=""/>
-            <div class="lr_h">登 录</div>
+            <div class="lr_h">用 户 注 册</div>
             <div class="errbox" style="display:none"><span class="err" id="account_err">帐号或密码错误</span><span
                     style="display:none" id="seekpwd">
                      ，是否 &nbsp;<a
@@ -114,8 +114,19 @@
             </div>
 
 
-            <form name="signIn" id="signIn">
+            <form name="register" id="register">
                 <input type="hidden" id="from_domain" name="from_domain" value="i"/>
+                <div class="lr_e">
+                    <label><span class="err" style="display:none" id="name_err">请输入布谷科技帐号</span>姓名</label>
+                    <div class="txt" style="z-index:9999;position:relative;">
+                        <input tabindex="1" class="ef" maxlength=100 id="name" name="name" type="text" autocomplete='off'
+                               placeholder="姓名" value="${name}">
+                        <%--onkeyup="show_emaillist(this, event)"--%>
+                        <%--onkeydown="enterClickGetValue(event);--%>
+                        <div class="ul" style="display:none;top:40px" id="name">
+                        </div>
+                    </div>
+                </div>
                 <div class="lr_e">
                     <label><span class="err" style="display:none" id="username_err">请输入布谷科技帐号</span>帐号</label>
                     <div class="txt" style="z-index:9999;position:relative;">
@@ -134,6 +145,13 @@
                                placeholder="请输入密码" value="">
                     </div>
                 </div>
+                <div class="lr_e">
+                    <label><span class="err" style="display:none" id="pwd_confirm_err">请再次输入密码</span>密码确认</label>
+                    <div class="txt">
+                        <input tabindex="2" class="ef" autocomplete='off' id="password_confirm" name="password_confirm" type="password"
+                               placeholder="请再次输入密码" value="">
+                    </div>
+                </div>
                 <div class="lr_e e2" style="display:none" id="verifypic">
                     <label><span class="err" id="verifycode_err" style="display:none" id="verify_err">图形验证码错误或已过期</span>图形验证码</label>
                     <div class="txt">
@@ -145,20 +163,20 @@
                     <img class="ac verifyPicChangeClick" onclick="changeVerifyCode()" id="verifyPic_img" type="3"
                          align="absmiddle" src="" width="100" height="42">
                 </div>
-                <div class="lr_ok">
-                    <a tabindex="5" class="a"
-                       href="/user/forgetPassword.do">忘记密码？</a>
-                    <input tabIndex="4" type="checkbox" name="rememberMe" id="rememberMe" ${rememberMe == 0 ? "checked" : ""}>
-                    <label for="rememberMe">记住我</label>
-                </div>
+                <%--<div class="lr_ok">--%>
+                    <%--<a tabindex="5" class="a"--%>
+                       <%--href="/user/forgetPassword.do">忘记密码？</a>--%>
+                    <%--<input tabIndex="4" type="checkbox" name="rememberMe" id="rememberMe" ${rememberMe == 0 ? "checked" : ""}>--%>
+                    <%--<label for="rememberMe">记住我</label>--%>
+                <%--</div>--%>
                 <div class="btnbox">
-                    <button tabIndex="6" type='button' class="p_but" id="login_btn" tabindex="10">登 录</button>
+                    <button tabIndex="6" type='button' class="p_but" id="register_btn" tabindex="10">注  册</button>
                 </div>
             </form>
-            <div class="lr_p">
-                还不是会员？<a tabindex="7" class="a2"
-                         href="/user/toRegister.do">免费注册</a>
-            </div>
+            <%--<div class="lr_p">--%>
+                <%--还不是会员？<a tabindex="7" class="a2"--%>
+                         <%--href="/toRegister.do">免费注册</a>--%>
+            <%--</div>--%>
             <div class="mind">
                 温馨提示：为了避免耽误您的考试，遇到问题请及时联系管理教师。 <a tabindex="8" class="a" target="_blank"
                                                   href="#">查看详情</a>
@@ -185,18 +203,28 @@
 
 
         $("#login_btn").on("click", function () {
+            var name = $("#name").val().trim();
             var username = $("#username").val().trim();
             var password = $("#password").val().trim();
+            var password_confirm = $("#password_confirm").val().trim();
+            if(name == ''){
+                $("#name_err").show();
+                return false;
+            }
             if(username == ""){
                 return false;
             }
             if(password == ""){
                 return false;
             }
+            if(password != password_confirm){
+                $("#errmsg").text("两次密码输入不一致");
+                return false;
+            }
             $.ajax({
-                url: "/signIn.do",
+                url: "/register.do",
                 type: "post",
-                data: {username: username, password: password, rememberMe: $("#rememberMe").prop("checked") ? 0 : 1},
+                data: {username: username, password: password, name: name},
                 success: function (data) {
                     if(data == 0){
                         //登陆成功，跳转页面

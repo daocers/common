@@ -27,6 +27,24 @@
             <artifactId>framework-util</artifactId>
             <version>1.0</version>
         </dependency>
+
+        <!--用于jsp标签支持-->
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <version>1.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet.jsp</groupId>
+            <artifactId>jsp-api</artifactId>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
     <build>
         <finalName>ccb-tes</finalName>

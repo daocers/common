@@ -157,7 +157,7 @@
             </form>
             <div class="lr_p">
                 还不是会员？<a tabindex="7" class="a2"
-                         href="/user/toRegister.do">免费注册</a>
+                         href="/toRegister.do">免费注册</a>
             </div>
             <div class="mind">
                 温馨提示：为了避免耽误您的考试，遇到问题请及时联系管理教师。 <a tabindex="8" class="a" target="_blank"

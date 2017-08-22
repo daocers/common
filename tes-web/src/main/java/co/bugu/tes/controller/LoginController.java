@@ -1,14 +1,22 @@
 package co.bugu.tes.controller;
 
+import co.bugu.framework.util.EncryptUtil;
+import co.bugu.tes.enumration.CommonStatus;
+import co.bugu.tes.model.User;
+import co.bugu.tes.service.IUserService;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.codec.Base64;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Created by daocers on 2017/8/13.
@@ -18,13 +26,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class LoginController {
     private Logger logger = LoggerFactory.getLogger(LoginController.class);
 
+    @Autowired
+    IUserService userService;
+
     /**
      * 登陆请求页面
      *
      * @return
      */
     @RequestMapping("login")
-    public String toLogin() {
+    public String toLogin(ModelMap model) {
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isRemembered()) {
+            model.put("username", subject.getPrincipal());
+            model.put("rememberMe", 0);
+        }
         return "login/login";
     }
 
@@ -45,9 +61,9 @@ public class LoginController {
         try {
             subject.login(token);
             if (subject.isAuthenticated()) {
-                return "redirect:/";
+                return "0";
             } else {
-                return "login/login";
+                return "-1";
             }
         } catch (Exception e) {
             logger.error("登录失败", e);
@@ -64,5 +80,22 @@ public class LoginController {
     public String signOut() {
         SecurityUtils.getSubject().logout();
         return "login/login";
+    }
+
+    @RequestMapping("/toRegister")
+    public String toRegister() {
+        return "user/register";
+    }
+
+    @RequestMapping("/register")
+    public String register(User user, RedirectAttributes redirectAttributes) {
+        String salt = EncryptUtil.getSalt(6);
+        user.setSalt(salt);
+        String finalPass = Base64.encodeToString((user.getPassword() + user.getSalt()).getBytes());
+        user.setPassword(finalPass);
+        user.setStatus(CommonStatus.ENABLE.getStatus());
+        userService.save(user);
+        redirectAttributes.addAttribute("id", user.getId());
+        return "redirect:/login.do";
     }
 }
