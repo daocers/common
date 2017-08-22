@@ -2,8 +2,11 @@ package co.bugu.tes.controller;
 
 import co.bugu.framework.core.dao.PageInfo;
 import co.bugu.framework.util.JsonUtil;
+import co.bugu.tes.model.Role;
 import co.bugu.tes.model.User;
 import co.bugu.tes.service.IUserService;
+import com.alibaba.fastjson.JSON;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller("user")
 @RequestMapping("/user")
@@ -26,24 +32,69 @@ public class UserController {
     /**
      * 列表，分页显示
      *
-     * @param user      查询数据
+     * @param username  查询数据
+     * @param name      查询数据
      * @param curPage   当前页码，从1开始
      * @param showCount 当前页码显示数目
      * @param model
      * @return
      */
     @RequestMapping(value = "/list")
-    public String list(User user, Integer curPage, Integer showCount, ModelMap model) {
+    public String list(String username, String name, Integer curPage, Integer showCount, ModelMap model) {
         try {
+            User user = new User();
+            if (StringUtils.isNotEmpty(username)) {
+                user.setUsername(username);
+            }
+            if (StringUtils.isNotEmpty(name)) {
+                user.setName(name);
+            }
             PageInfo<User> pageInfo = new PageInfo<>(showCount, curPage);
             pageInfo = userService.findByObject(user, pageInfo);
             model.put("pi", pageInfo);
             model.put("user", user);
+
+//            List<String> checkedRole = new ArrayList<>();
+//            for(User u: pageInfo.getData()){
+//                List<Role> list = roleService.selectRoleByUser(u.getId());
+//                StringBuffer buffer = new StringBuffer();
+//                for(Role role: list){
+//                    buffer.append(role.getName()).append(" ");
+//                }
+//                checkedRole.add(buffer.toString());
+//            }
+//            model.put("checkedRole", checkedRole);
+
+//            List<Department> departments = departmentService.findByObject(null);
+//            List<Branch> branches = branchService.findByObject(null);
+//            List<Station> stations = stationService.findByObject(null);
+//            Map<Integer, String> departmentMap = new HashMap<>();
+//            Map<Integer, String> branchMap = new HashMap<>();
+//            Map<Integer, String> stationMap = new HashMap<>();
+//            for (Department department : departments) {
+//                departmentMap.put(department.getId(), department.getName());
+//            }
+//            for (Branch branch : branches) {
+//                branchMap.put(branch.getId(), branch.getName());
+//            }
+//            for (Station station : stations) {
+//                stationMap.put(station.getId(), station.getName());
+//            }
+//            model.put("departmentMap", departmentMap);
+//            model.put("branchMap", branchMap);
+//            model.put("stationMap", stationMap);
+//            List<Role> roleList = roleService.findByObject(null);
+//            model.put("roleList", roleList);
+//            Map<Integer, String> roleInfoMap = new HashMap<>();
+//            for(Role role: roleList){
+//                roleInfoMap.put(role.getId(), role.getName());
+//            }
+//            model.put("roleInfoMap", JSON.toJSONString(roleInfoMap));
         } catch (Exception e) {
             logger.error("获取列表失败", e);
             model.put("errMsg", "获取列表失败");
         }
-        return "/user/list";
+        return "user/list";
 
     }
 

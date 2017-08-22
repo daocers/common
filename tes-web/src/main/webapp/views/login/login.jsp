@@ -200,7 +200,7 @@
                 success: function (data) {
                     if(data == 0){
                         //登陆成功，跳转页面
-                        window.location.href = "/index.do";
+                        window.location.href = "/views/index.html";
                     }else{
                         $(".errbox").show();
                     }

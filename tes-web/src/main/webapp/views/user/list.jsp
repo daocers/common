@@ -1,5 +1,4 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib prefix="tes" uri="/WEB-INF/tes.tld" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
@@ -24,14 +23,14 @@
     </style>
 </head>
 <body>
-<%@ include file="../template/menu-top.jsp" %>
+<%--<%@ include file="../template/menu-top.jsp" %>--%>
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-0 col-md-2 sidebar menu-left">
-            <%@ include file="../template/menu-left.jsp" %>
-        </div>
-        <div class="col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-2 main" id="main">
+        <%--<div class="col-sm-0 col-md-2 sidebar menu-left">--%>
+            <%--<%@ include file="../template/menu-left.jsp" %>--%>
+        <%--</div>--%>
+        <div class="col-sm-12 col-sm-offset-0 col-md-10 main" id="main">
             <%--<h1 class="page-header">Dashboard</h1>--%>
             <div class="page-header nav-path">
                 <ol class="breadcrumb">
@@ -95,11 +94,7 @@
                             <td>
                                 <a href="edit.do?id=${user.id}&type=detail" class="opr btn btn-info btn-sm">详情</a>
                                 <a href="edit.do?id=${user.id}" class="opr">修改</a>
-                                <tes:hasRole name="admin">
-                                </tes:hasRole>
-                                <tes:hasPermission name="user_delete">
-                                    <a href="javascript:del(${user.id})" class="opr">删除</a>
-                                </tes:hasPermission>
+                                <a href="javascript:del(${user.id})" class="opr">删除</a>
                                 <a href="javascript:resetPassword(${user.id})" class="opr">重置密码</a>
 
                                 <a href="javascript:setRole(${user.id})" class="opr">配置角色</a>
@@ -214,7 +209,7 @@
                         radioClass: 'iradio_square-blue',
                         increaseArea: '20%' // optional
                     });
-                    
+
                     $("#confirmRole").on("click", function () {
                         var roles = "";
                         var arr = new Array();
@@ -230,15 +225,15 @@
                             type: "post",
                             success: function (data) {
                                 var res = JSON.parse(data);
-                                if(res.code == 0){
+                                if (res.code == 0) {
                                     $("table tr[rowid='" + userId + "']").find("td:eq(3)").html(roles);
                                     $("#setRole").modal("hide");
 
-                                }else{
+                                } else {
                                     swal("", "设置角色失败", "error");
                                 }
                             },
-                            error: function (data){
+                            error: function (data) {
                                 swal("", "请求失败", "error");
                             }
                         })
@@ -253,14 +248,14 @@
                         type: "get",
                         success: function (data) {
                             var res = JSON.parse(data);
-                            if(res.code == 0){
+                            if (res.code == 0) {
                                 var hadRoles = res.has;
                                 $.each(hadRoles, function (idx, item) {
                                     $("#" + item).iCheck("check");
                                 });
                                 $("#userId").val(id);
                                 $("#setRole").modal("show");
-                            }else{
+                            } else {
                                 swal("", res.err, "error");
                             }
                         },
@@ -270,8 +265,7 @@
                     });
                     return false;
                 }
-                
-                
+
 
                 function resetPassword(id) {
                     swal({
@@ -314,10 +308,6 @@
                     zeroModal.loading(3);
                     $("#upload").submit();
                 }
-
-
-
-
 
 
             </script>

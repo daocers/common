@@ -83,12 +83,12 @@
         <property name="securityManager" ref="securityManager"/>
     </bean>
 
-
-    <bean id="authorityCheckAspect" class="co.bugu.tes.aop.AuthorityCheckAspect"/>
-    <aop:config proxy-target-class="true">
-        <aop:aspect ref="authorityCheckAspect">
-            <aop:pointcut id="beforePoint" expression="execution(* co.bugu.tes.controller.*.*(..))"/>
-            <aop:before method="before" pointcut-ref="beforePoint"/>
-        </aop:aspect>
-    </aop:config>
+<!--自定义的权限校验-->
+    <!--<bean id="authorityCheckAspect" class="co.bugu.tes.aop.AuthorityCheckAspect"/>-->
+    <!--<aop:config proxy-target-class="true">-->
+        <!--<aop:aspect ref="authorityCheckAspect">-->
+            <!--<aop:pointcut id="beforePoint" expression="execution(* co.bugu.tes.controller.*.*(..))"/>-->
+            <!--<aop:before method="before" pointcut-ref="beforePoint"/>-->
+        <!--</aop:aspect>-->
+    <!--</aop:config>-->
 </beans>
