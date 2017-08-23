@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tes.paperPolicy">
+    <resultMap id="PaperPolicyMap" type="co.bugu.tes.model.PaperPolicy">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="branch_id" property="branchId" jdbcType="INTEGER"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="question_metainfo_id" property="questionMetaInfoId" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_user_id" property="createUserId" jdbcType="INTEGER"/>
+        <result column="department_id" property="departmentId" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="station_id" property="stationId" jdbcType="INTEGER"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_user_id" property="updateUserId" jdbcType="INTEGER"/>
+        <result column="privary_type" property="privaryType" jdbcType="INTEGER"/>
+        <result column="percentable" property="percentable" jdbcType="INTEGER"/>
+        <result column="select_type" property="selectType" jdbcType="INTEGER"/>
+        <result column="count" property="count" jdbcType="INTEGER"/>
+        <result column="score" property="score" jdbcType="DOUBLE"/>
+    </resultMap>
+    <sql id="paperPolicy_list">
+    id, branch_id,
+    code, content,
+    question_metainfo_id,
+    create_time,
+    create_user_id, department_id,
+    name, station_id, count, score,
+    status, update_time,
+    update_user_id, privary_type,
+    percentable, select_type
+  </sql>
+    <select id="selectById" resultMap="PaperPolicyMap" parameterType="java.lang.Integer">
+        select
+        <include refid="paperPolicy_list"/>
+        from paper_policy paper_policy
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from paper_policy
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="co.bugu.tes.model.PaperPolicy">
+        insert into paper_policy
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="branchId != null">
+                branch_id,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="questionMetaInfoId != null">
+                question_metainfo_id,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="departmentId != null">
+                department_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="stationId != null">
+                station_id,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateUserId != null">
+                update_user_id,
+            </if>
+            <if test="privaryType != null">
+                privary_type,
+            </if>
+            <if test="percentable != null">
+                percentable,
+            </if>
+            <if test="selectType != null">
+                select_type,
+            </if>
+            <if test="count != null">
+                count,
+            </if>
+            <if test="score != null">
+                score,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="branchId != null">
+                #{branchId,jdbcType=INTEGER},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content},
+            </if>
+            <if test="questionMetaInfoId != null">
+                #{questionMetaInfoId},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=INTEGER},
+            </if>
+            <if test="departmentId != null">
+                #{departmentId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="stationId != null">
+                #{stationId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                #{updateUserId,jdbcType=INTEGER},
+            </if>
+            <if test="privaryType != null">
+                #{privaryType, jdbcType=INTEGER},
+            </if>
+            <if test="percentable != null">
+                #{percentable},
+            </if>
+            <if test="selectType != null">
+                #{selectType},
+            </if>
+            <if test="count != null">
+                #{count},
+            </if>
+            <if test="score != null">
+                #{score},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateById" parameterType="co.bugu.tes.model.PaperPolicy">
+        update paper_policy
+        <set>
+            <if test="branchId != null">
+                branch_id = #{branchId,jdbcType=INTEGER},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="questionMetaInfoId != null">
+                question_metainfo_id = #{questionMetaInfoId},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=INTEGER},
+            </if>
+            <if test="departmentId != null">
+                department_id = #{departmentId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="stationId != null">
+                station_id = #{stationId,jdbcType=INTEGER},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                update_user_id = #{updateUserId,jdbcType=INTEGER},
+            </if>
+            <if test="privaryType != null">
+                privary_type = #{privaryType, jdbcType=INTEGER},
+            </if>
+            <if test="percentable != null">
+                percentable = #{percentable},
+            </if>
+            <if test="selectType != null">
+                select_type = #{selectType},
+            </if>
+            <if test="count != null">
+                count = #{count},
+            </if>
+            <if test="score != null">
+                score = #{score},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <select id="findByObject" resultMap="PaperPolicyMap" parameterType="co.bugu.tes.model.PaperPolicy">
+        select
+        <include refid="paperPolicy_list"/>
+        from paper_policy paper_policy
+        <where>
+            <if test="branchId != null">
+                and branch_id = #{branchId,jdbcType=INTEGER}
+            </if>
+            <if test="code != null">
+                and code = #{code,jdbcType=VARCHAR}
+            </if>
+            <if test="content != null">
+                and content = #{content}
+            </if>
+            <if test="questionMetaInfoId != null">
+                and question_metainfo_id = #{questionMetaInfoId}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="createUserId != null">
+                and create_user_id = #{createUserId,jdbcType=INTEGER}
+            </if>
+            <if test="departmentId != null">
+                and department_id = #{departmentId,jdbcType=INTEGER}
+            </if>
+            <if test="name != null">
+                and name = #{name,jdbcType=VARCHAR}
+            </if>
+            <if test="stationId != null">
+                and station_id = #{stationId,jdbcType=INTEGER}
+            </if>
+            <if test="status != null">
+                and status = #{status,jdbcType=INTEGER}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime,jdbcType=TIMESTAMP}
+            </if>
+            <if test="updateUserId != null">
+                and update_user_id = #{updateUserId,jdbcType=INTEGER}
+            </if>
+            <if test="privaryType != null">
+                and privary_type = #{privaryType, jdbcType=INTEGER}
+            </if>
+            <if test="percentable != null">
+                and percentable = #{percentable, jdbcType=INTEGER}
+            </if>
+        </where>
+    </select>
+</mapper>

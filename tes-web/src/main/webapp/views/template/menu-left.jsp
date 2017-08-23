@@ -223,8 +223,8 @@
             <%--<li><a href="/question/batchAdd.do"> 批量添加</a></li>--%>
             <%--&lt;%&ndash;<li><a href="/question/downModel.do"> 模板下载</a></li>&ndash;%&gt;--%>
             <%--<li><a href="/tradeQuestion/edit.do"> 交易试题录制</a></li>--%>
-            <%--<li><a href="/typeIn/edit.do"> 新增凭条</a></li>--%>
-            <%--<li><a href="/typeIn/list.do"> 凭条列表</a></li>--%>
+            <%--<li><a href="/typeInQuestion/edit.do"> 新增凭条</a></li>--%>
+            <%--<li><a href="/typeInQuestion/list.do"> 凭条列表</a></li>--%>
 
         <%--</ul>--%>
     <%--</li>--%>

@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tes.questionPolicy">
+    <resultMap id="QuestionPolicyMap" type="co.bugu.tes.model.QuestionPolicy">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_user_id" property="createUserId" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="question_meta_info_id" property="questionMetaInfoId" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_user_id" property="updateUserId" jdbcType="INTEGER"/>
+        <result column="count" property="count" jdbcType="VARCHAR"/>
+        <result column="department_id" property="departmentId" jdbcType="VARCHAR"/>
+        <result column="branch_id" property="branchId" jdbcType="VARCHAR"/>
+        <result column="privary_type" property="privaryType" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="questionPolicy_list">
+    id, code, content, create_time, create_user_id, name, question_meta_info_id,
+    update_time, update_user_id, count, department_id, branch_id, privary_type
+  </sql>
+    <select id="selectById" resultMap="QuestionPolicyMap" parameterType="java.lang.Integer">
+        select
+        <include refid="questionPolicy_list"/>
+        from question_policy ques_policy
+        where ques_policy.id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from question_policy
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="co.bugu.tes.model.QuestionPolicy">
+        insert into question_policy
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="questionMetaInfoId != null">
+                question_meta_info_id,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateUserId != null">
+                update_user_id,
+            </if>
+            <if test="departmentId != null">
+                department_id,
+            </if>
+            <if test="branchId != null">
+                branch_id,
+            </if>
+            <if test="count != null">
+                count,
+            </if>
+            <if test="privaryType != null">
+                privary_type,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="questionMetaInfoId != null">
+                #{questionMetaInfoId,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                #{updateUserId,jdbcType=INTEGER},
+            </if>
+            <if test="departmentId != null">
+                #{departmentId},
+            </if>
+            <if test="branchId != null">
+                #{branchId},
+            </if>
+            <if test="count != null">
+                #{count},
+            </if>
+            <if test="privaryType != null">
+                #{privaryType},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateById" parameterType="co.bugu.tes.model.QuestionPolicy">
+        update question_policy
+        <set>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=INTEGER},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="questionMetaInfoId != null">
+                question_meta_info_id = #{questionMetaInfoId,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                update_user_id = #{updateUserId,jdbcType=INTEGER},
+            </if>
+            <if test="departmentId != null">
+                department_id = #{departmentId},
+            </if>
+            <if test="branchId != null">
+                branch_id = #{branchId},
+            </if>
+            <if test="count != null">
+                count = #{count},
+            </if>
+            <if test="privaryType != null">
+                privary_type = #{privaryType}
+            </if>
+
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <select id="findByObject" resultMap="QuestionPolicyMap" parameterType="co.bugu.tes.model.QuestionPolicy">
+        select
+        <include refid="questionPolicy_list"/>
+        from question_policy ques_policy
+        <where>
+
+        </where>
+    </select>
+</mapper>

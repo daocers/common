@@ -1,7 +1,7 @@
 package co.bugu.tes.controller;
 
 import co.bugu.framework.util.EncryptUtil;
-import co.bugu.tes.enumration.CommonStatus;
+import co.bugu.tes.enums.CommonStatus;
 import co.bugu.tes.model.User;
 import co.bugu.tes.service.IUserService;
 import org.apache.shiro.SecurityUtils;

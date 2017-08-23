@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tes.scene">
+    <resultMap id="SceneMap" type="co.bugu.tes.model.Scene">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="auth_code" property="authCode" jdbcType="VARCHAR"/>
+        <result column="begin_time" property="beginTime" jdbcType="TIMESTAMP"/>
+        <result column="branch_id" property="branchId" jdbcType="INTEGER"/>
+        <result column="change_paper" property="changePaper" jdbcType="INTEGER"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="create_user_id" property="createUserId" jdbcType="INTEGER"/>
+        <result column="delay" property="delay" jdbcType="INTEGER"/>
+        <result column="department_id" property="departmentId" jdbcType="INTEGER"/>
+        <result column="station_id" property="stationId" jdbcType="INTEGER"/>
+        <result column="duration" property="duration" jdbcType="INTEGER"/>
+        <result column="end_time" property="endTime" jdbcType="TIMESTAMP"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="paper_policy_id" property="paperPolicyId" jdbcType="INTEGER"/>
+        <result column="paper_type" property="paperType" jdbcType="INTEGER"/>
+        <result column="reason" property="reason" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="update_user_id" property="updateUserId" jdbcType="INTEGER"/>
+        <result column="join_user" property="joinUser" jdbcType="CLOB"/>
+        <result column="bank_id" property="bankId" jdbcType="INTEGER"/>
+        <result column="user_type" property="userType" jdbcType="INTEGER"/>
+        <result column="choice_info" property="choiceInfo" jdbcType="VARCHAR"/>
+        <result column="total_score" property="totalScore" jdbcType="DOUBLE"/>
+        <result column="meta_score_info" property="metaScoreInfo" jdbcType="VARCHAR"/>
+        <result column="percentable" property="percentable" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="scene_list">
+    id, auth_code, begin_time,
+    branch_id, change_paper, code,
+    create_time, create_user_id,
+    delay, department_id, duration,
+    end_time, name, paper_policy_id,
+    paper_type,
+    reason, remark, status,
+    update_time, update_user_id,
+    join_user, station_id, bank_id, user_type, choice_info,
+    total_score, meta_score_info, percentable
+  </sql>
+    <select id="selectById" resultMap="SceneMap" parameterType="java.lang.Integer">
+        select
+        <include refid="scene_list"/>
+        from scene scene
+        where scene.id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from scene
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="co.bugu.tes.model.Scene">
+        insert into scene
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="authCode != null">
+                auth_code,
+            </if>
+            <if test="beginTime != null">
+                begin_time,
+            </if>
+            <if test="branchId != null">
+                branch_id,
+            </if>
+            <if test="changePaper != null">
+                change_paper,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createUserId != null">
+                create_user_id,
+            </if>
+            <if test="delay != null">
+                delay,
+            </if>
+            <if test="departmentId != null">
+                department_id,
+            </if>
+            <if test="duration != null">
+                duration,
+            </if>
+            <if test="endTime != null">
+                end_time,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="paperPolicyId != null">
+                paper_policy_id,
+            </if>
+            <if test="reason != null">
+                reason,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+            <if test="updateUserId != null">
+                update_user_id,
+            </if>
+            <if test="paperType != null">
+                paper_type,
+            </if>
+            <if test="joinUser != null">
+                join_user,
+            </if>
+            <if test="stationId != null">
+                station_id,
+            </if>
+            <if test="bankId != null">
+                bank_id,
+            </if>
+            <if test="userType != null">
+                user_type,
+            </if>
+            <if test="choiceInfo != null">
+                choice_info,
+            </if>
+            <if test="totalScore != null">
+                total_score,
+            </if>
+            <if test="metaScoreInfo != null">
+                meta_score_info,
+            </if>
+            <if test="percentable != null">
+                percentable,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="authCode != null">
+                #{authCode,jdbcType=VARCHAR},
+            </if>
+            <if test="beginTime != null">
+                #{beginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="branchId != null">
+                #{branchId,jdbcType=INTEGER},
+            </if>
+            <if test="changePaper != null">
+                #{changePaper,jdbcType=INTEGER},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                #{createUserId,jdbcType=INTEGER},
+            </if>
+            <if test="delay != null">
+                #{delay,jdbcType=INTEGER},
+            </if>
+            <if test="departmentId != null">
+                #{departmentId,jdbcType=INTEGER},
+            </if>
+            <if test="duration != null">
+                #{duration,jdbcType=INTEGER},
+            </if>
+            <if test="endTime != null">
+                #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="paperPolicyId != null">
+                #{paperPolicyId,jdbcType=INTEGER},
+            </if>
+            <if test="reason != null">
+                #{reason,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                #{updateUserId,jdbcType=INTEGER},
+            </if>
+            <if test="paperType != null">
+                #{paperType},
+            </if>
+            <if test="joinUser != null">
+                #{joinUser},
+            </if>
+            <if test="stationId != null">
+                #{stationId},
+            </if>
+            <if test="bankId != null">
+                #{bankId},
+            </if>
+            <if test="userType != null">
+                #{userType},
+            </if>
+            <if test="choiceInfo != null">
+                #{choiceInfo},
+            </if>
+            <if test="totalScore != null">
+                #{totalScore},
+            </if>
+            <if test="metaScoreInfo != null">
+                #{metaScoreInfo},
+            </if>
+            <if test="percentable != null">
+                #{percentable},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateById" parameterType="co.bugu.tes.model.Scene">
+        update scene
+        <set>
+            <if test="authCode != null">
+                auth_code = #{authCode,jdbcType=VARCHAR},
+            </if>
+            <if test="beginTime != null">
+                begin_time = #{beginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="branchId != null">
+                branch_id = #{branchId,jdbcType=INTEGER},
+            </if>
+            <if test="changePaper != null">
+                change_paper = #{changePaper,jdbcType=INTEGER},
+            </if>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createUserId != null">
+                create_user_id = #{createUserId,jdbcType=INTEGER},
+            </if>
+            <if test="delay != null">
+                delay = #{delay,jdbcType=INTEGER},
+            </if>
+            <if test="departmentId != null">
+                department_id = #{departmentId,jdbcType=INTEGER},
+            </if>
+            <if test="duration != null">
+                duration = #{duration,jdbcType=INTEGER},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="paperPolicyId != null">
+                paper_policy_id = #{paperPolicyId,jdbcType=INTEGER},
+            </if>
+            <if test="reason != null">
+                reason = #{reason,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUserId != null">
+                update_user_id = #{updateUserId,jdbcType=INTEGER},
+            </if>
+            <if test="paperType != null">
+                paper_type = #{paperType},
+            </if>
+            <if test="joinUser != null">
+                join_user = #{joinUser},
+            </if>
+            <if test="stationId != null">
+                station_id = #{stationId},
+            </if>
+            <if test="bankId != null">
+                bank_id = #{bankId},
+            </if>
+            <if test="userType != null">
+                user_type = #{userType},
+            </if>
+            <if test="choiceInfo != null">
+                choice_info = #{choiceInfo},
+            </if>
+            <if test="totalScore != null">
+                total_score = #{totalScore},
+            </if>
+            <if test="metaScoreInfo != null">
+                meta_score_info = #{metaScoreInfo},
+            </if>
+            <if test="percentable != null">
+                percentable = #{percentable},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <select id="findByObject" resultMap="SceneMap" parameterType="co.bugu.tes.model.Scene">
+        select
+        <include refid="scene_list"/>
+        from scene scene
+        <where>
+            <if test="joinUser != null">
+                scene.id in (select scene_id from scene_user_x where user_id = #{joinUser})
+            </if>
+            <if test="status != null">
+                and scene.status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addSceneUserX" parameterType="map">
+        insert into scene_user_x (scene_id, user_id, user_status) VALUES (#{sceneId}, #{userId}, #{userStatus})
+    </insert>
+
+    <delete id="deleteSceneUserX" parameterType="int">
+        delete from scene_user_x where scene_id = #{sceneId}
+    </delete>
+
+    <delete id="deleteUserFromSceneUserX" parameterType="map">
+        delete from scene_user_x where scene_id = #{sceneId} and user_id = #{userId}
+    </delete>
+
+    <select id="selectJoinedByUserId" resultMap="SceneMap" parameterType="int">
+        SELECT
+        <include refid="scene_list"/>
+        from scene WHERE id in (SELECT DISTINCT scene_id from paper where user_id = #{userId})
+    </select>
+
+</mapper>

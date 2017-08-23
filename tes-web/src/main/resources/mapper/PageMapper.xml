@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tes.page">
+    <resultMap id="PageMap" type="co.bugu.tes.model.Page">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="content" property="content" jdbcType="CLOB"/>
+        <result column="trade_id" property="tradeId" jdbcType="INTEGER"/>
+        <result column="idx" property="idx" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="page_list">
+    id, code, status, url, content, trade_id, idx
+  </sql>
+    <select id="selectById" resultMap="PageMap" parameterType="java.lang.Integer">
+        select
+        <include refid="page_list"/>
+        from page page
+        where page.id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from page
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="co.bugu.tes.model.Page">
+        insert into page
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            <if test="tradeId != null">
+                trade_id,
+            </if>
+            <if test="idx != null">
+                idx,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="code != null">
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                #{content},
+            </if>
+            <if test="tradeId != null">
+                #{tradeId},
+            </if>
+            <if test="idx != null">
+                #{idx},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateById" parameterType="co.bugu.tes.model.Page">
+        update page
+        <set>
+            <if test="code != null">
+                code = #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="tradeId != null">
+                trade_id = #{tradeId},
+            </if>
+            <if test="idx != null">
+                idx = #{idx},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <select id="findByObject" resultMap="PageMap" parameterType="co.bugu.tes.model.Page">
+        select
+        <include refid="page_list"/>
+        from page page
+    </select>
+</mapper>

@@ -40,16 +40,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${pi.data}" var="typeIn" varStatus="line">
+                <c:forEach items="${pi.data}" var="typeInQuestion" varStatus="line">
                     <tr>
-                        <td><input type="checkbox" objId="${typeIn.id}"></td>
-                        <td>${typeIn.name}</td>
-                        <td>${typeIn.content}</td>
-                        <td>${typeIn.status == 0 ? "正常" : "禁用"}</td>
+                        <td><input type="checkbox" objId="${typeInQuestion.id}"></td>
+                        <td>${typeInQuestion.name}</td>
+                        <td>${typeInQuestion.content}</td>
+                        <td>${typeInQuestion.status == 0 ? "正常" : "禁用"}</td>
                         <td>
-                            <a href="edit.do?id=${typeIn.id}&type=detail" class="opr">详情</a>
-                            <a href="edit.do?id=${typeIn.id}" class="opr">修改</a>
-                            <a href="javascript:del(${typeIn.id})" class="opr">删除</a>
+                            <a href="edit.do?id=${typeInQuestion.id}&type=detail" class="opr">详情</a>
+                            <a href="edit.do?id=${typeInQuestion.id}" class="opr">修改</a>
+                            <a href="javascript:del(${typeInQuestion.id})" class="opr">删除</a>
                         </td>
                     </tr>
                 </c:forEach>

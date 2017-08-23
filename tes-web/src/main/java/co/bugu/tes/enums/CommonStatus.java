@@ -1,4 +1,4 @@
-package co.bugu.tes.enumration;
+package co.bugu.tes.enums;
 
 import java.util.HashMap;
 import java.util.Map;

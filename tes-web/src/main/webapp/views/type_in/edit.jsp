@@ -32,12 +32,12 @@
 
 
                 <form class="form-horizontal col-md-8" method="post" action="save.do" data-toggle="validator" role="form">
-                    <input id="id" type="hidden" name="id" value="${typeIn.id}">
+                    <input id="id" type="hidden" name="id" value="${typeInQuestion.id}">
 
                     <div class="form-group">
                         <label class="control-label col-md-2">凭条名称</label>
                         <div class="col-md-10">
-                            <input class="form-control" type="text" name="name" value="${typeIn.name}" required>
+                            <input class="form-control" type="text" name="name" value="${typeInQuestion.name}" required>
                             <span class="help-block with-errors">输入凭条名称，便于记忆</span>
                         </div>
                     </div>
@@ -60,7 +60,7 @@
                                 </table>
                             </div>
 
-                            <input class="form-control" type="hidden" name="content" value="${typeIn.content}" required>
+                            <input class="form-control" type="hidden" name="content" value="${typeInQuestion.content}" required>
                         </div>
                     </div>
 
@@ -80,7 +80,7 @@
 <script>
 
     $(function () {
-        var numbers = eval(${typeIn.content});
+        var numbers = eval(${typeInQuestion.content});
         var buffer = "";
         if (numbers && numbers.length > 0) {
             $.each(numbers, function (idx, num) {

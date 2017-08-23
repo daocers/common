@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tes.authority">
+    <resultMap id="AuthorityMap" type="co.bugu.tes.model.Authority">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="action" property="action" jdbcType="VARCHAR"/>
+        <result column="controller" property="controller" jdbcType="VARCHAR"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="parameter" property="parameter" jdbcType="VARCHAR"/>
+        <result column="status" property="status" jdbcType="INTEGER"/>
+        <result column="superior_id" property="superiorId" jdbcType="INTEGER"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="url" property="url" jdbcType="VARCHAR"/>
+        <result column="accept_method" property="acceptMethod" jdbcType="VARCHAR"/>
+        <result column="is_api" property="isApi" jdbcType="BOOLEAN"/>
+        <result column="is_view" property="isView" jdbcType="BOOLEAN"/>
+        <result column="is_box" property="isBox" jdbcType="BOOLEAN"/>
+        <result column="idx" property="idx" jdbcType="INTEGER"/>
+        <result column="code" property="code" jdbcType="VARCHAR"/>
+        <result column="version" property="version" jdbcType="INTEGER"/>
+    </resultMap>
+    <sql id="authority_list">
+    id, action, controller, description, name, parameter, status, superior_id, type,
+    url, accept_method, is_api, idx, code, is_view, is_box, version
+  </sql>
+    <select id="selectById" resultMap="AuthorityMap" parameterType="java.lang.Integer">
+        select
+        <include refid="authority_list"/>
+        from authority auth
+        where auth.id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from authority
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="co.bugu.tes.model.Authority">
+        insert into authority
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="action != null">
+                action,
+            </if>
+            <if test="controller != null">
+                controller,
+            </if>
+            <if test="description != null">
+                description,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="parameter != null">
+                parameter,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="superiorId != null">
+                superior_id,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+            <if test="acceptMethod != null">
+                accept_method,
+            </if>
+            <if test="isApi != null">
+                is_api,
+            </if>
+            <if test="idx != null">
+                idx,
+            </if>
+            <if test="code != null">
+                code,
+            </if>
+            <if test="isView != null">
+                is_view,
+            </if>
+            <if test="isBox != null">
+                is_box,
+            </if>
+            <if test="version != null">
+                version,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="action != null">
+                #{action,jdbcType=VARCHAR},
+            </if>
+            <if test="controller != null">
+                #{controller,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="parameter != null">
+                #{parameter,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=INTEGER},
+            </if>
+            <if test="superiorId != null">
+                #{superiorId,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="url != null">
+                #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="acceptMethod != null">
+                #{acceptMethod},
+            </if>
+            <if test="isApi != null">
+                #{isApi},
+            </if>
+            <if test="idx != null">
+                #{idx},
+            </if>
+            <if test="code != null">
+                #{code},
+            </if>
+            <if test="isView != null">
+                #{isView},
+            </if>
+            <if test="isBox != null">
+                #{isBox},
+            </if>
+            <if test="version != null">
+                #{version},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateById" parameterType="co.bugu.tes.model.Authority">
+        update authority
+        <set>
+            <if test="action != null">
+                action = #{action,jdbcType=VARCHAR},
+            </if>
+            <if test="controller != null">
+                controller = #{controller,jdbcType=VARCHAR},
+            </if>
+            <if test="description != null">
+                description = #{description,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                name = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="parameter != null">
+                parameter = #{parameter,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null">
+                status = #{status,jdbcType=INTEGER},
+            </if>
+            <if test="superiorId != null">
+                superior_id = #{superiorId,jdbcType=INTEGER},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="url != null">
+                url = #{url,jdbcType=VARCHAR},
+            </if>
+            <if test="acceptMethod != null">
+                accept_method = #{acceptMethod},
+            </if>
+            <if test="isApi != null">
+                is_api = #{isApi},
+            </if>
+            <if test="idx != null">
+                idx = #{idx},
+            </if>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="isView != null">
+                is_view = #{isView},
+            </if>
+            <if test="isBox != null">
+                is_box = #{isBox},
+            </if>
+            <if test="version != null">
+                version = #{version},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <select id="findByObject" resultMap="AuthorityMap" parameterType="co.bugu.tes.model.Authority">
+        select
+        <include refid="authority_list"/>
+        from authority auth
+        <where>
+        </where>
+        order by auth.idx
+    </select>
+
+    <update id="batchUpdate" parameterType="co.bugu.tes.model.Authority">
+        update authority set superior_id = #{superiorId} where controller = #{controller}
+    </update>
+
+
+    <select id="selectAuthorityByRole" resultMap="AuthorityMap" parameterType="int">
+        SELECT
+        <include refid="authority_list"/>
+        FROM authority auth
+        LEFT JOIN role_authority_x ru
+        on ru.authority_id = auth.id
+        where ru.role_id = #{role_id} order by auth.idx
+    </select>
+
+
+    <select id="getAllController" resultType="string">
+        SELECT DISTINCT controller from authority order by controller
+    </select>
+    
+    <select id="getMaxVersion" resultType="int">
+        select max(version) from authority;
+    </select>
+
+    <update id="enablePreviousVersion" parameterType="int">
+        update authority set status = 1 WHERE  version <![CDATA[<]]> #{version}
+    </update>
+</mapper>

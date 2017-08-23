@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tes.answer">
+    <resultMap id="AnswerMap" type="co.bugu.tes.model.Answer">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="paper_id" property="paperId" jdbcType="INTEGER"/>
+        <result column="question_id" property="questionId" jdbcType="INTEGER"/>
+        <result column="answer" property="answer" jdbcType="VARCHAR"/>
+        <result column="time_left" property="timeLeft" jdbcType="VARCHAR"/>
+        <result column="seconds" property="seconds" jdbcType="INTEGER"/>
+        <result column="result" property="result" jdbcType="INTEGER"/>
+        <result column="score" property="score" jdbcType="DOUBLE"/>
+    </resultMap>
+    <sql id="answer_list">
+    id, paper_id, question_id, answer, seconds, result, score, time_left
+  </sql>
+    <select id="selectById" resultMap="AnswerMap" parameterType="java.lang.Integer">
+        select
+        <include refid="answer_list"/>
+        from answer
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from answer
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="co.bugu.tes.model.Answer">
+        insert into answer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="paperId != null">
+                paper_id,
+            </if>
+            <if test="questionId != null">
+                question_id,
+            </if>
+            <if test="answer != null">
+                answer,
+            </if>
+            <if test="seconds != null">
+                seconds,
+            </if>
+            <if test="result != null">
+                result,
+            </if>
+            <if test="score != null">
+                score,
+            </if>
+            <if test="timeLeft != null">
+                time_left,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="paperId != null">
+                #{paperId,jdbcType=INTEGER},
+            </if>
+            <if test="questionId != null">
+                #{questionId,jdbcType=INTEGER},
+            </if>
+            <if test="answer != null">
+                #{answer,jdbcType=VARCHAR},
+            </if>
+            <if test="seconds != null">
+                #{seconds,jdbcType=INTEGER},
+            </if>
+            <if test="result != null">
+                #{result,jdbcType=INTEGER},
+            </if>
+            <if test="score != null">
+                #{score,jdbcType=DOUBLE},
+            </if>
+            <if test="timeLeft != null">
+                #{timeLeft, jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateById" parameterType="co.bugu.tes.model.Answer">
+        update answer
+        <set>
+            <if test="paperId != null">
+                paper_id = #{paperId,jdbcType=INTEGER},
+            </if>
+            <if test="questionId != null">
+                question_id = #{questionId,jdbcType=INTEGER},
+            </if>
+            <if test="answer != null">
+                answer = #{answer,jdbcType=VARCHAR},
+            </if>
+            <if test="seconds != null">
+                seconds = #{seconds,jdbcType=INTEGER},
+            </if>
+            <if test="result != null">
+                result = #{result,jdbcType=INTEGER},
+            </if>
+            <if test="score != null">
+                score = #{score,jdbcType=DOUBLE},
+            </if>
+            <if test="timeLeft != null">
+                time_left = #{timeLeft, jdbcType=VARCHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+
+    <select id="findByObject" resultMap="AnswerMap" parameterType="co.bugu.tes.model.Answer">
+        select
+        <include refid="answer_list"/>
+        from answer
+    </select>
+</mapper>
