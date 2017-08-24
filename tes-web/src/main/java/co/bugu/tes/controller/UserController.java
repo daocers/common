@@ -1,11 +1,14 @@
 package co.bugu.tes.controller;
 
 import co.bugu.framework.core.dao.PageInfo;
+import co.bugu.framework.util.EncryptUtil;
 import co.bugu.framework.util.JsonUtil;
+import co.bugu.tes.global.Constant;
 import co.bugu.tes.model.Role;
 import co.bugu.tes.model.User;
 import co.bugu.tes.service.IUserService;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -177,5 +180,19 @@ public class UserController {
             logger.error("删除失败", e);
             return "-1";
         }
+    }
+
+
+    @RequestMapping("/resetPassword")
+    @ResponseBody
+    public String resetPassword(Integer userId, ModelMap model) {
+        User user = new User();
+        user.setId(userId);
+        user.setSalt(Constant.DEFALUT_SALT);
+        user.setPassword(EncryptUtil.md5(Constant.DEFAULT_PASSWORD + Constant.DEFALUT_SALT));
+        userService.updateById(user);
+        JSONObject json = new JSONObject();
+        json.put("code", 0);
+        return json.toJSONString();
     }
 }
