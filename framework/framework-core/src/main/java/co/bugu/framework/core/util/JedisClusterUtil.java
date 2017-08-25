@@ -3,10 +3,7 @@ package co.bugu.framework.core.util;
 import co.bugu.framework.core.exception.TesJedisException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import redis.clients.jedis.HostAndPort;
-import redis.clients.jedis.JedisCluster;
-import redis.clients.jedis.JedisPool;
-import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.*;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,7 +49,7 @@ public class JedisClusterUtil {
             String nodeInfo = properties.getProperty("redis.clusterNodes");
             String[] nodeList = nodeInfo.trim().split(",");
 
-            if (nodeList.length > 1) {
+            if (nodeList.length > 0) {
                 for (String node : nodeList) {
                     String[] item = node.split(":");
                     String ip = item[0];
@@ -72,9 +69,13 @@ public class JedisClusterUtil {
      *
      * @param jedisCluster
      */
-    public static void release(JedisCluster jedisCluster) throws IOException {
+    public static void release(JedisCluster jedisCluster) {
         if (jedisCluster != null) {
-            jedisCluster.close();
+            try {
+                jedisCluster.close();
+            } catch (IOException e) {
+                logger.error("redis cluster 释放失败", e);
+            }
         }
     }
 
@@ -214,6 +215,19 @@ public class JedisClusterUtil {
             return SerializationUtil.deserialize(res, clazz);
         } finally {
             release(jedisCluster);
+        }
+    }
+
+
+    public static void delObject(Object record) throws TesJedisException {
+        JedisCluster jedisCluster = null;
+        try {
+            jedisCluster = getJedisCluster();
+            String key = getKey(record);
+            jedisCluster.del(key);
+        } finally {
+            release(jedisCluster);
+
         }
     }
 

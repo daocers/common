@@ -4,6 +4,7 @@ import co.bugu.framework.core.dao.BaseDao;
 import co.bugu.framework.core.dao.PageInfo;
 import co.bugu.framework.core.exception.TesJedisException;
 import co.bugu.framework.core.service.IBaseService;
+import co.bugu.framework.core.util.JedisClusterUtil;
 import co.bugu.framework.core.util.JedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -41,7 +42,8 @@ public class BaseServiceImpl<T> implements IBaseService<T> {
     public int save(T record)  {
         int num = baseDao.insert(nameSpace + "insert", record);
         try {
-            JedisUtil.setObject(record);
+//            JedisUtil.setObject(record);
+            JedisClusterUtil.setObject(record);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (TesJedisException e) {
@@ -54,7 +56,8 @@ public class BaseServiceImpl<T> implements IBaseService<T> {
     public int updateById(T record){
         int num = baseDao.update(nameSpace + "updateById", record);
         try {
-            JedisUtil.setObject(record);
+//            JedisUtil.setObject(record);
+            JedisClusterUtil.setObject(record);
         } catch (IOException e) {
             e.printStackTrace();
         } catch (TesJedisException e) {
@@ -66,7 +69,8 @@ public class BaseServiceImpl<T> implements IBaseService<T> {
     @Override
     public int delete(T record) {
         try {
-            JedisUtil.delObject(record);
+//            JedisUtil.delObject(record);
+            JedisClusterUtil.delObject(record);
         } catch (TesJedisException e) {
             e.printStackTrace();
         }
@@ -79,7 +83,8 @@ public class BaseServiceImpl<T> implements IBaseService<T> {
         String type = parameterizedType.getActualTypeArguments()[0].getTypeName();
         T res = null;
         try {
-            res = JedisUtil.getObject(id, (Class<T>) Class.forName(type));
+//            res = JedisUtil.getObject(id, (Class<T>) Class.forName(type));
+            res = JedisClusterUtil.getObject(id, (Class<T>) Class.forName(type));
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (Exception e) {
