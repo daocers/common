@@ -17,14 +17,14 @@
     <script type="text/javascript" src="../assets/js/jquery.ztree.exedit.js"></script>
 </head>
 <body>
-<%@ include file="../template/menu-top.jsp" %>
+<%--<%@ include file="../template/menu-top.jsp" %>--%>
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-0 col-md-2 sidebar menu-left">
-            <%@ include file="../template/menu-left.jsp" %>
-        </div>
-        <div class="col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-2 main" id="main">
+        <%--<div class="col-sm-0 col-md-2 sidebar menu-left">--%>
+        <%--<%@ include file="../template/menu-left.jsp" %>--%>
+        <%--</div>--%>
+        <div class="col-md-12 main" id="main">
             <%--<h1 class="page-header">Dashboard</h1>--%>
             <div class="page-header nav-path">
                 <ol class="breadcrumb">
@@ -33,71 +33,71 @@
                 </ol>
             </div>
 
-                <input type="hidden" value="${param.type}" id="type">
+            <input type="hidden" value="${param.type}" id="type">
 
-                <div class="col-md-6">
-                    <div class="zTree left">
-                        <ul id="tree" class="ztree"></ul>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-info" id="submit">保存</button>
-                        <button class="btn btn-warning" onclick="history.back();">取消</button>
-                    </div>
+            <div class="col-md-6">
+                <div class="zTree left">
+                    <ul id="tree" class="ztree"></ul>
                 </div>
-                <%--<div class="col-md-6 col-md-offset-1">--%>
+                <div class="form-group">
+                    <button class="btn btn-info" id="submit">保存</button>
+                    <button class="btn btn-warning" onclick="history.back();">取消</button>
+                </div>
+            </div>
+            <%--<div class="col-md-6 col-md-offset-1">--%>
 
-                    <%--<form class="form-horizontal" method="post"  data-toggle="validator" role="form" id="form-box">--%>
-                        <%--<input type="hidden" name="id" value="${branch.id}">--%>
-                        <%--<input type="hidden" id="id">--%>
-                        <%--<input id="superiorId" type="hidden" name="superiorId">--%>
-                        <%--<input id="level" type="hidden" name="level">--%>
-                        <%--<div class="form-group">--%>
-                            <%--<label class="control-label col-md-3">机构名称</label>--%>
-                            <%--<div class="col-md-9">--%>
-                                <%--<input class="form-control" type="text" name="name" value="${branch.name}" required>--%>
-                                <%--<span class="help-block">分行、支行、网点或者分理处的具体名称</span>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<div class="form-group">--%>
-                            <%--<label class="control-label col-md-3">机构编码</label>--%>
-                            <%--<div class="col-md-9">--%>
-                                <%--<input class="form-control" type="text" name="code" value="${branch.code}" required>--%>
-                                <%--<span class="help-block with-errors">如果已经赋值，请谨慎修改</span>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<div class="form-group">--%>
-                            <%--<label class="control-label col-md-3">机构地址</label>--%>
-                            <%--<div class="col-md-9">--%>
-                                <%--<input class="form-control" type="text" name="address" value="${branch.address}"--%>
-                                       <%--maxlength="100">--%>
-                                <%--<span class="help-block with-errors"></span>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                        <%--<div class="form-group">--%>
-                            <%--<label class="control-label col-md-3">状态</label>--%>
-                            <%--<div class="col-md-9">--%>
-                                <%--<select class="form-control" name="status">--%>
-                                    <%--<option value="0"--%>
-                                            <%--<c:if conf.dev.test="${branch.status == 0}">selected</c:if> >正常--%>
-                                    <%--</option>--%>
-                                    <%--<option value="1"--%>
-                                            <%--<c:if conf.dev.test="${branch.status == 1}">selected</c:if> >禁用--%>
-                                    <%--</option>--%>
-                                <%--</select>--%>
-                                <%--&lt;%&ndash;<input class="form-control" type="text" name="status" value="${branch.status}" required>&ndash;%&gt;--%>
-                                <%--<span class="help-block"></span>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
+            <%--<form class="form-horizontal" method="post"  data-toggle="validator" role="form" id="form-box">--%>
+            <%--<input type="hidden" name="id" value="${branch.id}">--%>
+            <%--<input type="hidden" id="id">--%>
+            <%--<input id="superiorId" type="hidden" name="superiorId">--%>
+            <%--<input id="level" type="hidden" name="level">--%>
+            <%--<div class="form-group">--%>
+            <%--<label class="control-label col-md-3">机构名称</label>--%>
+            <%--<div class="col-md-9">--%>
+            <%--<input class="form-control" type="text" name="name" value="${branch.name}" required>--%>
+            <%--<span class="help-block">分行、支行、网点或者分理处的具体名称</span>--%>
+            <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+            <%--<label class="control-label col-md-3">机构编码</label>--%>
+            <%--<div class="col-md-9">--%>
+            <%--<input class="form-control" type="text" name="code" value="${branch.code}" required>--%>
+            <%--<span class="help-block with-errors">如果已经赋值，请谨慎修改</span>--%>
+            <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+            <%--<label class="control-label col-md-3">机构地址</label>--%>
+            <%--<div class="col-md-9">--%>
+            <%--<input class="form-control" type="text" name="address" value="${branch.address}"--%>
+            <%--maxlength="100">--%>
+            <%--<span class="help-block with-errors"></span>--%>
+            <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="form-group">--%>
+            <%--<label class="control-label col-md-3">状态</label>--%>
+            <%--<div class="col-md-9">--%>
+            <%--<select class="form-control" name="status">--%>
+            <%--<option value="0"--%>
+            <%--<c:if conf.dev.test="${branch.status == 0}">selected</c:if> >正常--%>
+            <%--</option>--%>
+            <%--<option value="1"--%>
+            <%--<c:if conf.dev.test="${branch.status == 1}">selected</c:if> >禁用--%>
+            <%--</option>--%>
+            <%--</select>--%>
+            <%--&lt;%&ndash;<input class="form-control" type="text" name="status" value="${branch.status}" required>&ndash;%&gt;--%>
+            <%--<span class="help-block"></span>--%>
+            <%--</div>--%>
+            <%--</div>--%>
 
-                        <%--<div class="button pull-right">--%>
-                            <%--<button class="btn btn-primary btn-commit" type="submit">保存</button>--%>
-                            <%--<div class="space">--%>
+            <%--<div class="button pull-right">--%>
+            <%--<button class="btn btn-primary btn-commit" type="submit">保存</button>--%>
+            <%--<div class="space">--%>
 
-                            <%--</div>--%>
-                            <%--<button class="btn btn-warning btn-cancel" onclick="return false;">取消</button>--%>
-                        <%--</div>--%>
-                    <%--</form>--%>
-                <%--</div>--%>
+            <%--</div>--%>
+            <%--<button class="btn btn-warning btn-cancel" onclick="return false;">取消</button>--%>
+            <%--</div>--%>
+            <%--</form>--%>
+            <%--</div>--%>
 
 
         </div>
@@ -162,7 +162,7 @@
         if (pNode && pNode.dropInner === false) {
             return false;
         } else {
-            for (var i=0,l=curDragNodes.length; i<l; i++) {
+            for (var i = 0, l = curDragNodes.length; i < l; i++) {
                 var curPNode = curDragNodes[i].getParentNode();
                 if (curPNode && curPNode !== targetNode.getParentNode() && curPNode.childOuter === false) {
                     return false;
@@ -173,7 +173,7 @@
     }
     function onNodeCreated(event, treeId, treeNode) {
         console.log("treeNode", treeNode);
-        if(treeNode.name.indexOf("新节点") > -1){
+        if (treeNode.name.indexOf("新节点") > -1) {
             var treeObj = $.fn.zTree.getZTreeObj("tree");
             console.log("新节点创建了");
             treeObj.editName(treeNode);
@@ -184,7 +184,7 @@
         if (targetNode && targetNode.dropInner === false) {
             return false;
         } else {
-            for (var i=0,l=curDragNodes.length; i<l; i++) {
+            for (var i = 0, l = curDragNodes.length; i < l; i++) {
                 if (!targetNode && curDragNodes[i].dropRoot === false) {
                     return false;
                 } else if (curDragNodes[i].parentTId && curDragNodes[i].getParentNode() !== targetNode && curDragNodes[i].getParentNode().childOuter === false) {
@@ -199,7 +199,7 @@
         if (pNode && pNode.dropInner === false) {
             return false;
         } else {
-            for (var i=0,l=curDragNodes.length; i<l; i++) {
+            for (var i = 0, l = curDragNodes.length; i < l; i++) {
                 var curPNode = curDragNodes[i].getParentNode();
                 if (curPNode && curPNode !== targetNode.getParentNode() && curPNode.childOuter === false) {
                     return false;
@@ -211,9 +211,9 @@
 
     var log, className = "dark", curDragNodes, autoExpandNode;
     function beforeDrag(treeId, treeNodes) {
-        className = (className === "dark" ? "":"dark");
-        showLog("[ "+getTime()+" beforeDrag ]&nbsp;&nbsp;&nbsp;&nbsp; drag: " + treeNodes.length + " nodes." );
-        for (var i=0,l=treeNodes.length; i<l; i++) {
+        className = (className === "dark" ? "" : "dark");
+        showLog("[ " + getTime() + " beforeDrag ]&nbsp;&nbsp;&nbsp;&nbsp; drag: " + treeNodes.length + " nodes.");
+        for (var i = 0, l = treeNodes.length; i < l; i++) {
             if (treeNodes[i].drag === false) {
                 curDragNodes = null;
                 return false;
@@ -230,41 +230,41 @@
         return true;
     }
     function beforeDrop(treeId, treeNodes, targetNode, moveType, isCopy) {
-        className = (className === "dark" ? "":"dark");
-        showLog("[ "+getTime()+" beforeDrop ]&nbsp;&nbsp;&nbsp;&nbsp; moveType:" + moveType);
-        showLog("target: " + (targetNode ? targetNode.name : "root") + "  -- is "+ (isCopy==null? "cancel" : isCopy ? "copy" : "move"));
+        className = (className === "dark" ? "" : "dark");
+        showLog("[ " + getTime() + " beforeDrop ]&nbsp;&nbsp;&nbsp;&nbsp; moveType:" + moveType);
+        showLog("target: " + (targetNode ? targetNode.name : "root") + "  -- is " + (isCopy == null ? "cancel" : isCopy ? "copy" : "move"));
         return true;
     }
     function onDrag(event, treeId, treeNodes) {
-        className = (className === "dark" ? "":"dark");
-        showLog("[ "+getTime()+" onDrag ]&nbsp;&nbsp;&nbsp;&nbsp; drag: " + treeNodes.length + " nodes." );
+        className = (className === "dark" ? "" : "dark");
+        showLog("[ " + getTime() + " onDrag ]&nbsp;&nbsp;&nbsp;&nbsp; drag: " + treeNodes.length + " nodes.");
     }
     function onDrop(event, treeId, treeNodes, targetNode, moveType, isCopy) {
-        className = (className === "dark" ? "":"dark");
-        showLog("[ "+getTime()+" onDrop ]&nbsp;&nbsp;&nbsp;&nbsp; moveType:" + moveType);
-        showLog("target: " + (targetNode ? targetNode.name : "root") + "  -- is "+ (isCopy==null? "cancel" : isCopy ? "copy" : "move"))
+        className = (className === "dark" ? "" : "dark");
+        showLog("[ " + getTime() + " onDrop ]&nbsp;&nbsp;&nbsp;&nbsp; moveType:" + moveType);
+        showLog("target: " + (targetNode ? targetNode.name : "root") + "  -- is " + (isCopy == null ? "cancel" : isCopy ? "copy" : "move"))
     }
     function onExpand(event, treeId, treeNode) {
         if (treeNode === autoExpandNode) {
-            className = (className === "dark" ? "":"dark");
-            showLog("[ "+getTime()+" onExpand ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name);
+            className = (className === "dark" ? "" : "dark");
+            showLog("[ " + getTime() + " onExpand ]&nbsp;&nbsp;&nbsp;&nbsp;" + treeNode.name);
         }
     }
 
     function showLog(str) {
         if (!log) log = $("#log");
-        log.append("<li class='"+className+"'>"+str+"</li>");
-        if(log.children("li").length > 8) {
+        log.append("<li class='" + className + "'>" + str + "</li>");
+        if (log.children("li").length > 8) {
             log.get(0).removeChild(log.children("li")[0]);
         }
     }
     function getTime() {
-        var now= new Date(),
-            h=now.getHours(),
-            m=now.getMinutes(),
-            s=now.getSeconds(),
-            ms=now.getMilliseconds();
-        return (h+":"+m+":"+s+ " " +ms);
+        var now = new Date(),
+            h = now.getHours(),
+            m = now.getMinutes(),
+            s = now.getSeconds(),
+            ms = now.getMilliseconds();
+        return (h + ":" + m + ":" + s + " " + ms);
     }
 
     function showRemoveBtn(treeId, treeNode) {
@@ -280,8 +280,8 @@
     }
 
     function beforeEditName(treeId, treeNode) {
-        className = (className === "dark" ? "":"dark");
-        showLog("[ "+getTime()+" beforeEditName ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+        className = (className === "dark" ? "" : "dark");
+        showLog("[ " + getTime() + " beforeEditName ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
         var zTree = $.fn.zTree.getZTreeObj("tree");
         zTree.selectNode(treeNode);
 //            return confirm("进入节点 -- " + treeNode.name + " 的编辑状态吗？");
@@ -293,8 +293,8 @@
      * @param treeNode
      */
     function beforeRemove(treeId, treeNode) {
-        className = (className === "dark" ? "":"dark");
-        showLog("[ "+getTime()+" beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+        className = (className === "dark" ? "" : "dark");
+        showLog("[ " + getTime() + " beforeRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
         var zTree = $.fn.zTree.getZTreeObj("tree");
         zTree.selectNode(treeNode);
         return confirm("确认删除 节点 -- " + treeNode.name + " 吗？");
@@ -306,7 +306,7 @@
      * @param treeNode
      */
     function onRemove(e, treeId, treeNode) {
-        showLog("[ "+getTime()+" onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
+        showLog("[ " + getTime() + " onRemove ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name);
     }
 
     /**
@@ -320,12 +320,14 @@
      * @returns {boolean}
      */
     function beforeRename(treeId, treeNode, newName, isCancel) {
-        className = (className === "dark" ? "":"dark");
+        className = (className === "dark" ? "" : "dark");
 //            showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" beforeRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name + (isCancel ? "</span>":""));
         if (newName.length == 0) {
             alert("节点名称不能为空.");
             var zTree = $.fn.zTree.getZTreeObj("tree");
-            setTimeout(function(){zTree.editName(treeNode)}, 10);
+            setTimeout(function () {
+                zTree.editName(treeNode)
+            }, 10);
             return false;
         }
         return true;
@@ -339,9 +341,9 @@
      */
     function onRename(e, treeId, treeNode, isCancel) {
         var parent = treeNode.getParentNode();
-        if(parent){
+        if (parent) {
             $("#level").val(parseInt(parent.level) + 1);
-        }else{
+        } else {
             $("#level").val(0);
         }
 //            showLog((isCancel ? "<span style='color:red'>":"") + "[ "+getTime()+" onRename ]&nbsp;&nbsp;&nbsp;&nbsp; " + treeNode.name + (isCancel ? "</span>":""));
@@ -399,22 +401,22 @@
     var newCount = 1;
     function addHoverDom(treeId, treeNode) {
         var sObj = $("#" + treeNode.tId + "_span");
-        if (treeNode.editNameFlag || $("#addBtn_"+treeNode.tId).length>0) return;
+        if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0) return;
         var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
             + "' title='添加新节点' onfocus='this.blur();'></span>";
         sObj.after(addStr);
-        var btn = $("#addBtn_"+treeNode.tId);
-        if (btn) btn.bind("click", function(){
+        var btn = $("#addBtn_" + treeNode.tId);
+        if (btn) btn.bind("click", function () {
             var zTree = $.fn.zTree.getZTreeObj("tree");
-            zTree.addNodes(treeNode, {id:(100 + newCount), pId:treeNode.id, name:"添加新节点" + (newCount++)});
+            zTree.addNodes(treeNode, {id: (100 + newCount), pId: treeNode.id, name: "添加新节点" + (newCount++)});
             return false;
         });
     };
     function removeHoverDom(treeId, treeNode) {
-        $("#addBtn_"+treeNode.tId).unbind().remove();
+        $("#addBtn_" + treeNode.tId).unbind().remove();
     };
 
-    $(document).ready(function(){
+    $(document).ready(function () {
         $.fn.zTree.init($("#tree"), setting, zNodes);
         $("#callbackTrigger").bind("change", {}, setTrigger);
     });
@@ -440,9 +442,9 @@
                 data: {info: JSON.stringify(arr)},
                 success: function (data) {
                     var res = JSON.parse(data);
-                    if(res.code == 0){
+                    if (res.code == 0) {
                         swal("", "更新成功", "success");
-                    }else{
+                    } else {
                         swal("", res.msg, "error");
                     }
                     zeroModal.closeAll();

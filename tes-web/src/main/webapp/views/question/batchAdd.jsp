@@ -21,7 +21,7 @@
     </style>
 </head>
 <body>
-<%@ include file="../template/menu-top.jsp" %>
+<%--<%@ include file="../template/menu-top.jsp" %>--%>
 
 <div class="container-fluid">
     <div class="row">

@@ -16,7 +16,7 @@
     <script type="text/javascript" src="../assets/js/jquery.ztree.excheck.js"></script>
     <script type="text/javascript" src="../assets/js/jquery.ztree.exedit.js"></script>
     <style>
-        .form-control-intable{
+        .form-control-intable {
             height: 36px;
         }
     </style>
@@ -27,10 +27,10 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-0 col-md-2 sidebar menu-left">
-            <%@ include file="../template/menu-left.jsp" %>
-        </div>
-        <div class="col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-2 main" id="main">
+        <%--<div class="col-sm-0 col-md-2 sidebar menu-left">--%>
+        <%--<%@ include file="../template/menu-left.jsp" %>--%>
+        <%--</div>--%>
+        <div class="col-md-12 main" id="main">
             <%--<h1 class="page-header">Dashboard</h1>--%>
             <div class="page-header nav-path">
                 <ol class="breadcrumb">
@@ -39,174 +39,177 @@
                 </ol>
             </div>
 
-                <div class="" style="width:780px; vertical-align: top; display: inline-block">
-                    <div class="col-md-5" style="margin-left: -15px;">
-                        <div class="zTreeDemoBackground left">
-                            <ul id="treeDemo" class="ztree" style="height: 460px;"></ul>
-                        </div>
-
-                        <button class="btn btn-info commit">确定</button>
-                        <button class="btn btn-warning cancel">取消</button>
+            <div class="" style="width:780px; vertical-align: top; display: inline-block">
+                <div class="col-md-5" style="margin-left: -15px;">
+                    <div class="zTreeDemoBackground left">
+                        <ul id="treeDemo" class="ztree" style="height: 460px;"></ul>
                     </div>
 
-                    <div class="col-md-5 col-md-offset-1" id="info-box">
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">
-                                    权限详情
-                                </h3>
-                            </div>
-                            <table class="table table-bordered">
-                                <input type="hidden" id="authId"/>
-                                <tbody>
-                                <tr>
-                                    <td class="col-md-1">名称</td>
-
-                                    <td class="editable"><input id="name" type="text" class="form-control form-control-intable" name="name" placeholder="请输入新的名称..."></td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-1">URL</td>
-                                    <td id="url"></td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-1">编码</td>
-                                    <td id="code"></td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-1">Controller</td>
-                                    <td id="controller"></td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-1">Method</td>
-                                    <td id="action"></td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-1">请求方式</td>
-                                    <td id="acceptMethod"></td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-1">参数</td>
-                                    <td id="param"></td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-1"> 权限</td>
-                                    <td id="needAuth"></td>
-                                </tr>
-                                <tr>
-                                    <td class="col-md-1">page</td>
-                                    <td id="isPage"></td>
-                                </tr>
-                                <tr>
-                                    <td>API</td>
-                                    <td id="isApi"></td>
-                                </tr>
-                                <tr>
-                                    <td>描述</td>
-                                    <td class="editable"><input class="form-control form-control-intable" id="description" ></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="panel panel-info">
-                            <button class="btn btn-info pull-right" type="button" id="commitChange">提交修改</button>
-                        </div>
-                    </div>
-
-
+                    <button class="btn btn-info commit">确定</button>
+                    <button class="btn btn-warning cancel">取消</button>
                 </div>
-                <script>
-                    function getInfo(id) {
-                        zeroModal.loading(3);
-                        $.ajax({
-                            url: "edit.do",
-                            data: {id: id},
-                            success: function (data) {
-                                var obj = JSON.parse(data);
-                                if (obj.code == 0) {
-                                    obj = obj.data;
-                                    $("#authId").val(obj.id);
-                                    $("#name").val(obj.name);
-                                    $("#url").text(obj.url);
-                                    $("#code").text(obj.code);
-                                    $("#param").text(obj.param);
-                                    $("#controller").text(obj.controller);
-                                    $("#action").text(obj.action);
-                                    $("#acceptMethod").text(obj.acceptMethod);
-                                    $("#description").val(obj.description);
-                                    $("#isApi").text(obj.isApi == 0);
-                                    $("#isPage").text(obj.isApi == 1);
-                                    $("#needAuth").text("暂无");
-                                    zeroModal.closeAll();
-                                    $("#info-box").show();
-                                } else {
-                                    zeroModal.closeAll();
-                                    swal("", obj.msg, "error");
-                                    $("#info-box").hide();
-                                }
-                            }
-                        });
-                    }
-                    $(".commit").on("click", function () {
-                        var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-                        var data = zTree.transformToArray(zTree.getNodes());
-                        console.log("data: ", data);
 
-                        $.ajax({
-                            url: 'update.do',
-                            type: "post",
-                            data: {"info": JSON.stringify(data)},
-                            success: function (data) {
-                                if (data == "0") {
-                                    console.log("提交成功");
-                                    window.location.href = "list.do";
-                                } else {
-                                    console.log("提交失败");
-                                }
-                            },
-                            error: function () {
+                <div class="col-md-5 col-md-offset-1" id="info-box">
+                    <div class="panel panel-info">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                权限详情
+                            </h3>
+                        </div>
+                        <table class="table table-bordered">
+                            <input type="hidden" id="authId"/>
+                            <tbody>
+                            <tr>
+                                <td class="col-md-1">名称</td>
+
+                                <td class="editable"><input id="name" type="text"
+                                                            class="form-control form-control-intable" name="name"
+                                                            placeholder="请输入新的名称..."></td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-1">URL</td>
+                                <td id="url"></td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-1">编码</td>
+                                <td id="code"></td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-1">Controller</td>
+                                <td id="controller"></td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-1">Method</td>
+                                <td id="action"></td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-1">请求方式</td>
+                                <td id="acceptMethod"></td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-1">参数</td>
+                                <td id="param"></td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-1"> 权限</td>
+                                <td id="needAuth"></td>
+                            </tr>
+                            <tr>
+                                <td class="col-md-1">page</td>
+                                <td id="isPage"></td>
+                            </tr>
+                            <tr>
+                                <td>API</td>
+                                <td id="isApi"></td>
+                            </tr>
+                            <tr>
+                                <td>描述</td>
+                                <td class="editable"><input class="form-control form-control-intable" id="description">
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="panel panel-info">
+                        <button class="btn btn-info pull-right" type="button" id="commitChange">提交修改</button>
+                    </div>
+                </div>
+
+
+            </div>
+            <script>
+                function getInfo(id) {
+                    zeroModal.loading(3);
+                    $.ajax({
+                        url: "edit.do",
+                        data: {id: id},
+                        success: function (data) {
+                            var obj = JSON.parse(data);
+                            if (obj.code == 0) {
+                                obj = obj.data;
+                                $("#authId").val(obj.id);
+                                $("#name").val(obj.name);
+                                $("#url").text(obj.url);
+                                $("#code").text(obj.code);
+                                $("#param").text(obj.param);
+                                $("#controller").text(obj.controller);
+                                $("#action").text(obj.action);
+                                $("#acceptMethod").text(obj.acceptMethod);
+                                $("#description").val(obj.description);
+                                $("#isApi").text(obj.isApi == 0);
+                                $("#isPage").text(obj.isApi == 1);
+                                $("#needAuth").text("暂无");
+                                zeroModal.closeAll();
+                                $("#info-box").show();
+                            } else {
+                                zeroModal.closeAll();
+                                swal("", obj.msg, "error");
+                                $("#info-box").hide();
+                            }
+                        }
+                    });
+                }
+                $(".commit").on("click", function () {
+                    var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+                    var data = zTree.transformToArray(zTree.getNodes());
+                    console.log("data: ", data);
+
+                    $.ajax({
+                        url: 'update.do',
+                        type: "post",
+                        data: {"info": JSON.stringify(data)},
+                        success: function (data) {
+                            if (data == "0") {
+                                console.log("提交成功");
+                                window.location.href = "list.do";
+                            } else {
                                 console.log("提交失败");
                             }
-                        })
-                    });
+                        },
+                        error: function () {
+                            console.log("提交失败");
+                        }
+                    })
+                });
 
-                    $("#commitChange").on("click", function () {
-                        zeroModal.loading(3);
-                        var id = $("#authId").val();
-                        var name = $("#name").val();
-                        var des = $("#description").val();
+                $("#commitChange").on("click", function () {
+                    zeroModal.loading(3);
+                    var id = $("#authId").val();
+                    var name = $("#name").val();
+                    var des = $("#description").val();
 
-                        $.ajax({
-                            url: "save.do",
-                            type: 'post',
-                            data: {id: id, name: name, description: des},
-                            success: function (data) {
-                                var res = JSON.parse(data);
-                                if(res.code == 0){
-                                    var tree =  $.fn.zTree.getZTreeObj("treeDemo");
-                                    var node = tree.getNodeByParam("id", id, null);
-                                    if(node){
-                                        node.name = name;
-                                        tree.updateNode(node);
-                                    }
-                                    zeroModal.closeAll();
-                                    $("#info-box").hide();
-                                }else{
-                                    swal("", res.err, "error");
-                                    zeroModal.closeAll();
+                    $.ajax({
+                        url: "save.do",
+                        type: 'post',
+                        data: {id: id, name: name, description: des},
+                        success: function (data) {
+                            var res = JSON.parse(data);
+                            if (res.code == 0) {
+                                var tree = $.fn.zTree.getZTreeObj("treeDemo");
+                                var node = tree.getNodeByParam("id", id, null);
+                                if (node) {
+                                    node.name = name;
+                                    tree.updateNode(node);
                                 }
-                            },
-                            error: function (data) {
-                                swal("", "保存失败", "error");
+                                zeroModal.closeAll();
+                                $("#info-box").hide();
+                            } else {
+                                swal("", res.err, "error");
                                 zeroModal.closeAll();
                             }
-                        })
-
-                    });
-
-                    $(".cancel").on("click", function () {
-                        window.history.back();
+                        },
+                        error: function (data) {
+                            swal("", "保存失败", "error");
+                            zeroModal.closeAll();
+                        }
                     })
-                </script>
+
+                });
+
+                $(".cancel").on("click", function () {
+                    window.history.back();
+                })
+            </script>
         </div>
     </div>
 </div>
@@ -280,7 +283,7 @@
     function onNodeCreated(event, treeId, treeNode) {
         console.log("treeNode", treeNode.name);
         var name = treeNode.name;
-        if(name){
+        if (name) {
             if (name.indexOf("新节点") > -1) {
                 var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
                 console.log("新节点创建了");

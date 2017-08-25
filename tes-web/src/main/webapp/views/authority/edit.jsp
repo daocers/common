@@ -14,9 +14,9 @@
         </ol>
     </div>
     <input type="hidden" value="${param.type}" id="type">
-    <%@ include file="../template/header.jsp" %>
-    <%@ include file="../template/menu-top.jsp" %>
-    <%@ include file="../template/menu-left.jsp" %>
+    <%--<%@ include file="../template/header.jsp" %>--%>
+    <%--<%@ include file="../template/menu-top.jsp" %>--%>
+    <%--<%@ include file="../template/menu-left.jsp" %>--%>
     <div class="" style="width:780px; vertical-align: top; display: inline-block">
         <form class="form-horizontal" method="post" action="save.do" data-toggle="validator" role="form">
             <input id="id" type="hidden" name="id" value="${authority.id}">

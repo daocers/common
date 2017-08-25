@@ -110,7 +110,7 @@
             -o-transition: All 0.3s ease;
         }
 
-        #rootwizard > ul > li > a{
+        #rootwizard > ul > li > a {
             cursor: default;
             text-decoration: none;
         }
@@ -268,14 +268,14 @@
     </script>
 </head>
 <body>
-<%@ include file="../template/menu-top.jsp" %>
+<%--<%@ include file="../template/menu-top.jsp" %>--%>
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-0 col-md-2 sidebar menu-left">
-            <%@ include file="../template/menu-left.jsp" %>
-        </div>
-        <div class="col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-2 main" id="main">
+        <%--<div class="col-sm-0 col-md-2 sidebar menu-left">--%>
+        <%--<%@ include file="../template/menu-left.jsp" %>--%>
+        <%--</div>--%>
+        <div class="col-md-12 main" id="main">
             <%--<h1 class="page-header">Dashboard</h1>--%>
             <div class="page-header nav-path">
                 <ol class="breadcrumb">
@@ -704,10 +704,17 @@
      * 保存基本信息
      * */
     $("#saveBase").on("click", function () {
+        console.log("form info: ", $("#sceneForm").serialize());
+        var id = $("#id").val();
+        var idInfo = "";
+        if(id){
+            idInfo = "&id=" + id;
+        }
+        $(this).validate();
         $.ajax({
-            url: 'save.do',
+            url: '/scene/save.do',
             type: 'post',
-            data: $("#sceneForm").serialize() + "&id=" + $("#id").val(),
+            data: $("#sceneForm").serialize() + idInfo,
             success: function (data) {
                 var res = JSON.parse(data);
                 if (res.code == 0) {

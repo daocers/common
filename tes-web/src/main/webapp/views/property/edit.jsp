@@ -12,14 +12,14 @@
     <meta name="author" content="">
 </head>
 <body>
-<%@ include file="../template/menu-top.jsp" %>
+<%--<%@ include file="../template/menu-top.jsp" %>--%>
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-0 col-md-2 sidebar menu-left">
-            <%@ include file="../template/menu-left.jsp" %>
-        </div>
-        <div class="col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-2 main" id="main">
+        <%--<div class="col-sm-0 col-md-2 sidebar menu-left">--%>
+        <%--<%@ include file="../template/menu-left.jsp" %>--%>
+        <%--</div>--%>
+        <div class="col-md-12 main" id="main">
             <%--<h1 class="page-header">Dashboard</h1>--%>
             <div class="page-header nav-path">
                 <ol class="breadcrumb">
@@ -29,95 +29,93 @@
                 </ol>
             </div>
 
+            <form class="form-horizontal col-md-8" method="post" action="save.do" data-toggle="validator" role="form">
+                <input id="id" type="hidden" name="id" value="${property.id}">
+                <div class="form-group">
+                    <label class="control-label col-md-2">名称</label>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="name" value="${property.name}" required>
+                        <span class="help-block with-errors">属性的名称，比如难度，用于前端展示 </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">属性编码</label>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="code" value="${property.code}" required>
+                        <span class="help-block with-errors">属性的编码，建议使用英文，拼音或者首字母简称</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">描述</label>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="description" value="${property.description}"
+                               required>
+                        <span class="help-block with-errors">简单概括该属性的特性，使用场景和用途等</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-2">序号</label>
+                    <div class="col-md-10">
+                        <input class="form-control" type="text" name="idx" value="${property.idx}" required>
+                        <span class="help-block with-errors">用于属性展示的先后顺序</span>
+                    </div>
+                </div>
 
+                <div class="form-group">
+                    <label class="control-label col-md-2">状态</label>
+                    <div class="col-md-10">
+                        <select class="form-control" name="status" required>
+                            <option value="0" <c:if test="${property.status == 0}"> selected</c:if>>启用</option>
+                            <option value="1" <c:if test="${property.status == 1}"> selected</c:if>>禁用</option>
+                        </select>
+                        <span class="help-block with-errors">可用/禁用  </span>
+                    </div>
+                </div>
 
-                <form class="form-horizontal col-md-8" method="post" action="save.do" data-toggle="validator" role="form">
-                    <input id="id" type="hidden" name="id" value="${property.id}">
-                    <div class="form-group">
-                        <label class="control-label col-md-2">名称</label>
-                        <div class="col-md-10">
-                            <input class="form-control" type="text" name="name" value="${property.name}" required>
-                            <span class="help-block with-errors">属性的名称，比如难度，用于前端展示 </span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2">属性编码</label>
-                        <div class="col-md-10">
-                            <input class="form-control" type="text" name="code" value="${property.code}" required>
-                            <span class="help-block with-errors">属性的编码，建议使用英文，拼音或者首字母简称</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2">描述</label>
-                        <div class="col-md-10">
-                            <input class="form-control" type="text" name="description" value="${property.description}"
-                                   required>
-                            <span class="help-block with-errors">简单概括该属性的特性，使用场景和用途等</span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2">序号</label>
-                        <div class="col-md-10">
-                            <input class="form-control" type="text" name="idx" value="${property.idx}" required>
-                            <span class="help-block with-errors">用于属性展示的先后顺序</span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-2">状态</label>
-                        <div class="col-md-10">
-                            <select class="form-control" name="status" required>
-                                <option value="0" <c:if test="${property.status == 0}"> selected</c:if>>启用</option>
-                                <option value="1" <c:if test="${property.status == 1}"> selected</c:if>>禁用</option>
-                            </select>
-                            <span class="help-block with-errors">可用/禁用  </span>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-2">选项</label>
-                        <input type="hidden" name="itemInfo" value="${itemInfo}">
-                        <div class="col-md-10">
-                            <table class="table table-bordered editable-table">
-                                <thead>
+                <div class="form-group">
+                    <label class="control-label col-md-2">选项</label>
+                    <input type="hidden" name="itemInfo" value="${itemInfo}">
+                    <div class="col-md-10">
+                        <table class="table table-bordered editable-table">
+                            <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th class="cell-edit">前缀</th>
+                                <th class="cell-edit">属性值</th>
+                                <th class="cell-edit">操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:if test="${property.propertyItemList.size() == 0 || property == null}">
                                 <tr>
-                                    <th>编号</th>
-                                    <th class="cell-edit">前缀</th>
-                                    <th class="cell-edit">属性值</th>
-                                    <th class="cell-edit">操作</th>
+                                    <td>1</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="opr-td"><a href="" class="del-row">删除</a></td>
                                 </tr>
-                                </thead>
-                                <tbody>
-                                <c:if test="${property.propertyItemList.size() == 0 || property == null}">
-                                    <tr>
-                                        <td>1</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td class="opr-td"><a href="" class="del-row">删除</a></td>
-                                    </tr>
-                                </c:if>
-                                <c:forEach items="${property.propertyItemList}" var="item" varStatus="line">
-                                    <tr>
-                                        <td itemId="${item.id}">${line.count}</td>
-                                        <td>${item.code}</td>
-                                        <td>${item.name}</td>
-                                        <td class="opr-td"><a href="" class="del-row">删除</a></td>
-                                    </tr>
-                                </c:forEach>
-                                </tbody>
-                            </table>
-                            <button class="btn btn-small btn-primary add-row">+</button>
-                        </div>
+                            </c:if>
+                            <c:forEach items="${property.propertyItemList}" var="item" varStatus="line">
+                                <tr>
+                                    <td itemId="${item.id}">${line.count}</td>
+                                    <td>${item.code}</td>
+                                    <td>${item.name}</td>
+                                    <td class="opr-td"><a href="" class="del-row">删除</a></td>
+                                </tr>
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                        <button class="btn btn-small btn-primary add-row">+</button>
                     </div>
+                </div>
 
-                    <div class="button pull-right">
-                        <button class="btn btn-primary btn-commit">保存</button>
-                        <div class="space">
+                <div class="button pull-right">
+                    <button class="btn btn-primary btn-commit">保存</button>
+                    <div class="space">
 
-                        </div>
-                        <button class="btn btn-warning btn-cancel">取消</button>
                     </div>
-                </form>
+                    <button class="btn btn-warning btn-cancel">取消</button>
+                </div>
+            </form>
 
 
         </div>

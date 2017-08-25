@@ -12,14 +12,14 @@
     <meta name="author" content="">
 </head>
 <body>
-<%@ include file="../template/menu-top.jsp" %>
+<%--<%@ include file="../template/menu-top.jsp" %>--%>
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-0 col-md-2 sidebar menu-left">
-            <%@ include file="../template/menu-left.jsp" %>
-        </div>
-        <div class="col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-2 main" id="main">
+        <%--<div class="col-sm-0 col-md-2 sidebar menu-left">--%>
+        <%--<%@ include file="../template/menu-left.jsp" %>--%>
+        <%--</div>--%>
+        <div class="col-md-12 main" id="main">
             <%--<h1 class="page-header">Dashboard</h1>--%>
             <div class="page-header nav-path">
                 <ol class="breadcrumb">
@@ -29,41 +29,40 @@
             </div>
 
 
-                <table class="table table-bordered">
-                    <thead>
+            <table class="table table-bordered">
+                <thead>
+                <tr>
+                    <th><input type="checkbox" class="selectAll"></th>
+                    <th>属性名称</th>
+                    <th>编码</th>
+                    <th>描述</th>
+                    <th>序号</th>
+                    <th>属性状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach items="${pi.data}" var="property" varStatus="line">
                     <tr>
-                        <th><input type="checkbox" class="selectAll"></th>
-                        <th>属性名称</th>
-                        <th>编码</th>
-                        <th>描述</th>
-                        <th>序号</th>
-                        <th>属性状态</th>
-                        <th>操作</th>
+                        <td><input type="checkbox" objId="${property.id}"></td>
+                        <td>${property.name}</td>
+                        <td>${property.code}</td>
+                        <td>${property.description}</td>
+                        <td>${property.idx}</td>
+                        <td>${property.status == 0 ? "启用" : "禁用"}</td>
+                        <td>
+                            <a href="edit.do?id=${property.id}&type=detail" class="opr">详情</a>
+                            <a href="edit.do?id=${property.id}" class="opr">修改</a>
+                            <a href="javascript:del(${property.id})" class="opr">删除</a>
+                        </td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${pi.data}" var="property" varStatus="line">
-                        <tr>
-                            <td><input type="checkbox" objId="${property.id}"></td>
-                            <td>${property.name}</td>
-                            <td>${property.code}</td>
-                            <td>${property.description}</td>
-                            <td>${property.idx}</td>
-                            <td>${property.status == 0 ? "启用" : "禁用"}</td>
-                            <td>
-                                <a href="edit.do?id=${property.id}&type=detail" class="opr">详情</a>
-                                <a href="edit.do?id=${property.id}" class="opr">修改</a>
-                                <a href="javascript:del(${property.id})" class="opr">删除</a>
-                            </td>
-                        </tr>
-                    </c:forEach>
+                </c:forEach>
 
-                    </tbody>
-                </table>
+                </tbody>
+            </table>
 
 
-
-                <div class="after-table">
+            <div class="after-table">
                 <div class="pull-left form-inline">
                     <select class="form-control show-count">
                         <option value="10" <c:if test="${ pi.showCount == 10 }">selected</c:if>>10</option>

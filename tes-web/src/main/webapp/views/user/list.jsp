@@ -30,7 +30,7 @@
         <%--<div class="col-sm-0 col-md-2 sidebar menu-left">--%>
             <%--<%@ include file="../template/menu-left.jsp" %>--%>
         <%--</div>--%>
-        <div class="col-sm-12 col-sm-offset-0 col-md-10 main" id="main">
+        <div class="col-md-12 main" id="main">
             <%--<h1 class="page-header">Dashboard</h1>--%>
             <div class="page-header nav-path">
                 <ol class="breadcrumb">

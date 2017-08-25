@@ -16,14 +16,14 @@
 
 <body>
 
-<%@ include file="../template/menu-top.jsp" %>
+<%--<%@ include file="../template/menu-top.jsp" %>--%>
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-0 col-md-2 sidebar menu-left">
-            <%@ include file="../template/menu-left.jsp" %>
-        </div>
-        <div class="col-sm-12 col-sm-offset-0 col-md-10 col-md-offset-2 main" id="main">
+        <%--<div class="col-sm-0 col-md-2 sidebar menu-left">--%>
+        <%--<%@ include file="../template/menu-left.jsp" %>--%>
+        <%--</div>--%>
+        <div class="col-md-12 main" id="main">
             <%--<h1 class="page-header">Dashboard</h1>--%>
             <div class="page-header nav-path">
                 <ol class="breadcrumb">
@@ -32,7 +32,8 @@
                 </ol>
             </div>
             <div class="container-fluid">
-                <form class="form-horizontal col-md-8" method="post" action="register.do" data-toggle="validator" role="form">
+                <form class="form-horizontal col-md-8" method="post" action="register.do" data-toggle="validator"
+                      role="form">
 
                     <div class="form-group">
                         <label class="control-label col-md-2">姓名</label>
