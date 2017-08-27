@@ -174,25 +174,25 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="control-label col-md-2">是否百分制</label>
-                    <div class="col-md-10">
-                        <div class="switch" style="height:30px;">
-                            <input class="percentable form-control" data-on-color="info" data-off-color="warning"
-                                   type="checkbox" name="percentable"
-                                   data-on-text="是" data-off-text="否"
-                                   <c:if test="${paperPolicy.percentable == 0}">checked</c:if>
-                                   value="${paperPolicy.percentable}" onclick="this.checked?0:1"
-                                   style="height: 30px;">
-                        </div>
-                        <%--<input type="radio" value="" name="percentable">--%>
-                        <span class="help-block with-errors">试卷总分将按照满分100分折合最终的成绩</span>
-                    </div>
-                    <div class="radio inline">
+                <%--<div class="form-group">--%>
+                    <%--<label class="control-label col-md-2">是否百分制</label>--%>
+                    <%--<div class="col-md-10">--%>
+                        <%--<div class="switch" style="height:30px;">--%>
+                            <%--<input class="percentable form-control" data-on-color="info" data-off-color="warning"--%>
+                                   <%--type="checkbox" name="percentable"--%>
+                                   <%--data-on-text="是" data-off-text="否"--%>
+                                   <%--<c:if test="${paperPolicy.percentable == 0}">checked</c:if>--%>
+                                   <%--value="${paperPolicy.percentable}" onclick="this.checked?0:1"--%>
+                                   <%--style="height: 30px;">--%>
+                        <%--</div>--%>
+                        <%--&lt;%&ndash;<input type="radio" value="" name="percentable">&ndash;%&gt;--%>
+                        <%--<span class="help-block with-errors">试卷总分将按照满分100分折合最终的成绩</span>--%>
+                    <%--</div>--%>
+                    <%--<div class="radio inline">--%>
 
 
-                    </div>
-                </div>
+                    <%--</div>--%>
+                <%--</div>--%>
                 <div class="button pull-right">
                     <button type="button" class="btn btn-primary btn-commit save">保存</button>
                     <div class="space">

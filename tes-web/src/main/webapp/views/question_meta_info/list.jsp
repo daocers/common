@@ -17,7 +17,7 @@
 <div class="container-fluid">
     <div class="row">
         <%--<div class="col-sm-0 col-md-2 sidebar menu-left">--%>
-            <%--<%@ include file="../template/menu-left.jsp" %>--%>
+        <%--<%@ include file="../template/menu-left.jsp" %>--%>
         <%--</div>--%>
         <div class="col-md-12 main" id="main">
             <%--<h1 class="page-header">Dashboard</h1>--%>
@@ -27,8 +27,9 @@
                     <li><a href="#" class="active">题型管理</a></li>
                 </ol>
             </div>
+            <a href="/questionMetaInfo/edit.do" class="btn btn-primary btn-sm pull-right" style="margin-bottom: 10px;">新增题型</a>
 
-            <div class="table-responsive">
+            <div class="table table-responsive">
                 <table class="table table-bordered">
                     <thead>
                     <tr>

@@ -23,6 +23,11 @@ public class JedisClusterUtil {
     public static final Integer DAY_SECONDS = 60 * 60 * 24;
     public static final Integer HOUR_SECONDS = 60 * 60;
 
+    public static void main(String[] args) {
+        JedisCluster cluster = JedisClusterUtil.getJedisCluster();
+        cluster.set("name", "allen");
+        JedisClusterUtil.release(cluster);
+    }
 
     private static Set<HostAndPort> jedisClusterNodes;
     private static JedisPoolConfig config;

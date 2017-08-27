@@ -1,9 +1,9 @@
 package co.bugu.websocket.handler;
 
 import co.bugu.tes.model.Answer;
-import co.bugu.tes.model.Question;
+import co.bugu.tes.model.question.CommonQuestion;
 import co.bugu.tes.service.IAnswerService;
-import co.bugu.tes.service.IQuestionService;
+import co.bugu.tes.service.ICommonQuestionService;
 import co.bugu.websocket.MessageEnum;
 import co.bugu.websocket.WebSocketSessionUtil;
 import com.alibaba.fastjson.JSON;
@@ -28,7 +28,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
     private Logger logger = LoggerFactory.getLogger(WebSocketHandler.class);
 
     @Autowired
-    IQuestionService questionService;
+    ICommonQuestionService questionService;
     @Autowired
     IAnswerService answerService;
 
@@ -62,7 +62,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
         Integer type = jsonObject.getInteger("type");
         if(type == MessageEnum.GET_QUESTION.getType()){
             Integer questionId = jsonObject.getInteger("questionId");
-            Question question = questionService.findById(questionId);
+            CommonQuestion question = questionService.findById(questionId);
             if(question == null){
                 res.put("code", -1);
                 res.put("msg", "没有查到对应的题目");

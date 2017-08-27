@@ -19,7 +19,6 @@ public class User {
 
     private Integer status;
 
-    private Integer saasId;
 
     public Integer getId() {
         return id;
@@ -91,13 +90,5 @@ public class User {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public Integer getSaasId() {
-        return saasId;
-    }
-
-    public void setSaasId(Integer saasId) {
-        this.saasId = saasId;
     }
 }

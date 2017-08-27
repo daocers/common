@@ -8,11 +8,13 @@ import co.bugu.tes.service.IRoleService;
 import co.bugu.tes.service.IUserService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.codec.Base64;
 import org.apache.shiro.realm.AuthorizingRealm;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -100,6 +102,8 @@ public class TesReam extends AuthorizingRealm {
             //加密后的password
             password = Base64.encodeToString((password + user.getSalt()).getBytes());
             if (password.equals(userList.get(0).getPassword())) {
+                Session session = SecurityUtils.getSubject().getSession();
+                session.setAttribute("userId", userList.get(0).getId());
                 return new SimpleAuthenticationInfo(username, token.getPassword(), getName());
             }
         } else {

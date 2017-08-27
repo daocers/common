@@ -13,11 +13,14 @@
     <link href="../../assets/css/login/form.css" rel="stylesheet" type="text/css"/>
     <link href="../../assets/css/login/login-register.css" rel="stylesheet" type="text/css"/>
     <style type="text/css">
-        #rememberMe:focus{
+        #rememberMe:focus {
             border-color: dodgerblue;
         }
     </style>
     <script language="javascript">
+        if (window != top) {
+            top.location.href = location.href;
+        }
         var _tkd = _tkd || []; //点击量统计用
         var lang = [];
         var supporthttps = 1; //浏览器是否支持https
@@ -58,7 +61,8 @@
 <div class="header">
     <div class="nag">
         <div class="in">
-            <a href="/index.do"><img class="logo" width="40" height="40" src="../../assets/img/login/logo.png" alt="布谷培训"></a>
+            <a href="/index.do"><img class="logo" width="40" height="40" src="../../assets/img/login/logo.png"
+                                     alt="布谷培训"></a>
             <img class="slogen" width="180" height="25" src="../../assets/img/login/slogen.png" alt="在线考试就到布谷培训">
 
             <span class="gp" style="display:"></span>
@@ -119,10 +123,11 @@
                 <div class="lr_e">
                     <label><span class="err" style="display:none" id="username_err">请输入布谷科技帐号</span>帐号</label>
                     <div class="txt" style="z-index:9999;position:relative;">
-                        <input tabindex="1" class="ef" maxlength=100 id="username" name="username" type="text" autocomplete='off'
+                        <input tabindex="1" class="ef" maxlength=100 id="username" name="username" type="text"
+                               autocomplete='off'
                                placeholder="请输入员工号" value="${username}">
-                               <%--onkeyup="show_emaillist(this, event)"--%>
-                               <%--onkeydown="enterClickGetValue(event);--%>
+                        <%--onkeyup="show_emaillist(this, event)"--%>
+                        <%--onkeydown="enterClickGetValue(event);--%>
                         <div class="ul" style="display:none;top:40px" id="email_list">
                         </div>
                     </div>
@@ -148,7 +153,8 @@
                 <div class="lr_ok">
                     <a tabindex="5" class="a"
                        href="/user/forgetPassword.do">忘记密码？</a>
-                    <input tabIndex="4" type="checkbox" name="rememberMe" id="rememberMe" ${rememberMe == 0 ? "checked" : ""}>
+                    <input tabIndex="4" type="checkbox" name="rememberMe"
+                           id="rememberMe" ${rememberMe == 0 ? "checked" : ""}>
                     <label for="rememberMe">记住我</label>
                 </div>
                 <div class="btnbox">
@@ -187,10 +193,10 @@
         $("#login_btn").on("click", function () {
             var username = $("#username").val().trim();
             var password = $("#password").val().trim();
-            if(username == ""){
+            if (username == "") {
                 return false;
             }
-            if(password == ""){
+            if (password == "") {
                 return false;
             }
             $.ajax({
@@ -198,10 +204,10 @@
                 type: "post",
                 data: {username: username, password: password, rememberMe: $("#rememberMe").prop("checked") ? 0 : 1},
                 success: function (data) {
-                    if(data == 0){
+                    if (data == 0) {
                         //登陆成功，跳转页面
                         window.location.href = "/views/index.html";
-                    }else{
+                    } else {
                         $(".errbox").show();
                     }
 
@@ -210,7 +216,7 @@
                     //如果有验证码就修改验证码
                     console.log("登录失败")
                 }
-                
+
             })
         })
 

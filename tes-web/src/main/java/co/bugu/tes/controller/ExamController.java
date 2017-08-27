@@ -6,6 +6,7 @@ import co.bugu.framework.util.DateUtil;
 //import co.bugu.tes.annotation.Menu;
 import co.bugu.tes.enums.SceneStatus;
 import co.bugu.tes.model.*;
+import co.bugu.tes.model.question.CommonQuestion;
 import co.bugu.tes.service.*;
 import co.bugu.websocket.WebSocketSessionUtil;
 import com.alibaba.fastjson.JSON;
@@ -44,7 +45,7 @@ public class ExamController {
     @Autowired
     IPaperService paperService;
     @Autowired
-    IQuestionService questionService;
+    ICommonQuestionService questionService;
     @Autowired
     IQuestionMetaInfoService metaInfoService;
     @Autowired
@@ -93,6 +94,10 @@ public class ExamController {
         return "scene/list";
     }
 
+    /**
+     * 考试入口，输入授权码页面
+     * @return
+     */
     @RequestMapping("/index")
     public String index() {
         return "exam/index";
@@ -133,13 +138,12 @@ public class ExamController {
      * @param scene
      * @param model
      * @param request
-     * @param response
      * @return
      * @throws Exception
      */
 //    @Menu(value = "参加考试", isView = true)
     @RequestMapping("/exam")
-    public String toExam(Scene scene, ModelMap model, HttpServletRequest request, HttpServletResponse response, RedirectAttributes redirectAttributes) throws Exception {
+    public String toExam(Scene scene, ModelMap model, HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception {
         if (scene.getId() == null) {
             throw new Exception("非法操作,没有找到对应的场次");
         }
@@ -214,7 +218,7 @@ public class ExamController {
             model.put("timeLeft", leftMinute / 60 + "h" + leftMinute % 60 + "m" + "0s");
         }
 
-        Map<Integer, Question> questionMap = new HashMap<>();
+        Map<Integer, CommonQuestion> questionMap = new HashMap<>();
         List<Integer> idList = new ArrayList<>();
         String content = paper.getContent();
         Map map = JSON.parseObject(content, Map.class);
@@ -364,7 +368,7 @@ public class ExamController {
         JSONObject json = new JSONObject();
         json.put("code", 0);
         try {
-            Question question = questionService.findById(questionId);
+            CommonQuestion question = questionService.findById(questionId);
             if (question == null) {
                 json.put("code", -1);
                 json.put("msg", "没有查到对应的试题");

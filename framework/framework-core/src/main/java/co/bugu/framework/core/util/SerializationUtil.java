@@ -27,6 +27,9 @@ public class SerializationUtil {
     }
 
     public static <T> byte[] serialize(T obj) {
+        if(obj == null){
+            return null;
+        }
         Class<T> cls = (Class<T>) obj.getClass();
         LinkedBuffer buffer = LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE);
         try {
@@ -38,6 +41,9 @@ public class SerializationUtil {
     }
 
     public static <T> T deserialize(byte[] data, Class<T> cls) throws Exception {
+        if(data == null){
+            return null;
+        }
         T message = cls.newInstance();
         Schema<T> schema = getSchema(cls);
         ProtostuffIOUtil.mergeFrom(data, message, schema);

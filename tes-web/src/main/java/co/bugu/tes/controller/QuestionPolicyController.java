@@ -78,8 +78,14 @@ public class QuestionPolicyController {
                         for(String line: lines){
                             List<Integer> ids = JSON.parseArray(line, Integer.class);
                             for(int i = 0;i < ids.size() - 1; i++){
-                                buffer.append(map.get(ids.get(i)))
-                                        .append(", ");
+                                Integer metaInfoId = ids.get(i);
+                                if(metaInfoId != 0){
+                                    buffer.append(map.get(ids.get(i)))
+                                            .append(", ");
+                                }
+                            }
+                            if(buffer.length() == 0){
+                                buffer.append("随机 ");
                             }
                             buffer.append(ids.get(ids.size() - 1) + "题;  <br/>");
                         }

@@ -13,6 +13,7 @@
     <import resource="classpath:spring/spring-beans.xml"/>
     <import resource="classpath:spring/spring-shiro.xml"/>
     <import resource="classpath:spring/spring-datasource.xml"/>
+    <import resource="classpath:spring/spring-schedule.xml"/>
 
     <context:component-scan base-package="co.bugu.tes.service"/>
 </beans>

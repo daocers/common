@@ -70,7 +70,7 @@
                     <div class="col-md-10">
                         <div class="prop-container">
                             <c:forEach items="${propertyList}" var="property">
-                                <ul class="list-group col-md-3">
+                                <ul class="list-group col-md-3 col-sm-3 col-xs-3">
                                     <li class="list-group-item list-group-item-success">
                                         <div class="checkbox">
                                             <label>

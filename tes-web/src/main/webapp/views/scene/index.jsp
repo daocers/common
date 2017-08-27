@@ -152,8 +152,9 @@
         .bwizard-steps li {
             display: inline-block;
             position: relative;
-            margin-right: 5px;
+            /*margin-right: 5px;*/
             padding: 12px 17px 10px 30px;
+            border-left: 5px solid white;
             *display: inline;
             *padding-left: 17px;
             background: #efefef;
@@ -291,12 +292,12 @@
             <input type="hidden" id="choiceInfo" value="${scene.choiceInfo}">
 
             <div id="rootwizard">
-                <ul>
-                    <li><a href="#tab1" data-toggle="tab"><span class="label">1</span> 设置参数</a></li>
-                    <li><a href="#tab2" data-toggle="tab"><span class="label">2</span> 考生选择</a></li>
-                    <li><a href="#tab3" data-toggle="tab"><span class="label">3</span> 生成试卷</a></li>
-                    <li><a href="#tab4" data-toggle="tab"><span class="label">4</span> 场次预览</a></li>
-                    <li><a href="#tab5" data-toggle="tab"><span class="label">5</span> 开场完成</a></li>
+                <ul class="col-md-9">
+                    <li class="col-md-3"><a href="#tab1" data-toggle="tab"><span class="label">1</span> 设置参数</a></li>
+                    <li class="col-md-3"><a href="#tab2" data-toggle="tab"><span class="label">2</span> 考生选择</a></li>
+                    <li class="col-md-3"><a href="#tab3" data-toggle="tab"><span class="label">3</span> 生成试卷</a></li>
+                    <li class="col-md-3"><a href="#tab4" data-toggle="tab"><span class="label">4</span> 场次预览</a></li>
+                    <%--<li class="col-md-3"><a href="#tab5" data-toggle="tab"><span class="label">5</span> 开场完成</a></li>--%>
                 </ul>
                 <div class="tab-content">
                     <div class="tab-pane col-md-8" id="tab1" style="margin-left: -15px;">
@@ -384,60 +385,64 @@
                                 <div class="space">
 
                                 </div>
-                                <button class="btn btn-primary btn-commit" id="saveBase">下一步</button>
+                                <button class="btn btn-primary btn-commit" type="submit" id="saveBase">下一步</button>
 
                             </div>
                         </form>
                     </div>
                     <div class="tab-pane" id="tab2">
+                        <div class="col-md-9">
 
-                        <div class="form-inline form-group">
-                            <div class="input-group">
-                                <label class="input-group-addon">考试人员控制方式</label>
-                                <div>
-                                    <select class="form-control" id="userType" name="userType">
-                                        <option value="3" <c:if test="${scene.userType == 3}">selected</c:if>>设置授权码
-                                        </option>
-                                        <option value="2"
-                                                <c:if test="${scene.userType == 2}">selected</c:if> disabled>我的机构
-                                        </option>
-                                        <option value="0"
-                                                <c:if test="${scene.userType == 0}">selected</c:if> disabled>指定机构
-                                        </option>
-                                        <option value="1"
-                                                <c:if test="${scene.userType == 1}">selected</c:if> disabled>指定用户
-                                        </option>
-                                    </select>
+                            <div class="form-inline form-group">
+                                <div class="input-group">
+                                    <label class="input-group-addon">考试人员控制方式</label>
+                                    <div>
+                                        <select class="form-control" id="userType" name="userType">
+                                            <option value="3" <c:if test="${scene.userType == 3}">selected</c:if>>设置授权码
+                                            </option>
+                                            <option value="2"
+                                                    <c:if test="${scene.userType == 2}">selected</c:if> disabled>我的机构
+                                            </option>
+                                            <option value="0"
+                                                    <c:if test="${scene.userType == 0}">selected</c:if> disabled>指定机构
+                                            </option>
+                                            <option value="1"
+                                                    <c:if test="${scene.userType == 1}">selected</c:if> disabled>指定用户
+                                            </option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <span class="help-block with-errors hidden">如果考试人员较多，建议直接选择参考机构；如果少量人员考试，直接点击机构信息然后选择用户</span>
-                        <span class="help-block with-errors">【设置授权码】 用户录入授权码参与考试，适用于集中性的考试</span>
-                        <span class="help-block with-errors hidden">【我的机构】 我所在机构的用户均可参加，不包括下属机构</span>
-                        <span class="help-block with-errors hidden">【指定机构】 指定机构下的用户可参加，不包括下属机构</span>
-                        <span class="help-block with-errors hidden">【指定用户】 指定用户可参加，单击机构名称可查询用户信息，适用于少量用户考试</span>
+                            <span class="help-block with-errors hidden">如果考试人员较多，建议直接选择参考机构；如果少量人员考试，直接点击机构信息然后选择用户</span>
+                            <span class="help-block with-errors">【设置授权码】 用户录入授权码参与考试，适用于集中性的考试</span>
+                            <span class="help-block with-errors hidden">【我的机构】 我所在机构的用户均可参加，不包括下属机构</span>
+                            <span class="help-block with-errors hidden">【指定机构】 指定机构下的用户可参加，不包括下属机构</span>
+                            <span class="help-block with-errors hidden">【指定用户】 指定用户可参加，单击机构名称可查询用户信息，适用于少量用户考试</span>
 
-                        <div class="form-inline authBox">
-                            <div class="input-group">
-                                <label class="control-label input-group-addon">授权码</label>
-                                <input class="form-control" minlength="6" maxlength="6" name="authCode" id="authCode"
-                                       placeholder="请输入6位数字或字母组合" value="${scene.authCode}">
-                                <div class="input-group-btn">
-                                    <button class="btn btn-info" type="button">自动生成</button>
+                            <div class="form-inline authBox">
+                                <div class="input-group">
+                                    <label class="control-label input-group-addon">授权码</label>
+                                    <input class="form-control" minlength="6" maxlength="6" name="authCode"
+                                           id="authCode"
+                                           placeholder="请输入6位数字或字母组合" value="${scene.authCode}">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-info" type="button">自动生成</button>
 
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="button" style="margin-bottom: 50px; margin-top: 30px;">
-                            <button class="btn btn-warning btn-cancel" onclick="history.back();">取消</button>
+                            <div class="button" style="margin-bottom: 50px; margin-top: 30px;">
+                                <button class="btn btn-warning btn-cancel" onclick="history.back();">取消</button>
 
-                            <div class="space">
+                                <div class="space">
+
+                                </div>
+                                <button class="btn btn-primary btn-commit" id="saveAuthCode">下一步</button>
 
                             </div>
-                            <button class="btn btn-primary btn-commit" id="saveAuthCode">下一步</button>
-
                         </div>
+
                     </div>
 
                     <div class="tab-pane" id="tab3">
@@ -452,9 +457,6 @@
                                                    style="margin-right: 15px;">选择题库</label>
                                             <select class="form-control" name="bankId" required>
                                                 <option value="">--请选择--</option>
-                                                <option value="0"
-                                                        <c:if test="scene.bankId == 0">selected</c:if>>不限
-                                                </option>
                                                 <c:forEach items="${bankList}" var="bank">
                                                     <option value="${bank.id}"
                                                             <c:if test="${scene.bankId == bank.id}">selected</c:if>>${bank.name}</option>
@@ -533,8 +535,8 @@
                                     <input id="policy" class="form-control" readonly value="${policyName}" type="text">
                                 </div>
                                 <div class="form-group">
-                <textarea id="content" class="form-control" rows="10" readonly
-                          style="background-color: beige"> </textarea>
+                                    <textarea id="content" class="form-control" rows="10" readonly
+                                              style="background-color: beige"> </textarea>
                                 </div>
                                 <div class="input-group">
                                     <div class="input-group-btn">
@@ -551,86 +553,73 @@
                         </div>
                     </div>
                     <div class="tab-pane" id="tab4">
-                        <form action="confirm.do" method="post">
-                            <div id="preview-box">
-                                <table class="table table-responsive table-bordered preview">
-                                    <thead>基本信息</thead>
-                                    <tbody>
-                                    <tr>
-                                        <td class="col-md-2">名称</td>
-                                        <td class="col-md-4">${scene.name}</td>
-                                        <td class="col-md-2">编号</td>
-                                        <td class="col-md-4">${scene.code}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>开始时间</td>
-                                        <td><fmt:formatDate value="${scene.beginTime}"
-                                                            pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                                        <td>结束时间</td>
-                                        <td><fmt:formatDate value="${scene.endTime}"
-                                                            pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td>顺延时间（分）</td>
-                                        <td>${scene.delay}</td>
-                                        <td>考试时长（分）</td>
-                                        <td>${scene.duration}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>授权码</td>
-                                        <td>${scene.authCode}</td>
-                                        <td>是否允许换卷</td>
-                                        <td>${scene.changePaper == 0 ? "是" : "否"}</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-
-                                <table class="table table-responsive table-bordered preview">
-                                    <thead>
-                                    试卷策略信息
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td class="col-md-2">策略名称</td>
-                                        <td colspan="3">${paperPolicy.name}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-md-2">题量</td>
-                                        <td class="col-md-4">${paperPolicy.count}</td>
-                                        <td class="col-md-2">总分</td>
-                                        <td class="col-md-4">${paperPolicy.score}</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="col-md-2">策略明细</td>
-                                        <td colspan="3">${paperPolicy.content}</td>
-                                    </tr>
-                                    </tbody>
-
-                                </table>
-                            </div>
-
-                            <div class="button">
-                                <button type="button" class="btn btn-warning" onclick="history.back();">取消</button>
-                                <div class="space">
-
-                                </div>
-                                <button class="btn btn-success" type="button" id="confirm">确定,开场</button>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="tab-pane" id="tab5">
                         <div class="col-md-8">
-                            <div class="center-block" style="display: none;" id="success-box">
-                                <img src="/assets/img/success.png" height="150px" width="150px" class="img-circle">
-                                <h3>恭喜，开场成功！</h3>
-                                <a href="list.do?type=my" class="btn btn-success">确定</a>
-                            </div>
-                            <div class="center-block" style="display: none;" id="error-box">
-                                <img src="/assets/img/error.png" height="150px" width="150px" class="img-cricle">
-                                <h3>抱歉，开场失败！</h3>
-                                <h4 id="errMsg"></h4>
-                                <a href="#" class="btn btn-info">场次管理</a>
-                            </div>
+                            <form action="confirm.do" method="post">
+                                <div id="preview-box">
+                                    <table class="table table-responsive table-bordered preview">
+                                        <thead>基本信息</thead>
+                                        <tbody>
+                                        <tr>
+                                            <td class="col-md-2">名称</td>
+                                            <td class="col-md-4">${scene.name}</td>
+                                            <td class="col-md-2">编号</td>
+                                            <td class="col-md-4">${scene.code}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>开始时间</td>
+                                            <td><fmt:formatDate value="${scene.beginTime}"
+                                                                pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                                            <td>结束时间</td>
+                                            <td><fmt:formatDate value="${scene.endTime}"
+                                                                pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                                        </tr>
+                                        <tr>
+                                            <td>顺延时间（分）</td>
+                                            <td>${scene.delay}</td>
+                                            <td>考试时长（分）</td>
+                                            <td>${scene.duration}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>授权码</td>
+                                            <td>${scene.authCode}</td>
+                                            <td>是否允许换卷</td>
+                                            <td>${scene.changePaper == 0 ? "是" : "否"}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-responsive table-bordered preview">
+                                        <thead>
+                                        试卷策略信息
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td class="col-md-2">策略名称</td>
+                                            <td colspan="3">${paperPolicy.name}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-md-2">题量</td>
+                                            <td class="col-md-4">${paperPolicy.count}</td>
+                                            <td class="col-md-2">总分</td>
+                                            <td class="col-md-4">${paperPolicy.score}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-md-2">策略明细</td>
+                                            <td colspan="3">${paperPolicy.content}</td>
+                                        </tr>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+
+                                <div class="button">
+                                    <button type="button" class="btn btn-warning" onclick="history.back();">取消</button>
+                                    <div class="space">
+
+                                    </div>
+                                    <button class="btn btn-success" type="button" id="confirm">确定,开场</button>
+                                </div>
+                            </form>
                         </div>
 
                     </div>
@@ -641,6 +630,7 @@
     </div>
 </div>
 
+<script src="/assets/js/h+util.js"></script>
 <script>
 
     /**
@@ -661,10 +651,27 @@
         }
     })
 
-    /**
-     * 初始化开关键
-     * */
+
     $(function () {
+        /**
+         *  判断能否新开场（有场次待完善不可开场）
+         * */
+
+        var err = $("#err").text().trim();
+        if (err && err != '') {
+            swal("", err, "error").then(function () {
+                var url = "/scene/list/mine.do";
+                openTab(url);
+                locateTab(url);
+                removeTab("/scene/index.do");
+            })
+            return false;
+        }
+
+
+        /**
+         * 初始化开关键
+         * */
         $(".change-paper").bootstrapSwitch({
             onSwitchChange: function (event, state) {
                 if (state == true) {
@@ -704,13 +711,11 @@
      * 保存基本信息
      * */
     $("#saveBase").on("click", function () {
-        console.log("form info: ", $("#sceneForm").serialize());
         var id = $("#id").val();
         var idInfo = "";
-        if(id){
+        if (id) {
             idInfo = "&id=" + id;
         }
-        $(this).validate();
         $.ajax({
             url: '/scene/save.do',
             type: 'post',
@@ -888,20 +893,16 @@
             success: function (data) {
                 var res = JSON.parse(data);
                 if (res.code == 0) {
-                    $("#success-box").show();
-                    $("#error-box").hide();
+                    swal("开场成功", "", "success")
                 } else {
                     var err = res.err;
-                    $("#success-box").hide();
-                    $("#error-box").show();
-                    $("#errmsg").text(err);
+                    swal("开场失败", err, "error");
                 }
-                $("#rootwizard").bootstrapWizard('next');
+                openTab("/scene/list/mine.do");
+                re
             },
             error: function (data) {
-                swal("", "开场失败", "error");
-                $("#success-box").hide();
-                $("#error-box").hide();
+                swal("开场失败", "", "error");
             }
         });
         return false;

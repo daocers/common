@@ -28,6 +28,7 @@
                 </ol>
             </div>
 
+            <a href="/property/edit.do" class="btn btn-sm btn-primary pull-right" style="margin-bottom: 10px;">新增试题属性</a>
 
             <table class="table table-bordered">
                 <thead>

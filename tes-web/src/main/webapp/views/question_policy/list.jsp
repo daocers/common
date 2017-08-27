@@ -57,6 +57,8 @@
                 <button class="btn btn-default btn-sm" type="reset" value="reset">重置</button>
                 <button class="btn btn-info btn-sm">查询</button>
 
+                <a href="/questionPolicy/edit.do" class="btn btn-warning btn-sm">新增试题策略</a>
+
             </form>
             <table class="table table-bordered">
                 <thead>

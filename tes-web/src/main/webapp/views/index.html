@@ -84,9 +84,6 @@
 
                 </li>
                 <li>
-                    <a class="J_menuItem" href="layouts.html"><i class="fa fa-columns"></i> <span class="nav-label">基础信息管理</span></a>
-                </li>
-                <li>
                     <a href="#">
                         <i class="fa fa fa-bar-chart-o"></i>
                         <span class="nav-label">基础信息管理</span>
@@ -103,13 +100,13 @@
                             <a class="J_menuItem" href="/station/list.do">岗位管理</a>
                         </li>
                         <li>
-                            <a class="J_menuItem" href="graph_rickshaw.html">Rickshaw</a>
+                            <a class="J_menuItem" href="/questionMetaInfo/list.do">题型管理</a>
                         </li>
                         <li>
-                            <a class="J_menuItem" href="graph_peity.html">Peity</a>
+                            <a class="J_menuItem" href="/questionBank/list.do">题库管理</a>
                         </li>
                         <li>
-                            <a class="J_menuItem" href="graph_sparkline.html">Sparkline</a>
+                            <a class="J_menuItem" href="/property/list.do">试题属性管理</a>
                         </li>
                         <li>
                             <a class="J_menuItem" href="graph_metrics.html">图表组合</a>
@@ -123,13 +120,13 @@
                     <ul class="nav nav-second-level">
                         <li><a class="J_menuItem" href="/commonQuestion/list.do">知识类试题</a>
                         </li>
-                        <li><a class="J_menuItem" href="/commonQuestion/edit.do">单选添加</a>
+                        <li><a class="J_menuItem" href="/commonQuestion/edit.do?type=single">单选添加</a>
                         </li>
-                        <li><a class="J_menuItem" href="/commonQuestion/edit.do">不定项选择添加</a>
+                        <li><a class="J_menuItem" href="/commonQuestion/edit.do?type=multi">不定项选择添加</a>
                         </li>
-                        <li><a class="J_menuItem" href="/commonQuestion/edit.do">判断题添加</a>
+                        <li><a class="J_menuItem" href="/commonQuestion/edit.do?type=judge">判断题添加</a>
                         </li>
-                        <li><a class="J_menuItem" href="/commonQuestion/batchAdd.do">批量添加</a>
+                        <li><a class="J_menuItem" href="/commonQuestion/batchAdd.do">批量添加试题</a>
                         </li>
                     </ul>
                 </li>
@@ -179,7 +176,7 @@
                     <a href="#"><i class="fa fa-desktop"></i> <span class="nav-label">场次管理</span><span
                             class="fa arrow"></span></a>
                     <ul class="nav nav-second-level">
-                        <li><a class="J_menuItem" href="/scene/list/my.do">我开场的</a>
+                        <li><a class="J_menuItem" href="/scene/list/mine.do">我开场的</a>
                         </li>
                         <li><a class="J_menuItem" href="/scene/list/join.do">我参加的</a>
                         </li>
@@ -266,6 +263,19 @@
                         <li><a class="J_menuItem" href="500.html">500页面</a>
                         </li>
                         <li><a class="J_menuItem" href="empty_page.html">空白页</a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="mailbox.html"><i class="fa fa-envelope"></i> <span class="nav-label">考试中心 </span><span
+                            class="label label-warning pull-right">16</span></a>
+                    <ul class="nav nav-second-level">
+                        <li><a class="J_menuItem" href="/exam/index.do">我要考试</a>
+                        </li>
+                        <li><a class="J_menuItem" href="">人工阅卷</a>
+                        </li>
+                        <li><a class="J_menuItem" href="">成绩查询</a>
                         </li>
                     </ul>
                 </li>
@@ -963,6 +973,7 @@
 <script src="/assets-h/js/hplus.min.js?v=4.1.0"></script>
 <script type="text/javascript" src="/assets-h/js/contabs.min.js"></script>
 <script src="/assets-h/js/plugins/pace/pace.min.js"></script>
+
 </body>
 
 

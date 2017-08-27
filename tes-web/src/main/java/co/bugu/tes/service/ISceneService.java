@@ -31,4 +31,11 @@ public interface ISceneService extends IBaseService<Scene> {
 
     List<Scene> selectJoinedByUserId(Integer userId);
 
+    /**
+     * 场次状态修改为已开始
+     * @param scene
+     * @return
+     */
+    int changeStatusToBegin(Scene scene);
+
 }

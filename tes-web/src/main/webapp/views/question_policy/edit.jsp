@@ -106,7 +106,7 @@
                                                 <td>
                                                         <%--${idx.count}--%>
                                                     <select class="form-control form-control-intable">
-                                                        <option value="">请选择</option>
+                                                        <option value="0">请选择</option>
                                                         <c:forEach var="item" items="${property.propertyItemList}"
                                                                    varStatus="idx1">
                                                             <option value="${item.id}"
@@ -193,7 +193,7 @@
 
 
     })
-    /*
+    /**
      * 根据输入情况，改变表格中信息
      * */
     $(document).on('input propertychange', "input.want", function () {
@@ -392,7 +392,7 @@
                     $.each(json, function (idx, e) {
                         tmp = "<td><select class='form-control form-control-intable' name='" + e.id + "'> ";
                         builder += tmp;
-                        builder += "<option value=''>请选择</option>"
+                        builder += "<option value='0'>请选择</option>"
                         $.each(e.propertyItemList, function (idx1, e1) {
                             tmp = "<option value='" + e1.id + "'>" + e1.name + "</option>";
                             builder += tmp;

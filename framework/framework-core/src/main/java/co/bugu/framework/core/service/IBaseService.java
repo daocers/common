@@ -2,7 +2,9 @@ package co.bugu.framework.core.service;
 
 
 import co.bugu.framework.core.dao.PageInfo;
+import co.bugu.framework.core.exception.TesJedisException;
 
+import java.io.IOException;
 import java.util.List;
 
 /**

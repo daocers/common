@@ -350,4 +350,12 @@
         from scene WHERE id in (SELECT DISTINCT scene_id from paper where user_id = #{userId})
     </select>
 
+
+    <select id="selectReadyScene" resultMap="SceneMap" parameterType="co.bugu.tes.model.Scene">
+        select id, status from scene where status = #{status} and begin_time <![CDATA[ < ]]> #{beginTime}
+    </select>
+
+    <update id="changeStatusToBegin" parameterType="co.bugu.tes.model.Scene">
+        update scene set status = 2 where status = #{status} and begin_time <![CDATA[ < ]]> #{beginTime};
+    </update>
 </mapper>

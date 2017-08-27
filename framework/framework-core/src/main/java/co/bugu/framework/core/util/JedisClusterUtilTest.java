@@ -3,54 +3,62 @@ package co.bugu.framework.core.util;
 import co.bugu.framework.core.exception.TesJedisException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import redis.clients.jedis.Jedis;
+import redis.clients.jedis.HostAndPort;
+import redis.clients.jedis.JedisCluster;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 /**
- * Created by user on 2017/5/17.
+ * Created by user on 2017/08/02.
+ * redis集群下使用
  */
-public class JedisUtil {
-    private static Logger logger = LoggerFactory.getLogger(JedisUtil.class);
+public class JedisClusterUtilTest {
+    private static Logger logger = LoggerFactory.getLogger(JedisClusterUtilTest.class);
 
     public static final Integer MONTH_SECONDS = 60 * 60 * 24 * 30;
     public static final Integer WEEK_SECONDS = 60 * 60 * 24 * 7;
     public static final Integer DAY_SECONDS = 60 * 60 * 24;
     public static final Integer HOUR_SECONDS = 60 * 60;
 
-    private static JedisPool pool;
+    public static void main(String[] args) {
+        JedisCluster cluster = JedisClusterUtilTest.getJedisCluster();
+        cluster.set("name", "allen");
+        JedisClusterUtilTest.release(cluster);
+    }
+
+    private static Set<HostAndPort> jedisClusterNodes;
+    private static JedisPoolConfig config;
+
 
     static {
-        InputStream inputStream = JedisPool.class.getClassLoader().getResourceAsStream("conf/redis.properties");
-        Properties properties = new Properties();
-        try {
-            properties.load(inputStream);
-        } catch (IOException e) {
-            logger.error("[redis配置文件加载失败]", e);
-        }
 
         try {
-            JedisPoolConfig config = new JedisPoolConfig();
-            config.setMaxIdle(Integer.parseInt(properties.getProperty("redis.maxIdle")));
-            config.setMaxTotal(Integer.parseInt(properties.getProperty("redis.maxTotal")));
-            config.setMaxWaitMillis(Integer.parseInt(properties.getProperty("redis.maxWaitMillis")));
+            config = new JedisPoolConfig();
+            config.setMaxIdle(10);
+            config.setMaxTotal(100);
+            config.setMaxWaitMillis(300);
+            config.setTestOnBorrow(true);
 
-            String nodeInfo = properties.getProperty("redis.clusterNodes");
-            String[] nodes = nodeInfo.split(";");
-            if (nodes.length > 0) {
-                String[] item = nodes[0].split(":");
-                String host = item[0];
-                Integer port = Integer.parseInt(item[1]);
-                pool = new JedisPool(config, host, port,
-                        Integer.parseInt(properties.getProperty("redis.timeout", "5000")),
-                        properties.getProperty("redis.password"),
-                        Integer.parseInt(properties.getProperty("redis.db")));
+//            redis集群的节点集合
+            jedisClusterNodes = new HashSet<>();
+            String nodeInfo = "114.215.142.252:6379";
+            String[] nodeList = nodeInfo.trim().split(",");
+
+            if (nodeList.length > 0) {
+                for (String node : nodeList) {
+                    String[] item = node.split(":");
+                    String ip = item[0];
+                    Integer port = Integer.parseInt(item[1]);
+                    jedisClusterNodes.add(new HostAndPort(ip, port));
+                }
             } else {
-                throw new TesJedisException("redis.clusterNodes配置异常，请检查！");
+                throw new TesJedisException("初始化jedis异常, redis.clusterNodes参数配置有误，需要配置集群");
             }
         } catch (TesJedisException e) {
             logger.error("初始化异常", e);
@@ -60,11 +68,15 @@ public class JedisUtil {
     /**
      * 释放资源
      *
-     * @param jedis
+     * @param jedisCluster
      */
-    public static void release(Jedis jedis) {
-        if (jedis != null) {
-            jedis.close();
+    public static void release(JedisCluster jedisCluster) {
+        if (jedisCluster != null) {
+            try {
+                jedisCluster.close();
+            } catch (IOException e) {
+                logger.error("redis cluster 释放失败", e);
+            }
         }
     }
 
@@ -73,28 +85,12 @@ public class JedisUtil {
      *
      * @return
      */
-    public static Jedis getJedis() {
-        if (pool != null) {
-            Jedis Jedis = pool.getResource();
-            return Jedis;
-        } else {
-            return null;
-        }
-    }
-
-    /**
-     * 删除指定的key
-     * @param key
-     * @return
-     */
-    public static Long delKey(String key){
-        Jedis jedis = null;
-        try{
-            jedis = getJedis();
-            return jedis.del(key);
-        }finally {
-            jedis.close();
-        }
+    public static JedisCluster getJedisCluster() {
+        /**
+         * 节点，超时时间、最多重定向次数，连接池
+         * */
+        JedisCluster jedisCluster = new JedisCluster(jedisClusterNodes, 2000, 100, config);
+        return jedisCluster;
     }
 
 
@@ -115,11 +111,6 @@ public class JedisUtil {
         }
     }
 
-    public static String getKey(Integer id, Object obj){
-        String key = obj.getClass().getName() + "_" + id;
-        return key;
-    }
-
     /**
      * 获取缓存过期的时间
      * 默认为一个月
@@ -136,6 +127,8 @@ public class JedisUtil {
         }
         return expireSeconds;
     }
+
+
 /**===========================================*/
     /**
      * key 操作
@@ -151,15 +144,15 @@ public class JedisUtil {
      * @param seconds 超时时间
      */
     public static void setObject(String key, Object object, Integer... seconds) throws IOException {
-        Jedis jedis = null;
+        JedisCluster jedisCluster = null;
 
 
         try {
-            jedis = getJedis();
+            jedisCluster = getJedisCluster();
             byte[] bytes = SerializationUtil.serialize(object);
-            jedis.setex(key.getBytes("utf-8"), getExpireSeconds(seconds), bytes);
+            jedisCluster.setex(key.getBytes("utf-8"), getExpireSeconds(seconds), bytes);
         } finally {
-            release(jedis);
+            release(jedisCluster);
         }
     }
 
@@ -174,13 +167,13 @@ public class JedisUtil {
      * @throws TesJedisException
      */
     public static void setObject(Object object, Integer... seconds) throws IOException, TesJedisException {
-        Jedis jedis = null;
+        JedisCluster jedisCluster = null;
         try {
             byte[] bytes = SerializationUtil.serialize(object);
-            jedis = getJedis();
-            jedis.setex(getKey(object).getBytes("utf-8"), getExpireSeconds(seconds), bytes);
+            jedisCluster = getJedisCluster();
+            jedisCluster.setex(getKey(object).getBytes("utf-8"), getExpireSeconds(seconds), bytes);
         } finally {
-            release(jedis);
+            release(jedisCluster);
         }
     }
 
@@ -196,13 +189,13 @@ public class JedisUtil {
      * @return
      */
     public static <T> T getObject(String key, Class<T> clazz) throws Exception {
-        Jedis jedis = null;
+        JedisCluster jedisCluster = null;
         try {
-            jedis = getJedis();
-            byte[] res = jedis.get(key.getBytes("utf-8"));
+            jedisCluster = getJedisCluster();
+            byte[] res = jedisCluster.get(key.getBytes("utf-8"));
             return SerializationUtil.deserialize(res, clazz);
         } finally {
-            release(jedis);
+            release(jedisCluster);
         }
     }
 
@@ -215,25 +208,28 @@ public class JedisUtil {
      * @return
      */
     public static <T> T getObject(Integer id, Class<T> clazz) throws Exception {
-        Jedis jedis = null;
+        JedisCluster jedisCluster = null;
         try {
-            jedis = getJedis();
+            jedisCluster = getJedisCluster();
             String key = clazz.getName() + "_" + id;
-            byte[] res = jedis.get(key.getBytes("utf-8"));
+            byte[] res = jedisCluster.get(key.getBytes("utf-8"));
             return SerializationUtil.deserialize(res, clazz);
         } finally {
-            release(jedis);
+            release(jedisCluster);
         }
     }
 
+
     public static void delObject(Object record) throws TesJedisException {
-        Jedis jedis = null;
+        JedisCluster jedisCluster = null;
         try {
-            jedis = getJedis();
+            jedisCluster = getJedisCluster();
             String key = getKey(record);
-            jedis.del(key);
+            jedisCluster.del(key);
         } finally {
-            release(jedis);
+            release(jedisCluster);
+
         }
     }
+
 }

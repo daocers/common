@@ -2,16 +2,17 @@ package co.bugu.tes.controller;
 
 import co.bugu.framework.core.dao.PageInfo;
 import co.bugu.framework.core.mybatis.SearchParamUtil;
+import co.bugu.framework.core.util.ShiroSessionUtil;
 import co.bugu.framework.util.ExcelUtil;
 import co.bugu.framework.util.JsonUtil;
 import co.bugu.framework.util.exception.TesException;
 import co.bugu.tes.model.Property;
-import co.bugu.tes.model.Question;
 import co.bugu.tes.model.QuestionBank;
 import co.bugu.tes.model.QuestionMetaInfo;
+import co.bugu.tes.model.question.CommonQuestion;
 import co.bugu.tes.service.IQuestionBankService;
 import co.bugu.tes.service.IQuestionMetaInfoService;
-import co.bugu.tes.service.IQuestionService;
+import co.bugu.tes.service.ICommonQuestionService;
 import co.bugu.tes.util.QuestionMetaInfoUtil;
 import co.bugu.tes.util.QuestionUtil;
 import com.alibaba.fastjson.JSON;
@@ -39,7 +40,7 @@ import java.util.regex.Pattern;
 @RequestMapping("/commonQuestion")
 public class CommonQuestionController {
     @Autowired
-    IQuestionService questionService;
+    ICommonQuestionService questionService;
 
     @Autowired
     IQuestionMetaInfoService questionMetaInfoService;
@@ -60,14 +61,14 @@ public class CommonQuestionController {
      */
 //    @Menu(value = "试题列表", isView = true)
     @RequestMapping(value = "/list")
-    public String list(Question question, Integer curPage, Integer showCount, ModelMap model, HttpServletRequest request) {
+    public String list(CommonQuestion question, Integer curPage, Integer showCount, ModelMap model, HttpServletRequest request) {
         try {
             /**
              * 添加查询条件
              * LK_**, EQ_***等
              * */
             SearchParamUtil.processSearchParam(question, request);
-            PageInfo<Question> pageInfo = new PageInfo<>(showCount, curPage);
+            PageInfo<CommonQuestion> pageInfo = new PageInfo<>(showCount, curPage);
             pageInfo = questionService.findByObject(question, pageInfo);
             model.put("pi", pageInfo);
             model.put("question", question);
@@ -89,7 +90,7 @@ public class CommonQuestionController {
             logger.error("获取列表失败", e);
             model.put("errMsg", "获取列表失败");
         }
-        return "question/list";
+        return "common_question/list";
     }
 
     /**
@@ -104,7 +105,7 @@ public class CommonQuestionController {
     public String toEdit(Integer id, ModelMap model) {
         try {
             if (id != null) {
-                Question question = questionService.findById(id);
+                CommonQuestion question = questionService.findById(id);
                 QuestionMetaInfo metaInfo = questionMetaInfoService.findById(question.getMetaInfoId());
                 if (metaInfo == null) {
                     model.put("err", "没有对应的题型");
@@ -140,7 +141,7 @@ public class CommonQuestionController {
             logger.error("获取信息失败", e);
             model.put("errMsg", "获取信息失败");
         }
-        return "question/edit";
+        return "common_question/edit";
     }
 
     /**
@@ -152,7 +153,7 @@ public class CommonQuestionController {
      */
 //    @Menu(value = "保存试题")
     @RequestMapping(value = "/save", method = RequestMethod.POST)
-    public String save(Question question, ModelMap model) {
+    public String save(CommonQuestion question, ModelMap model) {
         try {
             List<Map<String, Integer>> xList = new ArrayList<>();
             List<Integer> itemList = JSON.parseArray(question.getPropItemIdInfo(), Integer.class);
@@ -169,7 +170,7 @@ public class CommonQuestionController {
             logger.error("保存失败", e);
             model.put("question", question);
             model.put("errMsg", "保存失败");
-            return "question/edit";
+            return "common_question/edit";
         }
         return "redirect:list.do";
     }
@@ -183,9 +184,9 @@ public class CommonQuestionController {
 //    @Menu(value = "获取全部试题")
     @RequestMapping(value = "/listAll")
     @ResponseBody
-    public String listAll(Question question) {
+    public String listAll(CommonQuestion question) {
         try {
-            List<Question> list = questionService.findByObject(question);
+            List<CommonQuestion> list = questionService.findByObject(question);
             return JsonUtil.toJsonString(list);
         } catch (Exception e) {
             logger.error("获取全部列表失败", e);
@@ -203,7 +204,7 @@ public class CommonQuestionController {
 //    @Menu(value = "删除试题")
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public String delete(Question question) {
+    public String delete(CommonQuestion question) {
         try {
             questionService.delete(question);
             return "0";
@@ -250,7 +251,7 @@ public class CommonQuestionController {
             logger.error("批量导入试题，获取题型信息失败", e);
             model.put("errMsg", "获取题型信息失败");
         }
-        return "question/import";
+        return "common_question/import";
     }
 
 
@@ -308,14 +309,14 @@ public class CommonQuestionController {
             }
 
             data.remove(0);//删除标题
-            List<Question> questions = new ArrayList<>();
+            List<CommonQuestion> questions = new ArrayList<>();
             List<List<Integer>> propItemIds = new ArrayList<>();
             String regex = "^([A-Z]|[a-z])([:：])\\s*";
             Pattern pattern = Pattern.compile(regex);
             int num = 1;
             for (List<String> line : data) {
                 num++;
-                Question question = new Question();
+                CommonQuestion question = new CommonQuestion();
                 question.setTitle(line.get(indexInfo.get("title")));
                 question.setAnswer(line.get(indexInfo.get("answer")));
                 int i = indexInfo.get("item");
@@ -349,7 +350,7 @@ public class CommonQuestionController {
                 question.setContent(JSON.toJSONString(list));
                 question.setMetaInfoId(metaInfoId);
                 question.setQuestionBankId(questionBankId);
-                questions.add(question);
+                question.setCreateTime(new Date());
                 List<Integer> propItemId = new ArrayList<>();
                 for (Integer id : propIndexList) {
                     String idStr = line.get(id);
@@ -359,7 +360,9 @@ public class CommonQuestionController {
                 }
                 propItemIds.add(propItemId);
                 question.setExtraInfo("");
+                question.setCreateUserId(ShiroSessionUtil.getUserId());
                 question.setPropItemIdInfo(JSON.toJSONString(propItemId));
+                questions.add(question);
             }
             try {
                 int count = questionService.batchAdd(questions, propItemIds);
@@ -400,13 +403,13 @@ public class CommonQuestionController {
     @RequestMapping(value = "/{action}", method = RequestMethod.GET)
     public String answerOrShow(@PathVariable("action") String action, Integer id, ModelMap model) {
         try {
-            Question question = questionService.findById(id);
+            CommonQuestion question = questionService.findById(id);
             model.put("question", question);
         } catch (Exception e) {
             logger.error("操作：{}， id：{}, 失败", new String[]{action, id + ""}, e);
             model.put("errMsg", "失败");
         }
-        return "question/" + action;
+        return "common_question/" + action;
 
     }
 
@@ -421,27 +424,20 @@ public class CommonQuestionController {
 //    @Menu(value = "")
     @RequestMapping(value = "/getCount", method = RequestMethod.GET)
     @ResponseBody
-    public String getCountByPropItemId(String propId, Integer metaId) {
+    public String getCountByPropItemId(String propId, @RequestParam Integer metaId, Integer bankId) {
         try {
-//            Set<String> keys = JedisUtil.keysLike(Constant.METAINFO_PROP_COUNT + "*");
-//            if(keys == null || keys.size() == 0){
-//                initQuestion();
-//            }
-//            List<Integer> idList = JSON.parseArray(propId, Integer.class);
-//            String itemInfo = arrToString(idList);
-//            String key = Constant.METAINFO_PROP_COUNT + metaId + "_" +itemInfo;
-//            String res = JedisUtil.get(key);
-//            if(res == null){
-//                return  "0";
-//            }else{
-//                return res;
-//            }
-            List<Integer> ids = JSON.parseArray(propId, Integer.class);
-//            Integer[] keys = new Integer[ids.size()];
-//            for(int i = 0; i < ids.size(); i++){
-//                keys[i] = ids.get(i);
-//            }
-            return questionService.getCountByPropItemId(metaId, null, ids) + "";
+            long count = 0;
+            if (bankId == null) {
+                count = QuestionUtil.getCountByMetaInfo(metaId);
+            } else {
+                if (StringUtils.isEmpty(propId)) {
+                    count = QuestionUtil.getCountByMetaInfoAndBank(metaId, bankId);
+                } else {
+                    List<Integer> ids = JSON.parseArray(propId, Integer.class);
+                    count = questionService.getCountByMetaInfoAndBankAndAttr(metaId, bankId, ids);
+                }
+            }
+            return count + "";
         } catch (Exception e) {
             logger.error("获取指定属性的试题数量失败", e);
             return "-1";
@@ -455,11 +451,11 @@ public class CommonQuestionController {
      */
     private void initQuestion() throws TesException {
         try {
-            PageInfo<Question> pageInfo = new PageInfo<>(100, 1);
+            PageInfo<CommonQuestion> pageInfo = new PageInfo<>(100, 1);
             questionService.findByObject(null, pageInfo);
             while (pageInfo.getData().size() == 100) {
-                List<Question> questions = pageInfo.getData();
-                for (Question question : questions) {
+                List<CommonQuestion> questions = pageInfo.getData();
+                for (CommonQuestion question : questions) {
                     QuestionUtil.updateCacheAfterUpdate(question);
                 }
                 pageInfo.setCurPage(pageInfo.getCurPage() + 1);
@@ -561,11 +557,11 @@ public class CommonQuestionController {
     @RequestMapping(value = "/updateCache", method = RequestMethod.POST)
     @ResponseBody
     public String updateCache() throws Exception {
-        PageInfo<Question> pageInfo = new PageInfo<>(100, 1);
+        PageInfo<CommonQuestion> pageInfo = new PageInfo<>(100, 1);
         questionService.findByObject(null, pageInfo);
         while (pageInfo.getData() != null && pageInfo.getData().size() > 0) {
-            List<Question> list = pageInfo.getData();
-            for (Question question : list) {
+            List<CommonQuestion> list = pageInfo.getData();
+            for (CommonQuestion question : list) {
                 QuestionUtil.updateCacheAfterUpdate(question);
             }
             pageInfo = new PageInfo<>(100, pageInfo.getCurPage() + 1);

@@ -1,8 +1,10 @@
 package co.bugu.tes.model.question;
 
+import co.bugu.tes.model.PropertyItem;
 import co.bugu.tes.model.QuestionMetaInfo;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by daocers on 2017/8/23.
@@ -35,6 +37,40 @@ public class CommonQuestion {
     private Date createTime;
 
     private String propItemIdInfo;
+
+    private Integer isPub;
+
+    private Integer stationId;
+
+    private List<PropertyItem> propertyItemList;
+
+    public List<PropertyItem> getPropertyItemList() {
+        return propertyItemList;
+    }
+
+    public void setPropertyItemList(List<PropertyItem> propertyItemList) {
+        this.propertyItemList = propertyItemList;
+    }
+
+    public Integer getIsPub() {
+        return isPub;
+    }
+
+    public Boolean isPub() {
+        return isPub == 0;
+    }
+
+    public void setIsPub(Integer isPub) {
+        this.isPub = isPub;
+    }
+
+    public Integer getStationId() {
+        return stationId;
+    }
+
+    public void setStationId(Integer stationId) {
+        this.stationId = stationId;
+    }
 
     private QuestionMetaInfo questionMetaInfo;
 

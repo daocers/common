@@ -3,33 +3,33 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <!--<bean id="simpleJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">-->
-        <!--<property name="targetObject">-->
-            <!--<bean  class="TimerJob"></bean>-->
-        <!--</property>-->
-        <!--<property name="targetMethod" value="tick"/>-->
-        <!--&lt;!&ndash;<property name="concurrent" value="true"/>&ndash;&gt;-->
-    <!--</bean>-->
+    <bean id="sceneTask" class="co.bugu.tes.schedule.SceneTask"></bean>
+    <!-- 将需要执行的定时任务注入JOB中。 -->
+    <bean id="sceneJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="sceneTask"></property>
+        <!-- 任务类中需要执行的方法 -->
+        <property name="targetMethod" value="autoBegin"></property>
+        <!-- 上一次未执行完成的，要等待有再执行。 -->
+        <property name="concurrent" value="false"></property>
+    </bean>
+
+    <!-- 基本的定时器，会绑定具体的任务。 -->
+    <bean id="testTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <property name="jobDetail" ref="sceneJob"></property>
+        <property name="startDelay" value="3000"></property>
+        <property name="repeatInterval" value="60000"></property>
+    </bean>
+
+    <bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="testTrigger"></ref>
+            </list>
+        </property>
+    </bean>
 
 
-    <!--<bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">-->
-        <!--<property name="jobDetail" ref="simpleJobDetail"/>-->
-        <!--<property name="startDelay" value="2000"/>-->
-        <!--<property name="repeatInterval" value="50000"/>-->
-
-    <!--</bean>-->
 
 
-    <!--<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">-->
-        <!--<property name="jobDetails">-->
-            <!--<list>-->
-                <!--<ref bean="simpleJobDetail"/>-->
-            <!--</list>-->
-        <!--</property>-->
-        <!--<property name="triggers">-->
-            <!--<list>-->
-                <!--<ref bean="simpleTrigger"/>-->
-            <!--</list>-->
-        <!--</property>-->
-    <!--</bean>-->
+
 </beans>

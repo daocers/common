@@ -101,6 +101,7 @@
     <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    <script src="/assets/js/h+util.js"></script>
     <script>
         /**
          * 修改swal默认设置

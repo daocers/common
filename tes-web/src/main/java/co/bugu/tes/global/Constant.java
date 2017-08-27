@@ -80,4 +80,10 @@ public interface Constant {
     String DEFALUT_SALT = "ABC";
     String BRANCH_NAME_ID_INFO = "BRANCH_NAME_ID_INFO";
     String BRANCH_ID_NAME_INFO = "BRANCH_ID_NAME_INFO";
+
+    /**
+    * 用于存储试题属性，题库，题型之类的信息
+     * 试卷生成选择试题时候使用
+    * */
+    String QUESTION_ATTR_INFO = "QUESTION_ATTR_INFO";
 }

@@ -153,4 +153,10 @@ public class SceneServiceImpl extends BaseServiceImpl<Scene> implements ISceneSe
 
         return baseDao.selectList("tes.scene.selectJoinedByUserId", userId);
     }
+
+    @Override
+    public int changeStatusToBegin(Scene scene) {
+        return baseDao.update("tes.scene.changeStatusToBegin", scene);
+    }
+
 }

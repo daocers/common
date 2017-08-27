@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="tes.question">
+<mapper namespace="tes.commonQuestion">
     <resultMap id="QuestionMap" type="co.bugu.tes.model.question.CommonQuestion">
         <id column="id" property="id" jdbcType="INTEGER"/>
         <result column="answer" property="answer" jdbcType="VARCHAR"/>
@@ -15,10 +15,12 @@
         <result column="branch_Id" property="branchId" jdbcType="INTEGER"/>
         <result column="department_id" property="departmentId" jdbcType="INTEGER"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="is_pub" property="isPub" jdbcType="INTEGER"/>
+        <result column="station_id" property="stationId" jdbcType="INTEGER"/>
     </resultMap>
     <sql id="question_list">
     id, answer, content, extra_info, meta_info_id, question_bank_id, title, prop_item_id_info, status, create_user_id,
-    branch_id, department_id, create_time
+    branch_id, department_id, create_time, station_id, is_pub
   </sql>
     <select id="selectById" resultMap="QuestionMap" parameterType="java.lang.Integer">
         select
@@ -31,7 +33,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
 
-    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="co.bugu.tes.model.Question">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="co.bugu.tes.model.question.CommonQuestion">
         insert into common_question
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -72,6 +74,12 @@
             </if>
             <if test="createTime != null">
                 create_time,
+            </if>
+            <if test="stationId != null">
+                station_id,
+            </if>
+            <if test="isPub != null">
+                is_pub,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -114,9 +122,15 @@
             <if test="createTime != null">
                 #{createTime},
             </if>
+            <if test="stationId != null">
+                #{stationId},
+            </if>
+            <if test="isPub != null">
+                #{isPub},
+            </if>
         </trim>
     </insert>
-    <update id="updateById" parameterType="co.bugu.tes.model.Question">
+    <update id="updateById" parameterType="co.bugu.tes.model.question.CommonQuestion">
         update common_question
         <set>
             <if test="answer != null">
@@ -155,12 +169,18 @@
             <if test="createTime != null">
                 create_time = #{createTime},
             </if>
+            <if test="stationId != null">
+                station_id = #{stationId},
+            </if>
+            <if test="isPub != null">
+                is_pub = #{isPub},
+            </if>
         </set>
         where id = #{id,jdbcType=INTEGER}
     </update>
 
 
-    <select id="findByObject" resultMap="QuestionMap" parameterType="co.bugu.tes.model.Question">
+    <select id="findByObject" resultMap="QuestionMap" parameterType="co.bugu.tes.model.question.CommonQuestion">
         select
         <include refid="question_list"/>
         from common_question question
@@ -168,15 +188,13 @@
     </select>
 
 
-
-
     <select id="selectCountOfPropInfo" resultType="map" parameterType="int">
         SELECT COUNT(0) AS cnt, tmp.propInfo FROM(
-          SELECT ques.id, GROUP_CONCAT(qp.`property_item_id` ORDER BY qp.`property_item_id` ASC) AS propInfo
-          FROM common_question ques
-          LEFT JOIN question_propItem_x qp ON ques.id = qp.`question_id`
-          WHERE ques.meta_info_id = #{metaInfoId}
-          GROUP BY ques.id
+        SELECT ques.id, GROUP_CONCAT(qp.`property_item_id` ORDER BY qp.`property_item_id` ASC) AS propInfo
+        FROM common_question ques
+        LEFT JOIN question_propItem_x qp ON ques.id = qp.`question_id`
+        WHERE ques.meta_info_id = #{metaInfoId}
+        GROUP BY ques.id
         ) AS tmp
         GROUP BY tmp.propInfo;
     </select>
