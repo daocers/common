@@ -6,13 +6,16 @@ import co.bugu.framework.core.util.ShiroSessionUtil;
 import co.bugu.framework.util.ExcelUtil;
 import co.bugu.framework.util.JsonUtil;
 import co.bugu.framework.util.exception.TesException;
+import co.bugu.tes.enums.CommonStatus;
 import co.bugu.tes.model.Property;
 import co.bugu.tes.model.QuestionBank;
 import co.bugu.tes.model.QuestionMetaInfo;
+import co.bugu.tes.model.User;
 import co.bugu.tes.model.question.CommonQuestion;
+import co.bugu.tes.service.ICommonQuestionService;
 import co.bugu.tes.service.IQuestionBankService;
 import co.bugu.tes.service.IQuestionMetaInfoService;
-import co.bugu.tes.service.ICommonQuestionService;
+import co.bugu.tes.service.IUserService;
 import co.bugu.tes.util.QuestionMetaInfoUtil;
 import co.bugu.tes.util.QuestionUtil;
 import com.alibaba.fastjson.JSON;
@@ -47,6 +50,8 @@ public class CommonQuestionController {
 
     @Autowired
     IQuestionBankService questionBankService;
+    @Autowired
+    IUserService userService;
 
     private static Logger logger = LoggerFactory.getLogger(CommonQuestionController.class);
 
@@ -266,7 +271,7 @@ public class CommonQuestionController {
      */
 //    @Menu(value = "导入试题文件")
     @RequestMapping(value = "/import", method = RequestMethod.POST)
-    public String upload(MultipartFile file, Integer metaInfoId,
+    public String upload(MultipartFile file, Integer metaInfoId, Integer isPub,
                          Integer questionBankId, ModelMap model, RedirectAttributes redirectAttributes) {
         try {
             List<List<String>> data = ExcelUtil.getData(file);
@@ -310,8 +315,11 @@ public class CommonQuestionController {
             }
 
             data.remove(0);//删除标题
+
+            User user = userService.findById(ShiroSessionUtil.getUserId());
+
             List<CommonQuestion> questions = new ArrayList<>();
-            List<List<Integer>> propItemIds = new ArrayList<>();
+//            List<List<Integer>> propItemIds = new ArrayList<>();
             String regex = "^([A-Z]|[a-z])([:：])\\s*";
             Pattern pattern = Pattern.compile(regex);
             int num = 1;
@@ -336,6 +344,9 @@ public class CommonQuestionController {
                     }
                     pre = (char) (pre + 1);
                 }
+
+                question.setContent(JSON.toJSONString(list));
+
                 if (metaInfo.getCode().equals("single") || metaInfo.getCode().equals("multi")) {
                     question.setAnswer(question.getAnswer().toUpperCase());
                     char[] arr = question.getAnswer().toCharArray();
@@ -346,12 +357,16 @@ public class CommonQuestionController {
                         }
                     }
                 }
-
-
-                question.setContent(JSON.toJSONString(list));
+                question.setExtraInfo("");
+                question.setDepartmentId(user.getDepartmentId());
+                question.setStationId(user.getStationId());
+                question.setBranchId(user.getBranchId());
+                question.setCreateUserId(ShiroSessionUtil.getUserId());
+                question.setCreateTime(new Date());
                 question.setMetaInfoId(metaInfoId);
                 question.setQuestionBankId(questionBankId);
-                question.setCreateTime(new Date());
+                question.setStatus(CommonStatus.ENABLE.getStatus());
+
                 List<Integer> propItemId = new ArrayList<>();
                 for (Integer id : propIndexList) {
                     String idStr = line.get(id);
@@ -359,14 +374,13 @@ public class CommonQuestionController {
                         propItemId.add(Integer.valueOf(idStr));
                     }
                 }
-                propItemIds.add(propItemId);
-                question.setExtraInfo("");
-                question.setCreateUserId(ShiroSessionUtil.getUserId());
+
                 question.setPropItemIdInfo(JSON.toJSONString(propItemId));
                 questions.add(question);
             }
             try {
-                int count = questionService.batchAdd(questions, propItemIds);
+//                int count = questionService.batchAdd(questions, propItemIds);
+                int count = questionService.batchAdd(questions, 30);
                 logger.info("批量添加试题成功，成功添加{}试题。", count);
             } catch (Exception e) {
                 logger.error("保存题目失败", e);

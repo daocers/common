@@ -33,7 +33,8 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
 
-    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="co.bugu.tes.model.question.CommonQuestion">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id"
+            parameterType="co.bugu.tes.model.question.CommonQuestion">
         insert into common_question
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -207,4 +208,17 @@
     <delete id="removeFromPropItem" parameterType="int">
         delete from question_propItem_x where question_id = #{questionId};
     </delete>
+
+    <insert id="batchAdd" parameterType="list" useGeneratedKeys="true" keyProperty="id">
+        insert into common_question(title, answer, content, extra_info, meta_info_id, question_bank_id,
+        prop_item_id_info,
+        status, create_user_id, create_time, branch_id, department_id, station_id, is_pub)
+        values
+        <foreach collection="list" item="question" separator="," index="">
+            (#{question.title}, #{question.answer}, #{question.content}, #{question.extraInfo}, #{question.metaInfoId},
+            #{question.questionBankId}, #{question.propItemIdInfo},
+            #{question.status}, #{question.createUserId}, #{question.createTime}, #{question.branchId},
+            #{question.departmentId}, #{question.stationId}, #{question.isPub})
+        </foreach>
+    </insert>
 </mapper>

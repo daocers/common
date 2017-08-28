@@ -2,7 +2,6 @@ package co.bugu.tes.service.impl;
 
 
 import co.bugu.framework.core.dao.PageInfo;
-import co.bugu.framework.core.exception.TesJedisException;
 import co.bugu.framework.core.service.impl.BaseServiceImpl;
 import co.bugu.framework.core.util.JedisUtil;
 import co.bugu.tes.model.question.CommonQuestion;
@@ -11,13 +10,8 @@ import co.bugu.tes.util.QuestionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import redis.clients.jedis.Jedis;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class CommonQuestionServiceImpl extends BaseServiceImpl<CommonQuestion> implements ICommonQuestionService {
@@ -69,14 +63,31 @@ public class CommonQuestionServiceImpl extends BaseServiceImpl<CommonQuestion> i
 //    }
 
     @Override
-    public int batchAdd(List<CommonQuestion> questionList){
-        int num = 0;
-        for(CommonQuestion question: questionList){
-            baseDao.insert("tes.commonQuestion.insert", question);
-            num++;
-            QuestionUtil.updateCacheAfterUpdate(question);
+    public int batchAdd(List<CommonQuestion> questionList, int batchSize){
+        List<CommonQuestion> list = new ArrayList<>();
+
+        for (CommonQuestion question: questionList){//批量提交
+            list.add(question);
+            if(list.size() == batchSize){
+                baseDao.insert("tes.commonQuestion.batchAdd", list);
+                list.clear();
+            }
         }
-        return num;
+
+        //最后不满足一批次的，再次提交
+        if(list.size() > 0){
+            baseDao.insert("tes.commonQuestion.batchAdd", list);
+        }
+
+        //新启用线程 批量更新试题缓存
+        new Thread(){
+            @Override
+            public void run() {
+                logger.info("开始批量更新试题缓存");
+                QuestionUtil.batchUpdateCacheAfterUpdate(questionList);
+            }
+        }.start();
+        return questionList.size();
     }
 
     @Override
@@ -93,7 +104,7 @@ public class CommonQuestionServiceImpl extends BaseServiceImpl<CommonQuestion> i
     @Override
     public int batchAdd(List<CommonQuestion> questionList, List<List<Integer>> propItemIdList) throws Exception {
         if(questionList.size() != propItemIdList.size()){
-            throw new Exception("批量添加试题失败");
+            throw new Exception("批量添加试题失败：属性信息不符");
         }
         int num = 0;
         for(int i = 0; i < questionList.size(); i++){
@@ -135,15 +146,15 @@ public class CommonQuestionServiceImpl extends BaseServiceImpl<CommonQuestion> i
         }
         if(question == null){
             question = baseDao.selectOne("tes.commonQuestion.selectById", id);
-            if(question != null){
-                question.setPropertyItemList(baseDao.selectList("tes.propertyItem.findPropItemByQuestionId", question.getId()));
-                question.setQuestionMetaInfo(baseDao.selectOne("tes.questionMetaInfo.selectById", question.getMetaInfoId()));
-            }
-            try {
-                JedisUtil.setObject(question);
-            } catch (Exception e) {
-                logger.error("jedisUtil setObject异常", e);
-            }
+//            if(question != null){
+//                question.setPropertyItemList(baseDao.selectList("tes.propertyItem.findPropItemByQuestionId", question.getId()));
+//                question.setQuestionMetaInfo(baseDao.selectOne("tes.questionMetaInfo.selectById", question.getMetaInfoId()));
+//            }
+//            try {
+//                JedisUtil.setObject(question);
+//            } catch (Exception e) {
+//                logger.error("jedisUtil setObject异常", e);
+//            }
         }
         return question;
     }

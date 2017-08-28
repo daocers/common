@@ -26,7 +26,7 @@ public interface ICommonQuestionService extends IBaseService<CommonQuestion> {
 
 //    List<Map<String, Object>> selectCountOfPropInfo(Integer metaInfoId);
 
-    int batchAdd(List<CommonQuestion> questionList) throws TesException;
+    int batchAdd(List<CommonQuestion> questionList, int batchSize) throws TesException;
 
 
     Set<String> findByMetaInfoAndBankAndAttr(Integer questionMetaInfoId, Integer questionBankId, List<Integer> ids, Integer count) throws Exception;

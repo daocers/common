@@ -62,29 +62,67 @@ public class QuestionUtil {
         try {
             jedis = JedisUtil.getJedis();
 
-            String questionId = question.getId().toString();
-            Set<String> keys = jedis.keys("*" + Constant.QUESTION_ATTR_INFO + "*");
-            for (String key : keys) {
-                //先删除缓存中所有关于该列的缓存
-                jedis.srem(key, questionId);
-            }
-            //添加更新后的缓存数量
-            Integer questionMetaInfoId = question.getMetaInfoId();
-            Integer bankId = question.getQuestionBankId();
-            List<Integer> propItemIdList = JSON.parseArray(question.getPropItemIdInfo(), Integer.class);
-            //        题型
-            jedis.sadd(genKey(questionMetaInfoId), questionId);
-            //       题型-题库
-            jedis.sadd(genKey(questionMetaInfoId, bankId), questionId);
-
-            for (Integer id : propItemIdList) {
-                //            题型-题库-属性id
-                jedis.sadd(genKey(questionMetaInfoId, bankId, id), questionId);
-            }
+            updateCacheForQuestion(jedis, question);
         } finally {
             if (jedis != null) {
                 jedis.close();
             }
+        }
+    }
+
+    /**
+     * 更新试题后更新缓存
+     * 批量更新，用于批量插入试题使用
+     * set存放， key依次为：
+     * xxx_题型
+     * XXX_题型_题库
+     * XXX_题型_题库_属性值
+     * <p>
+     * 注意，每个属性值需要处理一次
+     *
+     * @param questionList
+     */
+    public static void batchUpdateCacheAfterUpdate(List<CommonQuestion> questionList) {
+        Jedis jedis = null;
+        try {
+            jedis = JedisUtil.getJedis();
+
+            for (CommonQuestion question : questionList) {
+                updateCacheForQuestion(jedis, question);
+            }
+
+        } finally {
+            if (jedis != null) {
+                jedis.close();
+            }
+        }
+    }
+
+    /**
+     * 更新单个试题的缓存信息
+     *
+     * @param jedis
+     * @param question
+     */
+    private static void updateCacheForQuestion(Jedis jedis, CommonQuestion question) {
+        String questionId = question.getId().toString();
+        Set<String> keys = jedis.keys("*" + Constant.QUESTION_ATTR_INFO + "*");
+        for (String key : keys) {
+            //先删除缓存中所有关于该列的缓存
+            jedis.srem(key, questionId);
+        }
+        //添加更新后的缓存数量
+        Integer questionMetaInfoId = question.getMetaInfoId();
+        Integer bankId = question.getQuestionBankId();
+        List<Integer> propItemIdList = JSON.parseArray(question.getPropItemIdInfo(), Integer.class);
+        //        题型
+        jedis.sadd(genKey(questionMetaInfoId), questionId);
+        //       题型-题库
+        jedis.sadd(genKey(questionMetaInfoId, bankId), questionId);
+
+        for (Integer id : propItemIdList) {
+            //            题型-题库-属性id
+            jedis.sadd(genKey(questionMetaInfoId, bankId, id), questionId);
         }
     }
 
@@ -197,7 +235,7 @@ public class QuestionUtil {
      * @return
      */
     public static Set<String> findByMetaInfoAndBankAndAttr(Integer questionMetaInfoId,
-                   Integer bankId, List<Integer> ids, Integer count) throws DataException {
+                                                           Integer bankId, List<Integer> ids, Integer count) throws DataException {
         Jedis jedis = null;
         try {
             jedis = JedisUtil.getJedis();
