@@ -40,7 +40,7 @@
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group content">
                         <label class="control-label col-md-2">题干</label>
                         <div class="col-md-10">
                             <textarea class="form-control" name="content" rows="5" required>${question.content}</textarea>
@@ -129,6 +129,16 @@
     </div>
 </div>
 <script>
+    <%--判断题不显示题干栏位--%>
+    $(function () {
+        var queType = $("[name='metaInfoId'] option:selected").text();
+        console.log(queType)
+        if(queType.trim() == '判断题'){
+            $(".content").hide();
+        }
+    })
+
+
     var changeMetaInfo = false;
 
     $("[name='metaInfoId']").on("click", function () {

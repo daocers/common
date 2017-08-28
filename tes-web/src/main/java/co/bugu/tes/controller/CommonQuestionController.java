@@ -127,6 +127,7 @@ public class CommonQuestionController {
                     }
                     question.setContent(builder.toString());
                 } else if ("judge".equals(code)) {
+                    question.setContent("");
                     question.setAnswer(question.getAnswer().equals("T") ? "正确" : "错误");
                 }
                 model.put("question", question);

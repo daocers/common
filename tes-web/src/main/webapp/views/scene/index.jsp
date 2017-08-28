@@ -898,8 +898,8 @@
                     var err = res.err;
                     swal("开场失败", err, "error");
                 }
+                removeCurrentTab();
                 openTab("/scene/list/mine.do");
-                re
             },
             error: function (data) {
                 swal("开场失败", "", "error");

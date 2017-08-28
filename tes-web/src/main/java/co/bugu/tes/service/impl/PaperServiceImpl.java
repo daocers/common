@@ -98,7 +98,7 @@ public class PaperServiceImpl extends BaseServiceImpl<Paper> implements IPaperSe
      * @param sceneId
      * @param paperQuestionIdInfo
      */
-    private Paper savePaper(Integer userId, Integer sceneId, Map<Integer, Collection<String>> paperQuestionIdInfo) {
+    private Paper savePaper(Integer userId, Integer sceneId, Map<Integer, Collection<Integer>> paperQuestionIdInfo) {
         Paper paper = new Paper();
         paper.setUserId(userId);
         paper.setAnswerFlag(1);
@@ -220,11 +220,11 @@ public class PaperServiceImpl extends BaseServiceImpl<Paper> implements IPaperSe
 
         if (scene.getPaperType() == PaperType.UNIFY.getType()) {
             //统一试卷，每个人试题一致
-            Map<Integer, Collection<String>> resQuesIds = getMetaAndQuestions(scene.getBankId(), paperPolicy);
+            Map<Integer, Collection<Integer>> resQuesIds = getMetaAndQuestions(scene.getBankId(), paperPolicy);
             paper = savePaper(userId, scene.getId(), resQuesIds);
         } else if (scene.getPaperType() == PaperType.RANDOM.getType()) {
             //每个人都随机，都不一样
-            Map<Integer, Collection<String>> resQuesIds = getMetaAndQuestions(scene.getBankId(), paperPolicy);
+            Map<Integer, Collection<Integer>> resQuesIds = getMetaAndQuestions(scene.getBankId(), paperPolicy);
             paper = savePaper(userId, scene.getId(), resQuesIds);
         } else if (scene.getPaperType() == PaperType.IMPORT.getType()) {
             //教师导入试题
@@ -307,7 +307,7 @@ public class PaperServiceImpl extends BaseServiceImpl<Paper> implements IPaperSe
      * @param paperPolicy
      * @return Map<MetaInfoId, QuestionIds>
      */
-    private Map<Integer, Collection<String>> getMetaAndQuestions(Integer bankId, PaperPolicy paperPolicy) throws Exception {
+    private Map<Integer, Collection<Integer>> getMetaAndQuestions(Integer bankId, PaperPolicy paperPolicy) throws Exception {
         Map<Integer, Collection<String>> questionIdInfo = new HashMap<>();//metaInfoId, questionIdSet
         //策略模式
         if (paperPolicy.getSelectType() == PaperPolicyType.POLICY.getType()) {
@@ -363,7 +363,22 @@ public class PaperServiceImpl extends BaseServiceImpl<Paper> implements IPaperSe
             }
         }
 
-        return questionIdInfo;
+        /**
+         * 将string类型的id转换为int类型
+         * */
+        Map<Integer, Collection<Integer>> res = new HashMap<>();
+        Iterator<Integer> keyIter = questionIdInfo.keySet().iterator();
+        while(keyIter.hasNext()){
+            Integer key = keyIter.next();
+            Collection<String> set = questionIdInfo.get(key);
+            Collection<Integer> newSet = new HashSet<>();
+            for(String item: set){
+                newSet.add(Integer.parseInt(item));
+            }
+            res.put(key, newSet);
+        }
+
+        return res;
     }
 
 }
