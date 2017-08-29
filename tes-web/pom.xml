@@ -9,7 +9,7 @@
     <groupId>co.bugu</groupId>
     <artifactId>tes-web</artifactId>
     <packaging>war</packaging>
-    <name>web Maven Webapp</name>
+    <name>tes-web</name>
     <url>http://maven.apache.org</url>
 
     <properties>
@@ -43,7 +43,8 @@
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
             <artifactId>jsp-api</artifactId>
-            <scope>compile</scope>
+            <version>2.2</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
     <build>

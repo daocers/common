@@ -149,7 +149,9 @@ public class CommonQuestionServiceImpl extends BaseServiceImpl<CommonQuestion> i
         if(question == null){
             question = baseDao.selectOne("tes.commonQuestion.selectById", id);
             try {
-                JedisUtil.setObject(JedisUtil.getKey(id, question), question);
+                if(question != null){
+                    JedisUtil.setObject(JedisUtil.getKey(id, question), question);
+                }
             } catch (IOException e) {
                 logger.error("jedis setObject异常", e);
             }

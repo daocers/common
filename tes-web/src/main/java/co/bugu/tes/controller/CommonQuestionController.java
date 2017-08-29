@@ -572,16 +572,7 @@ public class CommonQuestionController {
     @RequestMapping(value = "/updateCache", method = RequestMethod.POST)
     @ResponseBody
     public String updateCache() throws Exception {
-        PageInfo<CommonQuestion> pageInfo = new PageInfo<>(100, 1);
-        questionService.findByObject(null, pageInfo);
-        while (pageInfo.getData() != null && pageInfo.getData().size() > 0) {
-            List<CommonQuestion> list = pageInfo.getData();
-            for (CommonQuestion question : list) {
-                QuestionUtil.updateCacheAfterUpdate(question);
-            }
-            pageInfo = new PageInfo<>(100, pageInfo.getCurPage() + 1);
-            questionService.findByObject(null, pageInfo);
-        }
+        QuestionUtil.initCacheOfCommonQuestion();
 
         JSONObject json = new JSONObject();
         json.put("code", 0);

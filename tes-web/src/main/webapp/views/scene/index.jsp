@@ -513,6 +513,11 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    <div id="res-box" class=""  style="min-height: 150px; margin-left: -15px;">
+                                        <textarea class="form-control" rows="8" id="res">
+                                            这里存放试卷策略的结果
+                                        </textarea>
+                                    </div>
 
                                     <div class="button">
                                         <button class="btn btn-warning btn-cancel" onclick="history.back();">取消</button>
@@ -862,7 +867,7 @@
             if (isConfirm) {
                 zeroModal.loading(3);
                 $.ajax({
-                    url: "/question/updateCache.do",
+                    url: "/commonQuestion/updateCache.do",
                     type: 'post',
                     success: function (data) {
                         zeroModal.closeAll();

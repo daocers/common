@@ -120,6 +120,11 @@ public class JedisUtil {
         return key;
     }
 
+    public static String getKey(Integer id, Class<?> clazz){
+        String key = clazz.getName() + "_" + id;
+        return key;
+    }
+
     /**
      * 获取缓存过期的时间
      * 默认为一个月
