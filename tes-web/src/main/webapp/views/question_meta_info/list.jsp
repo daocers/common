@@ -48,7 +48,7 @@
                             <td>${questionmetainfo.name}</td>
                             <td>${questionmetainfo.code}</td>
                             <td>${questionmetainfo.description}</td>
-                            <td>${questionmetainfo.status == 0? "启用" : "禁用"}</td>
+                            <td>${questionmetainfo.status == 1? "启用" : "禁用"}</td>
                             <td>
                                 <a href="edit.do?id=${questionmetainfo.id}&type=detail" class="opr">详情</a>
                                 <a href="edit.do?id=${questionmetainfo.id}" class="opr">修改</a>

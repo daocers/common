@@ -58,8 +58,8 @@
                     <label class="control-label col-md-2">状态</label>
                     <div class="col-md-10">
                         <select name="status" class="form-control" required>
-                            <option value="0">启用</option>
-                            <option value="1">禁用</option>
+                            <option value="1">启用</option>
+                            <option value="0">禁用</option>
                         </select>
                         <span class="help-block with-errors">设置禁用/启用</span>
                     </div>

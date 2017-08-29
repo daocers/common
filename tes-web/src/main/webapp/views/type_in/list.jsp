@@ -45,7 +45,7 @@
                         <td><input type="checkbox" objId="${typeInQuestion.id}"></td>
                         <td>${typeInQuestion.name}</td>
                         <td>${typeInQuestion.content}</td>
-                        <td>${typeInQuestion.status == 0 ? "正常" : "禁用"}</td>
+                        <td>${typeInQuestion.status == 1 ? "正常" : "禁用"}</td>
                         <td>
                             <a href="edit.do?id=${typeInQuestion.id}&type=detail" class="opr">详情</a>
                             <a href="edit.do?id=${typeInQuestion.id}" class="opr">修改</a>

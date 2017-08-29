@@ -103,11 +103,11 @@
                     <div class="col-md-10">
                         <select class="form-control" name="status">
                             <option value="">请选择</option>
-                            <option value="0"
-                                    <c:if test="${branch.status == 0}">selected</c:if> >正常
-                            </option>
                             <option value="1"
-                                    <c:if test="${branch.status == 1}">selected</c:if> >禁用
+                                    <c:if test="${branch.status == 1}">selected</c:if> >正常
+                            </option>
+                            <option value="0"
+                                    <c:if test="${branch.status == 0}">selected</c:if> >禁用
                             </option>
                         </select>
                         <%--<input class="form-control" type="text" name="status" value="${branch.status}" required>--%>

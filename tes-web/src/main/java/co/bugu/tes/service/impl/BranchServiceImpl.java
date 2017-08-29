@@ -2,15 +2,14 @@ package co.bugu.tes.service.impl;
 
 
 import co.bugu.framework.core.service.impl.BaseServiceImpl;
-import co.bugu.framework.util.JedisUtil;
 import co.bugu.framework.util.exception.TesException;
-import co.bugu.tes.global.Constant;
+import co.bugu.tes.enums.BranchLevelEnum;
+import co.bugu.tes.enums.CommonStatusEnum;
 import co.bugu.tes.model.Branch;
 import co.bugu.tes.service.IBranchService;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
@@ -76,8 +75,8 @@ public class BranchServiceImpl extends BaseServiceImpl<Branch> implements IBranc
             branch.setCode(code);
             branch.setName(name);
             branch.setUpdateTime(now);
-            branch.setLevel(Constant.BRANCH_LEVEL_TOP);
-            branch.setStatus(Constant.STATUS_ENABLE);
+            branch.setLevel(BranchLevelEnum.FIRST.getLevel());
+            branch.setStatus(CommonStatusEnum.ENABLE.getStatus());
 //            branchService.save(branch);
             baseDao.insert("tes.branch.insert", branch);
 
@@ -114,35 +113,25 @@ public class BranchServiceImpl extends BaseServiceImpl<Branch> implements IBranc
 
     @Override
     public Map<String, String> getBranchNameIdMap() {
-        Map<String, String> map = JedisUtil.hgetall(Constant.BRANCH_NAME_ID_INFO);
-        if(MapUtils.isNotEmpty(map)){
-            return map;
-        }
-        map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         List<Branch> list = baseDao.selectList("tes.branch.findByObject", null);
         if (CollectionUtils.isNotEmpty(list)) {
             for (Branch branch : list) {
                 map.put(branch.getName(), branch.getId() + "");
             }
         }
-        JedisUtil.hmset(Constant.BRANCH_NAME_ID_INFO, map);
         return map;
     }
 
     @Override
     public Map<String, String> getBranchIdNameMap() {
-        Map<String, String> map = JedisUtil.hgetall(Constant.BRANCH_ID_NAME_INFO);
-        if(MapUtils.isNotEmpty(map)){
-            return map;
-        }
-        map = new HashMap<>();
+        Map<String, String> map =  new HashMap<>();
         List<Branch> list = baseDao.selectList("tes.branch.findByObject", null);
         if (CollectionUtils.isNotEmpty(list)) {
             for (Branch branch : list) {
                 map.put(branch.getId() + "", branch.getName());
             }
         }
-        JedisUtil.hmset(Constant.BRANCH_ID_NAME_INFO, map);
         return map;
     }
     @Override
@@ -157,7 +146,7 @@ public class BranchServiceImpl extends BaseServiceImpl<Branch> implements IBranc
             if(branch == null){
                 branch = new Branch();
                 branch.setId(id);
-                branch.setStatus(0);
+                branch.setStatus(CommonStatusEnum.ENABLE.getStatus());
                 branch.setSuperiorId(pId);
                 branch.setCreateTime(new Date());
                 branch.setLevel(level);
@@ -199,7 +188,7 @@ public class BranchServiceImpl extends BaseServiceImpl<Branch> implements IBranc
                 }
 
                 if (superiorCode.equals("")) {
-                    codeLevelInfo.put(code, Constant.BRANCH_LEVEL_TOP);
+                    codeLevelInfo.put(code, BranchLevelEnum.ZONGHANG.getLevel());
                     flag = true;
                 }
 

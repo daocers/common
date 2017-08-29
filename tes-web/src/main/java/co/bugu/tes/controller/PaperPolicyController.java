@@ -4,9 +4,10 @@ import co.bugu.framework.core.dao.PageInfo;
 import co.bugu.framework.core.mybatis.SearchParamUtil;
 import co.bugu.framework.core.mybatis.ThreadLocalUtil;
 import co.bugu.framework.core.util.BuguWebUtil;
+import co.bugu.framework.core.util.ShiroSessionUtil;
 import co.bugu.framework.util.JsonUtil;
+import co.bugu.tes.enums.CommonStatusEnum;
 import co.bugu.tes.enums.PaperPolicyType;
-import co.bugu.tes.global.Constant;
 import co.bugu.tes.model.PaperPolicy;
 import co.bugu.tes.model.QuestionMetaInfo;
 import co.bugu.tes.model.QuestionPolicy;
@@ -135,7 +136,7 @@ public class PaperPolicyController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(PaperPolicy paperPolicy, int[] questionMetaInfoId, ModelMap model, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         try {
-            Integer userId = (Integer) BuguWebUtil.get(request, Constant.SESSION_USER_ID);
+            Integer userId = ShiroSessionUtil.getUserId();
             User user = userService.findById(userId);
             if (user != null) {
                 paperPolicy.setUpdateTime(new Date());
@@ -150,7 +151,7 @@ public class PaperPolicyController {
                 redirectAttributes.addFlashAttribute(paperPolicy);
                 return "redirect:edit.do";
             }
-            paperPolicy.setStatus(0);
+            paperPolicy.setStatus(CommonStatusEnum.ENABLE.getStatus());
             if (paperPolicy.getPercentable() == null) {
                 paperPolicy.setPercentable(1);
             }

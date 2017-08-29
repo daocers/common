@@ -2,6 +2,7 @@ package co.bugu.tes.controller;
 
 import co.bugu.framework.core.dao.PageInfo;
 import co.bugu.framework.util.JsonUtil;
+import co.bugu.tes.enums.CommonStatusEnum;
 import co.bugu.tes.global.Constant;
 import co.bugu.tes.model.Authority;
 import co.bugu.tes.service.IAuthorityService;
@@ -68,7 +69,7 @@ public class AuthorityController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(ModelMap model, Authority authority) {
         try {
-            authority.setStatus(0);
+            authority.setStatus(CommonStatusEnum.ENABLE.getStatus());
             authority.setUrl(null);
             authority.setType(0);
             authorityService.save(authority);
@@ -298,7 +299,7 @@ public class AuthorityController {
     public String manage(ModelMap modelMap) {
         try {
             Authority authority = new Authority();
-            authority.setStatus(Constant.STATUS_ENABLE);
+            authority.setStatus(CommonStatusEnum.ENABLE.getStatus());
             List<Authority> list = authorityService.findByObject(authority);
             List<Map<String, Object>> res = new ArrayList<>();
             for (Authority auth : list) {
@@ -350,7 +351,7 @@ public class AuthorityController {
                 authority.setIdx(i);
                 authority.setName(name);
                 authority.setSuperiorId(superiorId);
-                authority.setStatus(Constant.STATUS_ENABLE);
+                authority.setStatus(CommonStatusEnum.ENABLE.getStatus());
                 authorityList.add(authority);
             }
             authorityService.rebuildInfo(authorityList);

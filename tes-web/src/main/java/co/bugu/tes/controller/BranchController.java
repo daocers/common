@@ -3,7 +3,7 @@ package co.bugu.tes.controller;
 import co.bugu.framework.core.dao.PageInfo;
 import co.bugu.framework.util.ExcelUtilNew;
 import co.bugu.framework.util.JsonUtil;
-import co.bugu.tes.enums.BranchLevel;
+import co.bugu.tes.enums.BranchLevelEnum;
 import co.bugu.tes.model.Branch;
 import co.bugu.tes.model.User;
 import co.bugu.tes.service.IBranchService;
@@ -29,8 +29,6 @@ import java.io.File;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
-
-import static org.apache.poi.sl.usermodel.PresetColor.Menu;
 
 @Controller("/branchController/v1")
 @RequestMapping("/branch")
@@ -79,7 +77,7 @@ public class BranchController {
         JSONObject json = new JSONObject();
         try {
             Branch record = new Branch();
-            record.setLevel(BranchLevel.ZONGHANG.getLevel());
+            record.setLevel(BranchLevelEnum.ZONGHANG.getLevel());
             List<Branch> branchList = branchService.findByObject(record);
             model.put("branchList", branchList);
             Branch branch = branchService.findById(id);

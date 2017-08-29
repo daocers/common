@@ -28,7 +28,7 @@
 <div class="container-fluid">
     <div class="row">
         <%--<div class="col-sm-0 col-md-2 sidebar menu-left">--%>
-            <%--<%@ include file="../template/menu-left.jsp" %>--%>
+        <%--<%@ include file="../template/menu-left.jsp" %>--%>
         <%--</div>--%>
         <div class="col-md-12 main" id="main">
             <%--<h1 class="page-header">Dashboard</h1>--%>
@@ -90,7 +90,7 @@
                             <td>${branchMap.get(user.branchId)}</td>
                             <td>${departmentMap.get(user.departmentId)}</td>
                             <td>${stationMap.get(user.stationId)}</td>
-                            <td>${user.status == 0 ? "启用" : "禁用"}</td>
+                            <td>${user.status == 1 ? "启用" : "禁用"}</td>
                             <td>
                                 <a href="edit.do?id=${user.id}&type=detail" class="opr btn btn-info btn-sm">详情</a>
                                 <a href="edit.do?id=${user.id}" class="opr">修改</a>

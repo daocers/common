@@ -2,7 +2,7 @@ package co.bugu.tes.controller;
 
 import co.bugu.framework.core.dao.PageInfo;
 import co.bugu.framework.util.JsonUtil;
-import co.bugu.tes.global.Constant;
+import co.bugu.tes.enums.CommonStatusEnum;
 import co.bugu.tes.model.QuestionBank;
 import co.bugu.tes.model.User;
 import co.bugu.tes.service.IQuestionBankService;
@@ -98,7 +98,7 @@ public class QuestionBankController {
             }
             questionbank.setUpdateTime(now);
             questionbank.setUpdateUserId(currentUserId);
-            questionbank.setStatus(Constant.STATUS_ENABLE);
+            questionbank.setStatus(CommonStatusEnum.ENABLE.getStatus());
             if(questionbank.getId() == null){
                 questionbankService.save(questionbank);
             }else{

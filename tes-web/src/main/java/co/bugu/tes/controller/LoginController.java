@@ -1,7 +1,7 @@
 package co.bugu.tes.controller;
 
 import co.bugu.framework.util.EncryptUtil;
-import co.bugu.tes.enums.CommonStatus;
+import co.bugu.tes.enums.CommonStatusEnum;
 import co.bugu.tes.model.User;
 import co.bugu.tes.service.IUserService;
 import org.apache.shiro.SecurityUtils;
@@ -93,7 +93,7 @@ public class LoginController {
         user.setSalt(salt);
         String finalPass = Base64.encodeToString((user.getPassword() + user.getSalt()).getBytes());
         user.setPassword(finalPass);
-        user.setStatus(CommonStatus.ENABLE.getStatus());
+        user.setStatus(CommonStatusEnum.ENABLE.getStatus());
         userService.save(user);
         redirectAttributes.addAttribute("id", user.getId());
         return "redirect:/login.do";

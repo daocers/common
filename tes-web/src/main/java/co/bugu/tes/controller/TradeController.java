@@ -1,6 +1,7 @@
 package co.bugu.tes.controller;
 
 import co.bugu.framework.core.util.BuguWebUtil;
+import co.bugu.tes.enums.CommonStatusEnum;
 import co.bugu.tes.model.*;
 import co.bugu.tes.model.question.TradeQuestion;
 import co.bugu.tes.service.IQuestionBankService;
@@ -88,7 +89,7 @@ public class TradeController {
             trade.setCreateUserId(userId);
         }
         trade.setCode(code);
-        trade.setStatus(0);
+        trade.setStatus(CommonStatusEnum.ENABLE.getStatus());
         trade.setBranchId(user.getBranchId());
         trade.setDepartmentId(user.getDepartmentId());
         trade.setUpdateTime(now);
@@ -96,7 +97,7 @@ public class TradeController {
         trade.setStationId(user.getStationId());
 
         Page page = new Page();
-        page.setStatus(0);
+        page.setStatus(CommonStatusEnum.ENABLE.getStatus());
         page.setCode(code);
         page.setUrl(pageUrl);
         page.setContent(fieldInfo);
@@ -113,7 +114,7 @@ public class TradeController {
         TradeQuestion question = new TradeQuestion();
         question.setDescription(description);
         question.setAnswer(JSON.toJSONString(fieldList));
-        question.setStatus(0);
+        question.setStatus(CommonStatusEnum.ENABLE.getStatus());
         question.setBankId(bankId);
         question.setDepartmentId(user.getDepartmentId());
         question.setBranchId(user.getBranchId());

@@ -52,7 +52,7 @@
                         <td>${questionbank.description}</td>
                         <td><fmt:formatDate value="${questionbank.createTime}"
                                             pattern="yyyy-MM-dd HH:mm"></fmt:formatDate></td>
-                        <td>${questionbank.status == 0 ? "启用":"禁用"}</td>
+                        <td>${questionbank.status == 1 ? "启用":"禁用"}</td>
                             <%--<td><fmt:formatDate value="${questionbank.updateTime}" pattern="yyyy-MM-dd HH:mm"></fmt:formatDate> </td>--%>
                             <%--<td>${questionbank.updateUserId}</td>--%>
                         <td>

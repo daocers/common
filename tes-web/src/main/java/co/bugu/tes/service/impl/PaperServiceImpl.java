@@ -3,6 +3,7 @@ package co.bugu.tes.service.impl;
 
 import co.bugu.framework.core.service.impl.BaseServiceImpl;
 import co.bugu.framework.util.JedisUtil;
+import co.bugu.tes.enums.CommonStatusEnum;
 import co.bugu.tes.enums.PaperPolicyType;
 import co.bugu.tes.enums.PaperType;
 import co.bugu.tes.global.Constant;
@@ -103,7 +104,7 @@ public class PaperServiceImpl extends BaseServiceImpl<Paper> implements IPaperSe
         paper.setUserId(userId);
         paper.setAnswerFlag(1);
         paper.setSceneId(sceneId);
-        paper.setStatus(0);
+        paper.setStatus(CommonStatusEnum.ENABLE.getStatus());
         paper.setBeginTime(new Date());
         paper.setContent(JSON.toJSONString(paperQuestionIdInfo));
 //        paper.setQuestionIds(JSON.toJSONString(paperQuestionIdInfo));

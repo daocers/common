@@ -4,7 +4,8 @@ import co.bugu.framework.core.dao.PageInfo;
 import co.bugu.framework.core.util.BuguWebUtil;
 import co.bugu.framework.util.DateUtil;
 //import co.bugu.tes.annotation.Menu;
-import co.bugu.tes.enums.SceneStatus;
+import co.bugu.tes.enums.PaperStatusEnum;
+import co.bugu.tes.enums.SceneStatusEnum;
 import co.bugu.tes.model.*;
 import co.bugu.tes.model.question.CommonQuestion;
 import co.bugu.tes.service.*;
@@ -25,7 +26,6 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
 
@@ -115,7 +115,7 @@ public class ExamController {
     public String toNote(String authCode, ModelMap model) {
         Scene scene = new Scene();
         scene.setAuthCode(authCode);
-        scene.setStatus(SceneStatus.BEGIN.getStatus());//查找已经开场的场次
+        scene.setStatus(SceneStatusEnum.BEGIN.getStatus());//查找已经开场的场次
         List<Scene> sceneList = sceneService.findByObject(scene);
         if (sceneList != null && sceneList.size() == 1) {
             scene = sceneList.get(0);
@@ -144,121 +144,126 @@ public class ExamController {
 //    @Menu(value = "参加考试", isView = true)
     @RequestMapping("/exam")
     public String toExam(Scene scene, ModelMap model, HttpServletRequest request, RedirectAttributes redirectAttributes) throws Exception {
-        if (scene.getId() == null) {
-            throw new Exception("非法操作,没有找到对应的场次");
-        }
-        boolean continueFlag = true;
-        scene = sceneService.findById(scene.getId());
-        Date now = new Date();
-        Date beginTime = scene.getBeginTime();
-        Date endTime = scene.getEndTime();
-        if (beginTime.compareTo(now) > 0) {
-            redirectAttributes.addFlashAttribute("msg", "考试开始时间未到，请等待。");
-            continueFlag = false;
-        } else {
-            Integer delay = scene.getDelay();
-            if (delay == null || delay == 0) {//不考虑递延状态，考试时间内都可以进入
-                if (endTime.compareTo(now) <= 0) {
-                    redirectAttributes.addFlashAttribute("msg", "考试已经结束，无法参加考试。");
-                    continueFlag = false;
-                }
+        try{
+            if (scene.getId() == null) {
+                throw new Exception("非法操作,没有找到对应的场次");
+            }
+            boolean continueFlag = true;
+            scene = sceneService.findById(scene.getId());
+            Date now = new Date();
+            Date beginTime = scene.getBeginTime();
+            Date endTime = scene.getEndTime();
+            if (beginTime.compareTo(now) > 0) {
+                redirectAttributes.addFlashAttribute("msg", "考试开始时间未到，请等待。");
+                continueFlag = false;
             } else {
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(beginTime);
-                calendar.add(Calendar.MINUTE, delay);
-                Date lastEntry = calendar.getTime();
-                if (lastEntry.compareTo(now) < 0) {
-                    continueFlag = false;
-                    redirectAttributes.addFlashAttribute("msg", "开场超过" + delay + "分钟，无法参加考试");
+                Integer delay = scene.getDelay();
+                if (delay == null || delay == 0) {//不考虑递延状态，考试时间内都可以进入
+                    if (endTime.compareTo(now) <= 0) {
+                        redirectAttributes.addFlashAttribute("msg", "考试已经结束，无法参加考试。");
+                        continueFlag = false;
+                    }
+                } else {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(beginTime);
+                    calendar.add(Calendar.MINUTE, delay);
+                    Date lastEntry = calendar.getTime();
+                    if (lastEntry.compareTo(now) < 0) {
+                        continueFlag = false;
+                        redirectAttributes.addFlashAttribute("msg", "开场超过" + delay + "分钟，无法参加考试");
+                    }
                 }
             }
-        }
 
-        //不符合考试条件，跳转到考试列表页面
-        if (continueFlag == false) {
-            return "redirect:index.do";
-        }
+            //不符合考试条件，跳转到考试列表页面
+            if (continueFlag == false) {
+                return "redirect:index.do";
+            }
 
 
-        Integer userId = BuguWebUtil.getUserId(request);
-        Paper paper = new Paper();
-        paper.setUserId(userId);
-        paper.setSceneId(scene.getId());
-        List<Paper> paperList = paperService.findByObject(paper);
-        if (paperList != null && paperList.size() > 0) {//已经生成过试卷
-            paper = paperList.get(0);
-            if (paper.getStatus() == 0) {
-                Date beginAnswerTime = paper.getBeginTime();
-                Date shouldEndTime = DateUtil.add(beginAnswerTime, Calendar.MINUTE, scene.getDuration());
-                if (shouldEndTime.before(now)) {
-                    redirectAttributes.addFlashAttribute("msg", "考试时间已结束，无法继续答题");
+            Integer userId = BuguWebUtil.getUserId(request);
+            Paper paper = new Paper();
+            paper.setUserId(userId);
+            paper.setSceneId(scene.getId());
+            List<Paper> paperList = paperService.findByObject(paper);
+            if (paperList != null && paperList.size() > 0) {//已经生成过试卷
+                paper = paperList.get(0);
+                if (paper.getStatus() == PaperStatusEnum.ENABLE.getStatus()) {
+                    Date beginAnswerTime = paper.getBeginTime();
+                    Date shouldEndTime = DateUtil.add(beginAnswerTime, Calendar.MINUTE, scene.getDuration());
+                    if (shouldEndTime.before(now)) {
+                        redirectAttributes.addFlashAttribute("msg", "考试时间已结束，无法继续答题");
+                        return "redirect:index.do";
+                    } else {
+                        Long leftSecond = (shouldEndTime.getTime() - now.getTime());
+                        model.put("timeLeft", DateUtil.formatLeft(leftSecond));
+                    }
+                } else if (paper.getStatus() == PaperStatusEnum.COMMITED.getStatus()) {
+                    redirectAttributes.addFlashAttribute("msg", "您已提交试卷，无法再次作答");
                     return "redirect:index.do";
                 } else {
-                    Long leftSecond = (shouldEndTime.getTime() - now.getTime());
-                    model.put("timeLeft", DateUtil.formatLeft(leftSecond));
+                    redirectAttributes.addFlashAttribute("msg", "试卷状态异常，无法再次作答");
+                    return "redirect:index.do";
                 }
-            } else if (paper.getStatus() == 3) {
-                redirectAttributes.addFlashAttribute("msg", "您已提交试卷，无法再次作答");
-                return "redirect:index.do";
-            } else {
-                redirectAttributes.addFlashAttribute("msg", "试卷状态异常，无法再次作答");
-                return "redirect:index.do";
-            }
-        } else {//没有试卷，新生成
-            paper = paperService.generatePaperForUser(scene, userId);
+            } else {//没有试卷，新生成
+                paper = paperService.generatePaperForUser(scene, userId);
 
-            Integer leftMinute = 0;
-            Long left = (endTime.getTime() - now.getTime()) / 1000;
-            if (left.intValue() < scene.getDuration()) {
-                leftMinute = left.intValue();
-            } else {
-                leftMinute = scene.getDuration();
+                Integer leftMinute = 0;
+                Long left = (endTime.getTime() - now.getTime()) / 1000;
+                if (left.intValue() < scene.getDuration()) {
+                    leftMinute = left.intValue();
+                } else {
+                    leftMinute = scene.getDuration();
+                }
+
+                model.put("timeLeft", leftMinute / 60 + "h" + leftMinute % 60 + "m" + "0s");
             }
 
-            model.put("timeLeft", leftMinute / 60 + "h" + leftMinute % 60 + "m" + "0s");
-        }
+            Map<Integer, CommonQuestion> questionMap = new HashMap<>();
+            List<Integer> idList = new ArrayList<>();
+            String content = paper.getContent();
+            Map map = JSON.parseObject(content, Map.class);
+            Iterator<Integer> keyIter = map.keySet().iterator();
+            while (keyIter.hasNext()) {
+                Integer key = keyIter.next();
+                List<Integer> ids = (List<Integer>) map.get(key);
+                idList.addAll(ids);
+            }
 
-        Map<Integer, CommonQuestion> questionMap = new HashMap<>();
-        List<Integer> idList = new ArrayList<>();
-        String content = paper.getContent();
-        Map map = JSON.parseObject(content, Map.class);
-        Iterator<Integer> keyIter = map.keySet().iterator();
-        while (keyIter.hasNext()) {
-            Integer key = keyIter.next();
-            List<Integer> ids = (List<Integer>) map.get(key);
-            idList.addAll(ids);
-        }
+            for (Integer id : idList) {
+                questionMap.put(id, questionService.findById(id));
+            }
 
-        for (Integer id : idList) {
-            questionMap.put(id, questionService.findById(id));
-        }
+            Map<Integer, String> answerMap = new HashMap<>();
+            Answer obj = new Answer();
+            obj.setPaperId(paper.getId());
+            List<Answer> answers = answerService.findByObject(obj);
+            for (Answer answer : answers) {
+                answerMap.put(answer.getQuestionId(), answer.getAnswer());
+            }
 
-        Map<Integer, String> answerMap = new HashMap<>();
-        Answer obj = new Answer();
-        obj.setPaperId(paper.getId());
-        List<Answer> answers = answerService.findByObject(obj);
-        for (Answer answer : answers) {
-            answerMap.put(answer.getQuestionId(), answer.getAnswer());
-        }
+            model.put("answerMap", JSON.toJSONString(answerMap));
 
-        model.put("answerMap", JSON.toJSONString(answerMap));
-
-        model.put("questionMap", JSON.toJSONString(questionMap));
-        model.put("questionIdList", JSON.toJSONString(idList));
-        model.put("paper", paper);
-        model.put("scene", scene);
+            model.put("questionMap", JSON.toJSONString(questionMap));
+            model.put("questionIdList", JSON.toJSONString(idList));
+            model.put("paper", paper);
+            model.put("scene", scene);
 
 /**
  * 题型信息
  * */
-        Map<Integer, QuestionMetaInfo> metaInfoMap = new HashMap<>();
-        List<QuestionMetaInfo> metaInfoList = metaInfoService.findByObject(null);
-        for (QuestionMetaInfo metaInfo : metaInfoList) {
-            metaInfoMap.put(metaInfo.getId(), metaInfo);
-        }
-        model.put("metaInfo", JSON.toJSONString(metaInfoMap));
+            Map<Integer, QuestionMetaInfo> metaInfoMap = new HashMap<>();
+            List<QuestionMetaInfo> metaInfoList = metaInfoService.findByObject(null);
+            for (QuestionMetaInfo metaInfo : metaInfoList) {
+                metaInfoMap.put(metaInfo.getId(), metaInfo);
+            }
+            model.put("metaInfo", JSON.toJSONString(metaInfoMap));
 
-        return "exam/examine";
+            return "exam/examine";
+        }catch (Exception e){
+            logger.error("进入考试失败", e);
+            throw new Exception("进入考试失败", e);
+        }
     }
 
 

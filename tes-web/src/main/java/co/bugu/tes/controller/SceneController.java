@@ -3,10 +3,9 @@ package co.bugu.tes.controller;
 import co.bugu.framework.core.dao.PageInfo;
 import co.bugu.framework.core.util.BuguWebUtil;
 import co.bugu.framework.core.util.ShiroSessionUtil;
-import co.bugu.framework.util.JedisUtil;
 import co.bugu.framework.util.exception.TesException;
+import co.bugu.tes.enums.CommonStatusEnum;
 import co.bugu.tes.enums.SceneStatusEnum;
-import co.bugu.tes.global.Constant;
 import co.bugu.tes.model.*;
 import co.bugu.tes.service.*;
 import co.bugu.tes.util.QuestionUtil;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 //@Menu(value = "场次管理", isBox = true)
@@ -160,15 +158,28 @@ public class SceneController {
     //    @Menu(value = "开场", isView = true)
     @RequestMapping("/index")
     public String index(Integer id, ModelMap model) {
-        if (id != null) {
-            QuestionMetaInfo metaInfo = new QuestionMetaInfo();
-            metaInfo.setStatus(0);
-            List<QuestionMetaInfo> metaInfos = questionMetaInfoService.findByObject(metaInfo);
-            Map<Integer, String> metaInfoIdNameMap = new HashMap<>();
-            for (QuestionMetaInfo info : metaInfos) {
-                metaInfoIdNameMap.put(info.getId(), info.getName());
-            }
+        QuestionMetaInfo metaInfo = new QuestionMetaInfo();
+        metaInfo.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        List<QuestionMetaInfo> metaInfos = questionMetaInfoService.findByObject(metaInfo);
+        Map<Integer, String> metaInfoIdNameMap = new HashMap<>();
+        for (QuestionMetaInfo info : metaInfos) {
+            metaInfoIdNameMap.put(info.getId(), info.getName());
+        }
 
+        PaperPolicy policy = new PaperPolicy();
+        policy.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        List<PaperPolicy> policyList = paperPolicyService.findByObject(policy);
+        for (PaperPolicy paperPolicy : policyList) {
+            paperPolicy.setContent(getPolicyContentForShow(paperPolicy, metaInfoIdNameMap));
+        }
+        model.put("paperPolicyList", policyList);
+
+        QuestionBank bank = new QuestionBank();
+        bank.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        List<QuestionBank> bankList = bankService.findByObject(bank);
+        model.put("bankList", bankList);
+
+        if (id != null) {
             Scene scene = sceneService.findById(id);
             if (scene.getPaperPolicyId() != null) {
                 PaperPolicy paperPolicy = paperPolicyService.findById(scene.getPaperPolicyId());
@@ -180,19 +191,6 @@ public class SceneController {
             } else {
                 model.put("scene", scene);
             }
-
-            PaperPolicy policy = new PaperPolicy();
-            policy.setStatus(0);
-            List<PaperPolicy> policyList = paperPolicyService.findByObject(policy);
-            for (PaperPolicy paperPolicy : policyList) {
-                paperPolicy.setContent(getPolicyContentForShow(paperPolicy, metaInfoIdNameMap));
-            }
-            model.put("paperPolicyList", policyList);
-
-            QuestionBank bank = new QuestionBank();
-            bank.setStatus(0);
-            List<QuestionBank> bankList = bankService.findByObject(bank);
-            model.put("bankList", bankList);
         } else {
             //新开场，需要校验是否有场次信息未完善
             Scene record = new Scene();
@@ -420,7 +418,7 @@ public class SceneController {
     @RequestMapping("/preview")
     public String preview(Integer id, ModelMap model) {
         QuestionMetaInfo metaInfo = new QuestionMetaInfo();
-        metaInfo.setStatus(0);
+        metaInfo.setStatus(CommonStatusEnum.ENABLE.getStatus());
         List<QuestionMetaInfo> metaInfos = questionMetaInfoService.findByObject(metaInfo);
 
         Map<Integer, String> metaInfoIdNameMap = new HashMap<>();

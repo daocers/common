@@ -65,8 +65,8 @@
                     <label class="control-label col-md-2">状态</label>
                     <div class="col-md-10">
                         <select class="form-control" name="status" required>
-                            <option value="0" <c:if test="${property.status == 0}"> selected</c:if>>启用</option>
-                            <option value="1" <c:if test="${property.status == 1}"> selected</c:if>>禁用</option>
+                            <option value="1" <c:if test="${property.status == 1}"> selected</c:if>>启用</option>
+                            <option value="0" <c:if test="${property.status == 0}"> selected</c:if>>禁用</option>
                         </select>
                         <span class="help-block with-errors">可用/禁用  </span>
                     </div>

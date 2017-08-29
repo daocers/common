@@ -50,7 +50,7 @@
                         <td>${property.code}</td>
                         <td>${property.description}</td>
                         <td>${property.idx}</td>
-                        <td>${property.status == 0 ? "启用" : "禁用"}</td>
+                        <td>${property.status == 1 ? "启用" : "禁用"}</td>
                         <td>
                             <a href="edit.do?id=${property.id}&type=detail" class="opr">详情</a>
                             <a href="edit.do?id=${property.id}" class="opr">修改</a>

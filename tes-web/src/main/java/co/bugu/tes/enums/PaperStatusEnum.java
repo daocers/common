@@ -6,9 +6,9 @@ import java.util.Map;
 /**
  * Created by user on 2017/6/7.
  */
-public enum CommonStatusEnum {
+public enum PaperStatusEnum {
 
-    ENABLE(1, "启用"), DISABLE(-1, "删除"), DELETE(0, "禁用");
+    ENABLE(1, "正常"), DISABLE(-1, "删除"), DELETE(0, "禁用"), COMMITED(3, "已提交");
 
     private Integer status;
 
@@ -25,14 +25,14 @@ public enum CommonStatusEnum {
         return info;
     }
 
-    CommonStatusEnum(Integer status, String info){
+    PaperStatusEnum(Integer status, String info){
         this.status = status;
         this.info = info;
     }
 
     static {
-        CommonStatusEnum[] enums = CommonStatusEnum.values();
-        for(CommonStatusEnum e: enums){
+        PaperStatusEnum[] enums = PaperStatusEnum.values();
+        for(PaperStatusEnum e: enums){
             map.put(e.getStatus(), e.getInfo());
         }
     }

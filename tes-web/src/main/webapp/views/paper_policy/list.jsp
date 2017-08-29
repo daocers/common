@@ -56,7 +56,7 @@
                         <td>${paperPolicy.branchId}</td>
                         <td>${paperPolicy.departmentId}</td>
                         <td>${paperPolicy.stationId}</td>
-                        <td>${paperPolicy.status == 0  ? "启用":"禁用"}</td>
+                        <td>${paperPolicy.status == 1  ? "启用":"禁用"}</td>
                             <%--<td><fmt:formatDate value="${paperPolicy.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>--%>
                             <%--<td>${paperPolicy.createUserId}</td>--%>
                             <%--<td><fmt:formatDate value="${paperPolicy.updateTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>--%>

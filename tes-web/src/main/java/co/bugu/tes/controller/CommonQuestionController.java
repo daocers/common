@@ -6,7 +6,7 @@ import co.bugu.framework.core.util.ShiroSessionUtil;
 import co.bugu.framework.util.ExcelUtil;
 import co.bugu.framework.util.JsonUtil;
 import co.bugu.framework.util.exception.TesException;
-import co.bugu.tes.enums.CommonStatus;
+import co.bugu.tes.enums.CommonStatusEnum;
 import co.bugu.tes.model.Property;
 import co.bugu.tes.model.QuestionBank;
 import co.bugu.tes.model.QuestionMetaInfo;
@@ -365,7 +365,7 @@ public class CommonQuestionController {
                 question.setCreateTime(new Date());
                 question.setMetaInfoId(metaInfoId);
                 question.setQuestionBankId(questionBankId);
-                question.setStatus(CommonStatus.ENABLE.getStatus());
+                question.setStatus(CommonStatusEnum.ENABLE.getStatus());
 
                 List<Integer> propItemId = new ArrayList<>();
                 for (Integer id : propIndexList) {

@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -138,6 +139,7 @@ public class CommonQuestionServiceImpl extends BaseServiceImpl<CommonQuestion> i
 
     @Override
     public CommonQuestion findById(Integer id) {
+        logger.info("查找试题， id: {}", id);
         CommonQuestion question = null;
         try{
             question = JedisUtil.getObject(id, CommonQuestion.class);
@@ -146,6 +148,11 @@ public class CommonQuestionServiceImpl extends BaseServiceImpl<CommonQuestion> i
         }
         if(question == null){
             question = baseDao.selectOne("tes.commonQuestion.selectById", id);
+            try {
+                JedisUtil.setObject(JedisUtil.getKey(id, question), question);
+            } catch (IOException e) {
+                logger.error("jedis setObject异常", e);
+            }
 //            if(question != null){
 //                question.setPropertyItemList(baseDao.selectList("tes.propertyItem.findPropItemByQuestionId", question.getId()));
 //                question.setQuestionMetaInfo(baseDao.selectOne("tes.questionMetaInfo.selectById", question.getMetaInfoId()));

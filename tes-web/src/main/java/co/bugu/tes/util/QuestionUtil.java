@@ -1,16 +1,20 @@
 package co.bugu.tes.util;
 
+import co.bugu.framework.core.dao.PageInfo;
 import co.bugu.framework.core.exception.TesJedisException;
 import co.bugu.framework.core.util.JedisUtil;
 import co.bugu.tes.DataException;
+import co.bugu.tes.enums.CommonStatusEnum;
 import co.bugu.tes.global.Constant;
 import co.bugu.tes.model.QuestionPolicy;
 import co.bugu.tes.model.question.CommonQuestion;
+import co.bugu.tes.service.ICommonQuestionService;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import redis.clients.jedis.Jedis;
 
 import java.util.*;
@@ -23,6 +27,8 @@ import java.util.*;
 public class QuestionUtil {
     private static Logger logger = LoggerFactory.getLogger(QuestionUtil.class);
 
+    @Autowired
+    static ICommonQuestionService commonQuestionService;
     /**
      * 生成缓存的key
      *
@@ -363,4 +369,25 @@ public class QuestionUtil {
     }
 
 
+    /**
+     * 初始化试题缓存
+     * @throws Exception
+     */
+    public static void initCacheOfCommonQuestion() throws Exception {
+        logger.info("开始初始化试题缓存");
+        CommonQuestion question = new CommonQuestion();
+        question.setStatus(CommonStatusEnum.ENABLE.getStatus());
+        PageInfo<CommonQuestion> pageInfo  = new PageInfo<>(100,  1);
+        pageInfo = commonQuestionService.findByObject(question, pageInfo);
+        while (CollectionUtils.isNotEmpty(pageInfo.getData())){
+            batchUpdateCacheAfterUpdate(pageInfo.getData());
+            if(pageInfo.getCount() == pageInfo.getShowCount()){
+                pageInfo.setCurPage(pageInfo.getCurPage() + 1);
+                pageInfo = commonQuestionService.findByObject(question, pageInfo);
+            }else{
+                break;
+            }
+        }
+        logger.info("试题缓存初始化完成");
+    }
 }

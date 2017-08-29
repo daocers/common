@@ -2,6 +2,7 @@ package co.bugu.tes.controller;
 
 import co.bugu.framework.core.dao.PageInfo;
 import co.bugu.framework.util.JsonUtil;
+import co.bugu.tes.enums.CommonStatusEnum;
 import co.bugu.tes.model.question.TypeInQuestion;
 import co.bugu.tes.service.ITypeInService;
 import com.alibaba.fastjson.JSON;
@@ -94,7 +95,7 @@ public class TypeInController {
     @RequestMapping(value = "/save", method = RequestMethod.POST)
     public String save(TypeInQuestion typeInQuestion, ModelMap model) {
         try {
-            typeInQuestion.setStatus(0);
+            typeInQuestion.setStatus(CommonStatusEnum.ENABLE.getStatus());
             if (typeInQuestion.getId() == null) {
                 typeInService.save(typeInQuestion);
             } else {
