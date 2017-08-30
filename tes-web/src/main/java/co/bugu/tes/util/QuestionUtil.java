@@ -2,6 +2,7 @@ package co.bugu.tes.util;
 
 import co.bugu.framework.core.dao.PageInfo;
 import co.bugu.framework.core.exception.TesJedisException;
+import co.bugu.framework.core.util.ApplicationContextUtil;
 import co.bugu.framework.core.util.JedisUtil;
 import co.bugu.tes.DataException;
 import co.bugu.tes.enums.CommonStatusEnum;
@@ -27,8 +28,6 @@ import java.util.*;
 public class QuestionUtil {
     private static Logger logger = LoggerFactory.getLogger(QuestionUtil.class);
 
-    @Autowired
-    static ICommonQuestionService commonQuestionService;
     /**
      * 生成缓存的key
      *
@@ -117,6 +116,17 @@ public class QuestionUtil {
             //先删除缓存中所有关于该列的缓存
             jedis.srem(key, questionId);
         }
+
+        addToSet(jedis, question);
+    }
+
+    /**
+     * 试题信息加入set
+     * @param jedis
+     * @param question
+     */
+    private static void addToSet(Jedis jedis, CommonQuestion question){
+        String questionId = question.getId().toString();
         //添加更新后的缓存数量
         Integer questionMetaInfoId = question.getMetaInfoId();
         Integer bankId = question.getQuestionBankId();
@@ -375,19 +385,34 @@ public class QuestionUtil {
      */
     public static void initCacheOfCommonQuestion() throws Exception {
         logger.info("开始初始化试题缓存");
-        CommonQuestion question = new CommonQuestion();
-        question.setStatus(CommonStatusEnum.ENABLE.getStatus());
-        PageInfo<CommonQuestion> pageInfo  = new PageInfo<>(100,  1);
-        pageInfo = commonQuestionService.findByObject(question, pageInfo);
-        while (CollectionUtils.isNotEmpty(pageInfo.getData())){
-            batchUpdateCacheAfterUpdate(pageInfo.getData());
-            if(pageInfo.getCount() == pageInfo.getShowCount()){
+        Jedis jedis = null;
+        try{
+            jedis = JedisUtil.getJedis();
+            Set<String> keys = jedis.keys("*" + Constant.QUESTION_ATTR_INFO + "*");
+            //删除所有的属性缓存相关的key
+            jedis.del(keys.toArray(new String[keys.size()]));
+
+            CommonQuestion question = new CommonQuestion();
+            question.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            ICommonQuestionService commonQuestionService = ApplicationContextUtil.getBean(ICommonQuestionService.class);
+            PageInfo<CommonQuestion> pageInfo  = new PageInfo<>(100,  1);
+            pageInfo = commonQuestionService.findByObject(question, pageInfo);
+            while (CollectionUtils.isNotEmpty(pageInfo.getData())){
+//            batchUpdateCacheAfterUpdate(pageInfo.getData());
+                for(CommonQuestion commonQuestion: pageInfo.getData()){
+                    addToSet(jedis, commonQuestion);
+                }
                 pageInfo.setCurPage(pageInfo.getCurPage() + 1);
                 pageInfo = commonQuestionService.findByObject(question, pageInfo);
-            }else{
-                break;
+            }
+
+        }finally {
+            if(jedis != null){
+                jedis.close();
             }
         }
+
+
         logger.info("试题缓存初始化完成");
     }
 }

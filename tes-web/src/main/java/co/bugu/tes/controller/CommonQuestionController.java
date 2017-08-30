@@ -564,6 +564,7 @@ public class CommonQuestionController {
 
     /**
      * 更新试题缓存
+     * 开场时候发现试题不足时候可以请求
      *
      * @return
      * @throws Exception
@@ -572,10 +573,14 @@ public class CommonQuestionController {
     @RequestMapping(value = "/updateCache", method = RequestMethod.POST)
     @ResponseBody
     public String updateCache() throws Exception {
-        QuestionUtil.initCacheOfCommonQuestion();
-
         JSONObject json = new JSONObject();
-        json.put("code", 0);
+        try{
+            QuestionUtil.initCacheOfCommonQuestion();
+            json.put("code", 0);
+        }catch (Exception e){
+            json.put("code", -1);
+            logger.error("更新试题缓存失败", e);
+        }
         return json.toJSONString();
 
     }

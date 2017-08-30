@@ -378,6 +378,15 @@ public class SceneController {
         return json.toJSONString();
     }
 
+    /**
+     * 校验试卷策略
+     * 返回map<String, String>格式的json串
+     * key为单选 简单对公10题， value为题库有20题之类的
+     * @param bankId
+     * @param paperPolicyId
+     * @return
+     * @throws TesException
+     */
     //    @Menu(value = "校验试卷策略可用")
     @RequestMapping("/checkPaperPolicy")
     @ResponseBody

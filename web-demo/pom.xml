@@ -35,7 +35,7 @@
                         <directory>src/main/resources-env/dev</directory>
                     </resource>
                     <resource>
-                        <directory>src/main/resources/conf/</directory>
+                        <directory>src/main/resources/</directory>
                     </resource>
                 </resources>
             </build>
@@ -48,7 +48,7 @@
                         <directory>src/main/resources-env/prod</directory>
                     </resource>
                     <resource>
-                        <directory>src/main/resources/conf</directory>
+                        <directory>src/main/resources/</directory>
                     </resource>
                 </resources>
             </build>
