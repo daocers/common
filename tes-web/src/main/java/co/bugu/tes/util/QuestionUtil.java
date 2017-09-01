@@ -389,8 +389,10 @@ public class QuestionUtil {
         try{
             jedis = JedisUtil.getJedis();
             Set<String> keys = jedis.keys("*" + Constant.QUESTION_ATTR_INFO + "*");
-            //删除所有的属性缓存相关的key
-            jedis.del(keys.toArray(new String[keys.size()]));
+            if(CollectionUtils.isNotEmpty(keys)){
+                //删除所有的属性缓存相关的key
+                jedis.del(keys.toArray(new String[keys.size()]));
+            }
 
             CommonQuestion question = new CommonQuestion();
             question.setStatus(CommonStatusEnum.ENABLE.getStatus());

@@ -57,7 +57,7 @@ public class CommonQuestion {
     }
 
     public Boolean isPub() {
-        return isPub == 0;
+        return isPub != null && isPub == 0;
     }
 
     public void setIsPub(Integer isPub) {
