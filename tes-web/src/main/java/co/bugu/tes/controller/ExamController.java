@@ -416,8 +416,13 @@ public class ExamController {
      * @throws IOException
      */
     private void sendMessageToUserClient(Integer userId, String message) throws IOException {
-        WebSocketSession session = WebSocketSessionUtil.getWebSocketSession(userId);
-        session.sendMessage(new TextMessage(message));
+        WebSocketSession session = null;
+        try{
+            session = WebSocketSessionUtil.getWebSocketSession(userId);
+            session.sendMessage(new TextMessage(message));
+        }finally {
+            session.close();
+        }
     }
 
 

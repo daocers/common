@@ -16,8 +16,12 @@ import org.apache.shiro.codec.Base64;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.UnsupportedCharsetException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -25,6 +29,7 @@ import java.util.List;
  * Created by QDHL on 2017/7/24.
  */
 public class TesReam extends AuthorizingRealm {
+    private static Logger logger = LoggerFactory.getLogger(TesReam.class);
     @Autowired
     IUserService userService;
     @Autowired
@@ -100,7 +105,11 @@ public class TesReam extends AuthorizingRealm {
         List<User> userList = userService.findByObject(user);
         if (CollectionUtils.isNotEmpty(userList) && userList.size() == 1) {
             //加密后的password
-            password = Base64.encodeToString((password + user.getSalt()).getBytes());
+            try {
+                password = Base64.encodeToString((password + user.getSalt()).getBytes("utf-8"));
+            } catch (UnsupportedEncodingException e) {
+                logger.error("获取加密后的密码失败", e);
+            }
             if (password.equals(userList.get(0).getPassword())) {
                 Session session = SecurityUtils.getSubject().getSession();
                 session.setAttribute("userId", userList.get(0).getId());

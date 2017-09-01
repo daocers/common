@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+
 /**
  * Created by daocers on 2017/8/13.
  */
@@ -88,10 +91,10 @@ public class LoginController {
     }
 
     @RequestMapping("/register")
-    public String register(User user, RedirectAttributes redirectAttributes) {
+    public String register(User user, RedirectAttributes redirectAttributes) throws UnsupportedEncodingException {
         String salt = EncryptUtil.getSalt(6);
         user.setSalt(salt);
-        String finalPass = Base64.encodeToString((user.getPassword() + user.getSalt()).getBytes());
+        String finalPass = Base64.encodeToString((user.getPassword() + user.getSalt()).getBytes("utf-8"));
         user.setPassword(finalPass);
         user.setStatus(CommonStatusEnum.ENABLE.getStatus());
         userService.save(user);

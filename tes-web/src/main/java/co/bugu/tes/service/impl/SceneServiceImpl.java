@@ -88,7 +88,7 @@ public class SceneServiceImpl extends BaseServiceImpl<Scene> implements ISceneSe
             scene.setCreateUser(baseDao.selectOne("tes.user.selectById", scene.getCreateUser()));
         }
         if(scene.getUpdateUserId() != null){
-            if(scene.getUpdateUserId() == scene.getCreateUserId()){
+            if(scene.getUpdateUserId().equals(scene.getCreateUserId())){
                 scene.setUpdateUser(scene.getCreateUser());
             }else{
                 scene.setUpdateUser(baseDao.selectOne("tes.user.selectById", scene.getUpdateUserId()));
@@ -158,5 +158,4 @@ public class SceneServiceImpl extends BaseServiceImpl<Scene> implements ISceneSe
     public int changeStatusToBegin(Scene scene) {
         return baseDao.update("tes.scene.changeStatusToBegin", scene);
     }
-
 }

@@ -101,9 +101,8 @@ public class AuthorityController {
             logger.error("获取信息失败", e);
             json.put("code", -1);
             json.put("msg", "服务错误");
-        } finally {
-            return json.toString();
         }
+        return json.toJSONString();
 
     }
 
