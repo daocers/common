@@ -221,4 +221,12 @@
             #{question.departmentId}, #{question.stationId}, #{question.isPub})
         </foreach>
     </insert>
+
+    <select id="findAllByIdList" parameterType="list" resultMap="QuestionMap">
+        SELECT id,  title, content, meta_info_id FROM common_question
+        WHERE id in
+        <foreach collection="list" item="id" separator="," index="" open="(" close=")">
+            #{id}
+        </foreach>
+    </select>
 </mapper>

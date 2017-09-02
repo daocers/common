@@ -230,9 +230,13 @@ public class ExamController {
                 idList.addAll(ids);
             }
 
-            for (Integer id : idList) {
-                questionMap.put(id, questionService.findById(id));
+            List<CommonQuestion> questionList = questionService.findAllByIdList(idList);
+            for(CommonQuestion question: questionList){
+                questionMap.put(question.getId(), question);
             }
+//            for (Integer id : idList) {
+//                questionMap.put(id, questionService.findById(id));
+//            }
 
             Map<Integer, String> answerMap = new HashMap<>();
             Answer obj = new Answer();

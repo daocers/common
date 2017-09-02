@@ -35,4 +35,6 @@ public interface ICommonQuestionService extends IBaseService<CommonQuestion> {
     Long getCountByMetaInfoAndBankAndAttr(Integer questionMetaInfoId, Integer questionBankId, List<Integer> ids);
 
     int batchAdd(List<CommonQuestion> questionList, List<List<Integer>> propItemIdList) throws Exception;
+
+    List<CommonQuestion> findAllByIdList(List<Integer> idList);
 }

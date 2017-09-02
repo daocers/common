@@ -7,6 +7,7 @@ import co.bugu.framework.core.util.JedisUtil;
 import co.bugu.tes.model.question.CommonQuestion;
 import co.bugu.tes.service.ICommonQuestionService;
 import co.bugu.tes.util.QuestionUtil;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -121,6 +122,19 @@ public class CommonQuestionServiceImpl extends BaseServiceImpl<CommonQuestion> i
             num++;
         }
         return num  ;
+    }
+
+    @Override
+    public List<CommonQuestion> findAllByIdList(List<Integer> idList) {
+        if(CollectionUtils.isNotEmpty(idList)){
+            int size = idList.size();
+            List<CommonQuestion> list = baseDao.selectList("tes.commonQuestion.findAllByIdList", idList);
+            if(size != list.size()){
+                logger.warn("查询试题数量和试卷试题数量不符，请确认！");
+            }
+            return list;
+        }
+        return null;
     }
 
 
