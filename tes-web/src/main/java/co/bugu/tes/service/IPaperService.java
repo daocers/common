@@ -5,6 +5,7 @@ import co.bugu.framework.core.service.IBaseService;
 import co.bugu.tes.model.Paper;
 import co.bugu.tes.model.Scene;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 public interface IPaperService extends IBaseService<Paper> {
@@ -29,7 +30,7 @@ public interface IPaperService extends IBaseService<Paper> {
     Paper generatePaperForUser(Scene scene, Integer userId) throws Exception;
 
 
-    Double computeScore(Map<Integer, Double> metaInfoIdScoreMap, Map<String, String> answerInfo, Integer paperId);
+    Double computeScore(Map<Integer, BigDecimal> metaInfoIdScoreMap, Map<String, String> answerInfo, Integer paperId);
 
 
 

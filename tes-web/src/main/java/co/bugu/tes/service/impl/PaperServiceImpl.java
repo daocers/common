@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.*;
 
 @Service
@@ -239,7 +240,7 @@ public class PaperServiceImpl extends BaseServiceImpl<Paper> implements IPaperSe
     }
 
     @Override
-    public Double computeScore(Map<Integer, Double> metaInfoIdScoreMap, Map<String, String> answerInfo, Integer paperId) {
+    public Double computeScore(Map<Integer, BigDecimal> metaInfoIdScoreMap, Map<String, String> answerInfo, Integer paperId) {
         Paper paper = baseDao.selectOne("tes.paper.selectById", paperId);
         if (paper == null) {
             return null;
@@ -252,7 +253,7 @@ public class PaperServiceImpl extends BaseServiceImpl<Paper> implements IPaperSe
                 while (iter.hasNext()) {
                     Integer questionMetaInfoId = iter.next();
                     List<Integer> questionIds = map.get(questionMetaInfoId);
-                    Double score = metaInfoIdScoreMap.get(questionMetaInfoId);
+                    Double score = metaInfoIdScoreMap.get(questionMetaInfoId).doubleValue();
                     for (Integer questionId : questionIds) {
                         boolean res = checkQuestion(questionId, paperId, answerInfo.get(questionId + ""));
                         if (res) {

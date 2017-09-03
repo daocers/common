@@ -429,5 +429,9 @@ public class ExamController {
         }
     }
 
+    @RequestMapping("/manage")
+    private String toManage(){
+        return "exam/exam_manage";
+    }
 
 }

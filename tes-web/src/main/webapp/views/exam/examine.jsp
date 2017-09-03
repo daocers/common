@@ -186,269 +186,270 @@
 </div>
 </body>
 <script>
+    var currentIndex = -1;
+    var questionIdList;
+    /**
+     * 保存题型id和对应的试题id信息
+     * 题型， 试题id的map数据
+     * */
+    var questionMetaAndIdListMap;
+    /**
+     * 试题类型map
+     * */
+    var metaInfoMap;
+    /**
+     **保存已经作答的题目答案信息，key是试题id，value 为答案
+     * */
+    var answerMap;
+    /**
+     * 试题id 对应的试题试题信息
+     * */
+    var questionMap;
+    /**
+     * 试题code
+     */
+    var code;
 
-    $(function () {
+    /**
+     * 初始化第一题
+     */
+    function initFirstQuestion() {
+        currentIndex = 0;
+        var id = questionIdList[currentIndex];
+        show(id);
+    }
 
-        var currentIndex = -1;
-        //    var questionCount = 0;
-        var questionIdList = eval(${questionIdList});
-        /**
-         * 保存题型id和对应的试题id信息
-         * */
-        var questionMetaAndIdListMap = eval(${paper.content});
-        /**
-         * 试题类型map
-         * */
-        var metaInfoMap = eval(${metaInfo});
-
-        /**
-         **保存已经作答的题目答案信息，key是试题id，value 为答案
-         * */
-        var answerMap = eval(${answerMap})
-
-        /**
-         * 试题id 对应的试题试题信息
-         * */
-        var questionMap = eval(${questionMap});
-
-        var questionIdMap = eval(${paper.content});
-
-
-
-        /**
-         * 提交试题
-         *
-         */
-        function commitQuestion() {
-            console.log("commit")
-            var resFlag = true;
-            var paperId = $("#paperId").val();
-            var questionId = questionIdList[currentIndex];
-            var answer = getAnswer();
-            console.log("试题答案： ", answer);
-//        $("table tbody").find("tr[queid='" + questionId + "'] > td:eq(1)").text(answer);
-            if (!answer || answer == '') {//没有答题
-                return true;
-            } else {
-                $.ajax({
-                    url: 'commitQuestion.do',
-                    type: "post",
-                    data: {questionId: questionId, answer: answer, paperId: paperId, timeLeft: getTileLeft()},
-                    success: function (data) {
-                        var res = JSON.parse(data);
-                        if (res.code == 0) {
-                            console.log("提交答案成功");
-                            resFlag = true;
-                        } else {
-                            console.log("提交答案失败，请重试或者点击上一题下一题");
-                            var msg = res.msg;
-                            swal("提交答案失败", msg, "error");
-                            resFlag = false;
-                        }
-                        return resFlag;
-                    },
-                    error: function (data) {
-                        resFlag = false;
-                        swal("", "服务异常", "error");
-                        return resFlag;
-                    }
-                })
-            }
-
-        }
-        /**
-         * 获取试题
-         * */
-        function getQuestion(id) {
-            var ans = $("#myAnswer tbody tr[queid=" + id + "] td:eq(1)").text();
-            console.log("get question ans: ", ans);
-            var reqFlag = true;
-            var question = questionMap[id];
-            console.log("question: ", question);
-            var title = question.title;
-            var content = JSON.parse(question.content);
-            var remark = question.remark;
-            var metaInfoId = question.metaInfoId;
-
-
-            var answerCount = 0;
-            var buffer = '';
-            $.each(content, function (idx, obj) {
-                answerCount++;
-                buffer += '<li class="list-group-item">' + obj + '</li>';
-            });
-            var code = metaInfoMap[metaInfoId].code;
-
-            if (code == "single") {
-                $("#single-box").show();
-                $("#multi-box").hide();
-                $("#judge-box").hide();
-            } else if (code == "multi") {
-                $("#single-box").hide();
-                $("#multi-box").show();
-                $("#judge-box").hide();
-            } else if (code == "judge") {
-                $("#single-box").hide();
-                $("#multi-box").hide();
-                $("#judge-box").show();
-            }
-            $("[name='answer']").iCheck("uncheck")
-            $(".answer-box").find("label:gt(" + (answerCount - 1) + ")").hide();
-            $(".answer-box").find("label:lt(" + answerCount + ")").show();
-            $("#title").html(title);
-            $("#content").html(buffer);
-            if (remark) {
-                $("#remark").html("备注：" + remark);
-            }
-
-
-            if(ans && ans.length > 0){
-                console.log("ans: ", ans)
-                $.each(ans.split(""), function (idx, obj) {
-                    $("#" + code + "-box").find("input[value='" + obj + "']").iCheck('check');
-                })
-            }
-
-            $("#myAnswer tbody tr").removeClass("current");
-            $("#myAnswer tbody tr[queid='" + id + "']").addClass("current");
-//        $("#current option[queid='" + id + "']").attr("selected", true);
-            $("#current").val(id);
-            return reqFlag;
-
-        }
-        /**
-         * 提交试卷
-         * */
-        function commitPaper() {
-            var resFlag = true;
-            var paperId = $("#paperId").val();
-            var data = {};
-            $("table tbody tr").each(function (idx, obj) {
-                var questionId = parseInt($(obj).attr("queid"));
-                var answer = $(obj).find("td:eq(1)").text();
-                data[questionId] = answer;
-            });
+    /**
+     * 提交试题
+     *
+     */
+    function commitQuestion() {
+        console.log("提交试题")
+        var resFlag = true;
+        var paperId = $("#paperId").val();
+        var questionId = questionIdList[currentIndex];
+        var answer = getAnswer();
+        console.log("试题答案： ", answer);
+        if (!answer || answer == '') {//没有答题
+            return true;
+        } else {
             $.ajax({
-                url: "commitPaper.do",
-                type: 'post',
-                data: {answerInfo: JSON.stringify(data), paperId: paperId},
+                url: 'commitQuestion.do',
+                type: "post",
+                data: {questionId: questionId, answer: answer, paperId: paperId, timeLeft: getTileLeft()},
                 success: function (data) {
                     var res = JSON.parse(data);
                     if (res.code == 0) {
+                        console.log("提交答案成功");
                         resFlag = true;
-                        console.log("试卷提交成功");
-                        swal("", "试卷提交成功", "success").then(function (isconfirm) {
-                            if (isconfirm) {
-                                window.location.href = "/index.jsp";//页面跳转待定
-                            }
-                        })
+                    } else {
+                        console.log("提交答案失败，请重试或者点击上一题下一题");
+                        var msg = res.msg;
+                        swal("提交答案失败", msg, "error");
+                        resFlag = false;
                     }
+                    return resFlag;
                 },
                 error: function (data) {
-                    swal("", "服务失败，请联系管理员", "error");
                     resFlag = false;
+                    swal("", "服务异常", "error");
+                    return resFlag;
                 }
             })
-
-
-        }
-        /**
-         * 下一题
-         * */
-        function next() {
-            console.log("next click")
-            commitQuestion();
-            if (currentIndex == questionIdList.length - 1) {
-                swal("", "已经是最后一题", "warning");
-                return false;
-            }
-            try {
-                currentIndex = currentIndex + 1;
-                var id = questionIdList[currentIndex];
-                console.log("id: ", id);
-                jumpTo(id);
-//            getQuestion(questionIdList[currentIndex + 1]);
-//            currentIndex++;
-                return false;
-            } catch (err) {
-                console.log("失败", err);
-                swal("", "提交试题失败", "error");//此处根据需要后续不做弹框处理，要做页面头部显示
-                return false;
-            }
         }
 
-        /**
-         *
-         * 前一题
-         * */
-        function prev() {
-            commitQuestion();
-            if (currentIndex == 0 || currentIndex == -1) {
-                swal("", "已经是第一题", "warning");
-                return false;
-            }
-            try {
-                currentIndex = currentIndex - 1;
-                var id = questionIdList[currentIndex];
-                jumpTo(id);
-//            getQuestion(questionIdList[currentIndex]);
-                return false;
-            } catch (err) {
-                console.log("失败", err);
-                swal("", "提交试题失败", "error");//此处根据需要后续不做弹框处理，要做页面头部显示
-                return false;
-            }
+    }
+    /**
+     * 获取试题
+     * */
+    function getQuestion(id) {
+        console.log("获取试题信息")
+        var ans = $("#myAnswer tbody tr[queid=" + id + "] td:eq(1)").text();
+        var reqFlag = true;
+        var question = questionMap[id];
+        var title = question.title;
+        var content = JSON.parse(question.content);
+        var remark = question.remark;
+        var metaInfoId = question.metaInfoId;
+
+        var answerCount = 0;
+        var buffer = '';
+        $.each(content, function (idx, obj) {
+            answerCount++;
+            buffer += '<li class="list-group-item">' + obj + '</li>';
+        });
+        code = metaInfoMap[metaInfoId].code;
+
+        if (code == "single") {
+            $("#single-box").show();
+            $("#multi-box").hide();
+            $("#judge-box").hide();
+        } else if (code == "multi") {
+            $("#single-box").hide();
+            $("#multi-box").show();
+            $("#judge-box").hide();
+        } else if (code == "judge") {
+            $("#single-box").hide();
+            $("#multi-box").hide();
+            $("#judge-box").show();
         }
-        /*初始化计时器*/
-        function initTimer() {
-            var left = $("#timeLeft").val();
-//        left = left + "s";
-            console.log("leftTime: ", left)
-            $("#timer").timer({
-                duration: left,
-                countdown: true,
-                format: '%H:%M:%S',
-                callback: function () {
-                    swal("", "时间到", "info");
+        $("[name='answer']").iCheck("uncheck")
+        $(".answer-box").find("label:gt(" + (answerCount - 1) + ")").hide();
+        $(".answer-box").find("label:lt(" + answerCount + ")").show();
+        $("#title").html(title);
+        $("#content").html(buffer);
+        if (remark) {
+            $("#remark").html("备注：" + remark);
+        }
+
+        if(ans && ans.length > 0){
+            console.log("ans: ", ans)
+            $.each(ans.split(""), function (idx, obj) {
+                $("#" + code + "-box").find("input[value='" + obj + "']").iCheck('check');
+            })
+        }
+
+        $("#myAnswer tbody tr").removeClass("current");
+        $("#myAnswer tbody tr[queid='" + id + "']").addClass("current");
+        $("#current").val(id);
+        return reqFlag;
+
+    }
+    /**
+     * 提交试卷
+     * */
+    function commitPaper() {
+        console.log("提交试卷")
+        var resFlag = true;
+        var paperId = $("#paperId").val();
+        var data = {};
+        $("table tbody tr").each(function (idx, obj) {
+            var questionId = parseInt($(obj).attr("queid"));
+            var answer = $(obj).find("td:eq(1)").text();
+            data[questionId] = answer;
+        });
+        console.log("试卷数据： ", data);
+        $.ajax({
+            url: "commitPaper.do",
+            type: 'post',
+            data: {answerInfo: JSON.stringify(data), paperId: paperId},
+            success: function (data) {
+                var res = JSON.parse(data);
+                if (res.code == 0) {
+                    resFlag = true;
+                    swal("", "试卷提交成功", "success").then(function (isConfirm) {
+                        if (isConfirm) {
+                            window.location.href = "/index.jsp";//页面跳转待定
+                        }
+                    })
                 }
-            });
-
-        }
-        /**
-         * 获取作答信息
-         */
-        function getAnswer() {
-            var res = "";
-            var checkedInput = $("[name='answer']:checked");
-            $.each(checkedInput, function (idx, obj) {
-                res += $(obj).val();
-            });
-            return res;
-        }
-
-        function getSeconds() {
-            return $("#timer").data("seconds");
-        }
-
-        function getTileLeft() {
-            return $("#timer").val();
-        }
-
-        /**
-         * 跳转到指定试题
-         */
-        function jumpTo(id) {
-            commitQuestion();
-            currentIndex = questionIdList.indexOf(id);
-            getQuestion(id);
-
-
-        }
-
-        $("#myAnswer a").on("click", function () {
-            return false;
+            },
+            error: function (data) {
+                swal("", "服务失败，请联系管理员", "error");
+                resFlag = false;
+            }
         })
-//        questionIdList = JSON.parse($("#questionIds").val());
+
+
+    }
+
+    /**
+     * 下一题
+     * */
+    function next() {
+        console.log("下一题")
+        commitQuestion();
+        if (currentIndex == questionIdList.length - 1) {
+            swal("", "已经是最后一题", "warning");
+            return false;
+        }
+        try {
+            currentIndex = currentIndex + 1;
+            var id = questionIdList[currentIndex];
+            console.log("id:", id);
+            show(id);
+            return false;
+        } catch (err) {
+            swal("", "提交试题失败", "error");//此处根据需要后续不做弹框处理，要做页面头部显示
+            return false;
+        }
+    }
+
+    /**
+     *
+     * 前一题
+     * */
+    function prev() {
+        console.log("上一题")
+        commitQuestion();
+        if (currentIndex == 0 || currentIndex == -1) {
+            swal("", "已经是第一题", "warning");
+            return false;
+        }
+        try {
+            currentIndex = currentIndex - 1;
+            var id = questionIdList[currentIndex];
+            console.log("id:", id);
+            show(id);
+            return false;
+        } catch (err) {
+            swal("", "提交试题失败", "error");//此处根据需要后续不做弹框处理，要做页面头部显示
+            return false;
+        }
+    }
+    /**
+     * 初始化计时器
+     * */
+    function initTimer() {
+        console.log("初始化计时器")
+        var left = $("#timeLeft").val();
+        $("#timer").timer({
+            duration: left,
+            countdown: true,
+            format: '%H:%M:%S',
+            callback: function () {
+                swal("", "时间到", "info");
+            }
+        });
+
+    }
+    /**
+     * 获取作答信息
+     */
+    function getAnswer() {
+        console.log("获取作答信息")
+        var res = "";
+        var checkedInput = $("[name='answer']:checked");
+        $.each(checkedInput, function (idx, obj) {
+            res += $(obj).val();
+        });
+        return res;
+    }
+
+    function getSeconds() {
+        return $("#timer").data("seconds");
+    }
+
+    function getTileLeft() {
+        return $("#timer").val();
+    }
+
+    /**
+     * 跳转到指定试题
+     */
+    function jumpTo(id) {
+        commitQuestion();
+        currentIndex = questionIdList.indexOf(id);
+        getQuestion(id);
+
+
+    }
+
+    /**
+     * 初始化界面
+     */
+    function initUI() {
+        console.log("初始化界面");
         //初始化答题数据
         var tableBox = "";
         var selectBox = "";
@@ -467,50 +468,168 @@
         $("#myAnswer tbody").html(tableBox);
         $("#current").html(selectBox);
 
-        /**
-         * 初始化题目
-         */
-        var queFlag = getQuestion(questionIdList[0]);
-        //第一次加载题目后将currentIndex++,也就是变成0
-        if (queFlag) {
-            currentIndex++;
+//        选中表格第一行
+        $("#myAnswer tbody tr:first").addClass("current");
+    }
+
+    /**
+     * 初始化试题信息
+     */
+    function initData() {
+        console.log("初始化试题信息");
+        questionIdList = eval(${questionIdList});
+        questionMetaAndIdListMap = eval(${paper.content});
+        metaInfoMap = eval(${metaInfo});
+        answerMap = eval(${answerMap})
+        questionMap = eval(${questionMap});
+        console.log("questionIdList: ", questionIdList);
+        console.log("questionMetaAndIdListMap: ", questionMetaAndIdListMap);
+        console.log("metaInfoMap: ", metaInfoMap);
+        console.log("answerMap: ", answerMap);
+        console.log("questionMap: ", questionMap);
+
+        initFirstQuestion();
+
+        //      试题列表选择试题
+        $("#current").bind("change", function () {
+            var id = $(this).val();
+            console.log("current: ", id);
+            console.log("questionIdList: ", questionIdList);
+            currentIndex = questionIdList.indexOf(id);
+            console.log("currentIndex: ", currentIndex);
+            show(id);
+
+        })
+    }
+
+    /**
+     * 显示指定id的试题
+     * @param id
+     */
+    function show(id) {
+        showQuestion(id);
+    }
+
+    /**
+     * 显示指定id的试题内容
+     * @param id
+     */
+    function showQuestion(id) {
+        var ans = $("#myAnswer tbody tr[queid=" + id + "] td:eq(1)").text();
+
+
+        console.log("显示指定id的试题, id: ", id);
+        //获取试题信息
+        var question = questionMap[id];
+        var title = question.title;
+        var content = JSON.parse(question.content);
+        var remark = question.remark;
+        var metaInfoId = question.metaInfoId;
+
+        var answerCount = 0;
+        var buffer = '';
+        $.each(content, function (idx, obj) {
+            answerCount++;
+            buffer += '<li class="list-group-item">' + obj + '</li>';
+        });
+
+//  显示答题框
+        code = metaInfoMap[metaInfoId].code;
+        if (code == "single") {
+            $("#single-box").show();
+            $("#multi-box").hide();
+            $("#judge-box").hide();
+        } else if (code == "multi") {
+            $("#single-box").hide();
+            $("#multi-box").show();
+            $("#judge-box").hide();
+        } else if (code == "judge") {
+            $("#single-box").hide();
+            $("#multi-box").hide();
+            $("#judge-box").show();
         }
-        initTimer();
+
+        $("[name='answer']").iCheck("uncheck")
+        $(".answer-box").find("label:gt(" + (answerCount - 1) + ")").hide();
+        $(".answer-box").find("label:lt(" + answerCount + ")").show();
+        $("#title").html(title);
+        $("#content").html(buffer);
+        if (remark) {
+            $("#remark").html("备注：" + remark);
+        }
+
+
+
+        console.log(ans, id, code);
+        if(ans && ans.length > 0){
+            $.each(ans.split(""), function (idx, obj) {
+                $("#" + code + "-box").find("input[value='" + obj + "']").iCheck('check');
+            })
+        }
+
+        //  定位当前试题信息（答题列表，下拉列表）
+        $("#myAnswer tbody tr").removeClass("current");
+        $("#myAnswer tbody tr[queid='" + id + "']").addClass("current");
+        $("#current").val(id);
+    }
+
+    /**
+     * 显示指定id的试题答案
+     * @param id
+     */
+    function showAnswer(id) {
+        console.log("显示指定id 的试题答案, id: ", id);
+        console.log("#myAnswer tbody tr[queid=" + id + "] td:eq(1)");
+        var ans = $("#myAnswer tbody tr[queid=" + id + "] td:eq(1)").text();
+        console.log("ans: ", ans);
+        console.log(ans, id, code);
+        if(ans && ans.length > 0){
+            $.each(ans.split(""), function (idx, obj) {
+                $("#" + code + "-box").find("input[value='" + obj + "']").iCheck('check');
+            })
+        }
+    }
+
+
+    $(function () {
+//      换试卷
+        $("#changePaper").bind("click", function () {
+            swal("", "更换试卷后当前试卷作废，剩余作答时间不变。且仅有一次更换机会，确认要更换试卷吗？", "warning");
+        });
+
+//      勾选插件
+        $("[type='checkbox'], [type='radio']").iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%' // optional
+        });
+
+
+//      提交试卷
+        $("#commitPaper").on("click", commitPaper);
+
+//      实时更新表格中的已选答案
+        $("[name='answer']").on("ifChanged", function (event) {
+            console.log("当前试题： ", currentIndex);
+            $("#myAnswer tr[queid='" + questionIdList[currentIndex] + "'] td:eq(1)").text(getAnswer());
+        });
+
+        $("#myAnswer a").on("click", function () {
+            return false;
+        })
         $("#prevBtn").on("click", prev);
 
         $("#nextBtn").on("click", next);
+
+        initData()
+        initTimer();
+        initUI();
+
     });
-
-    /**
-     * 获取作答信息
-     */
-
-
-    $("#changePaper").bind("click", function () {
-        swal("", "更换试卷后当前试卷作废，剩余作答时间不变。且仅有一次更换机会，确认要更换试卷吗？", "warning");
-    });
-
-    //勾选插件
-    $("[type='checkbox'], [type='radio']").iCheck({
-        checkboxClass: 'icheckbox_square-blue',
-        radioClass: 'iradio_square-blue',
-        increaseArea: '20%' // optional
-    });
-
-
-
-    $("#current").on("change", function () {
-        var id = $(this).val();
-        show(id);
-        currentIndex = questionIdList[currentIndex];
-        console.log("currentIndex: ", currentIndex);
-    })
-
-    $("#commitPaper").on("click", commitPaper);
 
 
     /**
-     * 以下是websocket处理，用来处理强制交卷信息
+     * 以下是webSocket处理，用来处理强制交卷信息
      * */
     var ws;
     $(function () {
@@ -546,89 +665,9 @@
             console.log("event:", event);
             console.log("close...")
         }
-    })
-
-    /**
-     * 实时更新答案
-     * */
-    $("[name='answer']").on("ifChanged", function (event) {
-        console.log("当前试题： ", currentIndex);
-        $("#myAnswer tr[queid='" + questionIdList[currentIndex] + "'] td:eq(1)").text(getAnswer());
     });
 
-    /**
-     * 显示指定id的试题
-     * @param id
-     */
-    function show(id) {
-        showQuestion(id);
-        showAnswer(id);
-    }
 
-    /**
-     * 显示指定id的试题内容
-     * @param id
-     */
-    function showQuestion(id) {
-        //获取试题信息
-        var question = questionMap[id];
-        console.log("question: ", question);
-        var title = question.title;
-        var content = JSON.parse(question.content);
-        var remark = question.remark;
-        var metaInfoId = question.metaInfoId;
-
-        var answerCount = 0;
-        var buffer = '';
-        $.each(content, function (idx, obj) {
-            answerCount++;
-            buffer += '<li class="list-group-item">' + obj + '</li>';
-        });
-
-//  显示答题框
-        var code = metaInfoMap[metaInfoId].code;
-        if (code == "single") {
-            $("#single-box").show();
-            $("#multi-box").hide();
-            $("#judge-box").hide();
-        } else if (code == "multi") {
-            $("#single-box").hide();
-            $("#multi-box").show();
-            $("#judge-box").hide();
-        } else if (code == "judge") {
-            $("#single-box").hide();
-            $("#multi-box").hide();
-            $("#judge-box").show();
-        }
-
-        $("[name='answer']").iCheck("uncheck")
-        $(".answer-box").find("label:gt(" + (answerCount - 1) + ")").hide();
-        $(".answer-box").find("label:lt(" + answerCount + ")").show();
-        $("#title").html(title);
-        $("#content").html(buffer);
-        if (remark) {
-            $("#remark").html("备注：" + remark);
-        }
-
-//  定位当前试题信息（答题列表，下拉列表）
-        $("#myAnswer tbody tr").removeClass("current");
-        $("#myAnswer tbody tr[queid='" + id + "']").addClass("current");
-        $("#current").val(id);
-    }
-
-    /**
-     * 显示指定id的试题答案
-     * @param id
-     */
-    function showAnswer(id) {
-        var ans = $("#myAnswer tbody tr[queid=" + id + "] td:eq(1)").text();
-        if(ans && ans.length > 0){
-            console.log("ans: ", ans)
-            $.each(ans.split(""), function (idx, obj) {
-                $("#" + code + "-box").find("input[value='" + obj + "']").iCheck('check');
-            })
-        }
-    }
 
 </script>
 

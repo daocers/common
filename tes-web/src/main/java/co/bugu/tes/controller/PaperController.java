@@ -3,6 +3,7 @@ package co.bugu.tes.controller;
 import co.bugu.framework.core.dao.PageInfo;
 import co.bugu.framework.core.mybatis.SearchParamUtil;
 import co.bugu.framework.core.mybatis.ThreadLocalUtil;
+import co.bugu.framework.core.util.ShiroSessionUtil;
 import co.bugu.framework.util.JsonUtil;
 import co.bugu.framework.util.exception.TesException;
 import co.bugu.tes.model.Answer;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +47,7 @@ public class PaperController {
 
     /**
      * 列表，分页显示
+     * 查询当前用户开场的场次试卷信息
      *
      * @param paper     查询数据
      * @param curPage   当前页码，从1开始
@@ -57,7 +60,7 @@ public class PaperController {
     public String list(Paper paper, String username, String sceneName, Integer curPage,
                        Integer showCount, ModelMap model, HttpServletRequest request) {
         try {
-            Integer userId = null;
+            Integer userId = ShiroSessionUtil.getUserId();
             if (StringUtils.isNotEmpty(username)) {
                 User user = new User();
                 user.setUsername(username);
@@ -109,6 +112,29 @@ public class PaperController {
 
     }
 
+
+    /**
+     * 查找当前用户的所有试卷信息
+     * @param paper
+     * @param curPage
+     * @param showCount
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/list/my.do")
+    public String list(Paper paper, Integer curPage, Integer showCount, ModelMap model){
+        try{
+            paper.setUserId(ShiroSessionUtil.getUserId());
+            PageInfo pageInfo = new PageInfo(showCount, curPage);
+            pageInfo = paperService.findByObject(paper, pageInfo);
+            model.put("pi", pageInfo);
+        }catch (Exception e){
+            logger.error("获取试卷信息失败", e);
+            model.put("errMsg", "获取试卷列表失败");
+        }
+        return "paper/list";
+    }
+
     /**
      * 查询数据后跳转到对应的编辑页面
      *
@@ -155,7 +181,7 @@ public class PaperController {
         return "redirect:list.do";
     }
 
-//    @Menu(value = "获取试卷信息", isView = true)
+    //    @Menu(value = "获取试卷信息", isView = true)
     @RequestMapping(value = "/paperInfo")
     public String getPaperInfo(Integer paperId, Integer showCount, Integer curPage, ModelMap model) throws Exception {
         PageInfo<Answer> pageInfo = new PageInfo<>(showCount, curPage);
@@ -204,7 +230,7 @@ public class PaperController {
         }
     }
 
-//    @Menu(value = "试卷管理", isView = true)
+    //    @Menu(value = "试卷管理", isView = true)
     @RequestMapping("/manage")
     public String toManage(Paper paper, ModelMap model) throws TesException {
         try {
