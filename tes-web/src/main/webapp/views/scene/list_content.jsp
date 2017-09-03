@@ -65,6 +65,9 @@
                     <c:if test="${scene.status <= 1}">
                         <a href="/scene/index.do?id=${scene.id}" class="opr">修改</a>
                     </c:if>
+                    <c:if test="${scene.status == 3}">
+                        <a href="javascript:showScore(${scene.id})">查看成绩</a>
+                    </c:if>
                         <%--<a href="javascript:del(${scene.id})" class="opr">删除</a>--%>
                 </td>
             </tr>

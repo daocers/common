@@ -106,6 +106,14 @@
 </div>
 </div>
 <script>
+    /**
+     * 查看场次成绩
+     * @param sceneId
+     */
+    function showScore(sceneId) {
+        console.log("showScore")
+        openTab("/paper/list.do?sceneId=" + sceneId);
+    }
 
     $(function () {
         $("#search").on("click", function () {

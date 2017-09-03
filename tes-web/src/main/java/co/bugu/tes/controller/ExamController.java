@@ -326,6 +326,7 @@ public class ExamController {
         JSONObject json = new JSONObject();
         json.put("code", 0);
         try {
+            Date now = new Date();
             boolean saveAnsFlag = true;
             Map<String, String> answerMap = null;
             try {
@@ -343,6 +344,7 @@ public class ExamController {
             Map metaInfoIdScoreMap = JSON.parseObject(scene.getMetaScoreInfo(), HashMap.class);
             Double score = paperService.computeScore(metaInfoIdScoreMap, answerMap, paperId);
             paper.setOriginMark(score.doubleValue() + "");
+            paper.setEndTime(now);
             if (scene.getPercentable().equals(0)) {//百分制，需要处理
                 paper.setMark(score / Double.valueOf(scene.getTotalScore()).doubleValue() * 100 + "");
             } else {

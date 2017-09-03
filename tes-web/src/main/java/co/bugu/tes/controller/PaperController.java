@@ -6,6 +6,7 @@ import co.bugu.framework.core.mybatis.ThreadLocalUtil;
 import co.bugu.framework.core.util.ShiroSessionUtil;
 import co.bugu.framework.util.JsonUtil;
 import co.bugu.framework.util.exception.TesException;
+import co.bugu.tes.enums.CommonStatusEnum;
 import co.bugu.tes.model.Answer;
 import co.bugu.tes.model.Paper;
 import co.bugu.tes.model.Scene;
@@ -45,6 +46,31 @@ public class PaperController {
     IQuestionPolicyService questionPolicyService;
     private static Logger logger = LoggerFactory.getLogger(PaperController.class);
 
+    @RequestMapping(value = "/list")
+    public String list(Integer sceneId, String username, Integer curPage, Integer showCount, ModelMap model){
+        try{
+            Paper paper = new Paper();
+            if(StringUtils.isNotEmpty(username)){
+                User user = new User();
+                user.setUsername(username);
+                List<User> userList = userService.findByObject(user);
+                if(CollectionUtils.isNotEmpty(userList)){
+                    paper.setUserId(userList.get(0).getId());
+                }
+            }
+            paper.setSceneId(sceneId);
+            paper.setStatus(CommonStatusEnum.ENABLE.getStatus());
+            PageInfo<Paper> pageInfo = new PageInfo<>(showCount, curPage);
+            paperService.findByObject(paper, pageInfo);
+            model.put("pi", pageInfo);
+        }catch (Exception e){
+            logger.error("获取成绩失败", e);
+        }
+
+        return "paper/list";
+
+    }
+
     /**
      * 列表，分页显示
      * 查询当前用户开场的场次试卷信息
@@ -56,61 +82,61 @@ public class PaperController {
      * @return
      */
 //    @Menu(value = "试卷列表", isView = true)
-    @RequestMapping(value = "/list")
-    public String list(Paper paper, String username, String sceneName, Integer curPage,
-                       Integer showCount, ModelMap model, HttpServletRequest request) {
-        try {
-            Integer userId = ShiroSessionUtil.getUserId();
-            if (StringUtils.isNotEmpty(username)) {
-                User user = new User();
-                user.setUsername(username);
-                List<User> userList = userService.findByObject(user);
-                if (CollectionUtils.isNotEmpty(userList)) {
-                    userId = userList.get(0).getId();
-                } else {
-                    userId = -1;//不存在该用户
-                }
-            }
-            Integer sceneId = null;
-            if (StringUtils.isNotEmpty(sceneName)) {
-                Scene scene = new Scene();
-                scene.setName(sceneName);
-                List<Scene> sceneList = sceneService.findByObject(scene);
-                if (CollectionUtils.isNotEmpty(sceneList)) {
-                    sceneId = sceneList.get(0).getId();
-                } else {
-                    sceneId = -1;
-                }
-            }
-            SearchParamUtil.processSearchParam(paper, request);
-            Map<String, Object> map = ThreadLocalUtil.get();
-            if (userId != null) {
-                map.put("EQ_userId", userId);
-                paper.setUserId(userId);
-            }
-            if (sceneId != null) {
-                map.put("EQ_sceneId", sceneId);
-                paper.setSceneId(sceneId);
-            }
-            ThreadLocalUtil.set(map);
-            PageInfo<Paper> pageInfo = new PageInfo<>(showCount, curPage);
-            pageInfo = paperService.findByObject(paper, pageInfo);
-            model.put("pi", pageInfo);
-            model.put("paper", paper);
-            Map<Integer, String> statusMap = new HashMap<>();
-            statusMap.put(0, "正常");
-            statusMap.put(1, "未作答");
-            statusMap.put(2, "作废");
-            statusMap.put(3, "已交卷");
-            statusMap.put(4, "提交失败");
-            model.put("statusMap", statusMap);
-        } catch (Exception e) {
-            logger.error("获取列表失败", e);
-            model.put("errMsg", "获取列表失败");
-        }
-        return "paper/list";
-
-    }
+//    @RequestMapping(value = "/list")
+//    public String list(Paper paper, String username, String sceneName, Integer curPage,
+//                       Integer showCount, ModelMap model, HttpServletRequest request) {
+//        try {
+//            Integer userId = ShiroSessionUtil.getUserId();
+//            if (StringUtils.isNotEmpty(username)) {
+//                User user = new User();
+//                user.setUsername(username);
+//                List<User> userList = userService.findByObject(user);
+//                if (CollectionUtils.isNotEmpty(userList)) {
+//                    userId = userList.get(0).getId();
+//                } else {
+//                    userId = -1;//不存在该用户
+//                }
+//            }
+//            Integer sceneId = null;
+//            if (StringUtils.isNotEmpty(sceneName)) {
+//                Scene scene = new Scene();
+//                scene.setName(sceneName);
+//                List<Scene> sceneList = sceneService.findByObject(scene);
+//                if (CollectionUtils.isNotEmpty(sceneList)) {
+//                    sceneId = sceneList.get(0).getId();
+//                } else {
+//                    sceneId = -1;
+//                }
+//            }
+//            SearchParamUtil.processSearchParam(paper, request);
+//            Map<String, Object> map = ThreadLocalUtil.get();
+//            if (userId != null) {
+//                map.put("EQ_userId", userId);
+//                paper.setUserId(userId);
+//            }
+//            if (sceneId != null) {
+//                map.put("EQ_sceneId", sceneId);
+//                paper.setSceneId(sceneId);
+//            }
+//            ThreadLocalUtil.set(map);
+//            PageInfo<Paper> pageInfo = new PageInfo<>(showCount, curPage);
+//            pageInfo = paperService.findByObject(paper, pageInfo);
+//            model.put("pi", pageInfo);
+//            model.put("paper", paper);
+//            Map<Integer, String> statusMap = new HashMap<>();
+//            statusMap.put(0, "正常");
+//            statusMap.put(1, "未作答");
+//            statusMap.put(2, "作废");
+//            statusMap.put(3, "已交卷");
+//            statusMap.put(4, "提交失败");
+//            model.put("statusMap", statusMap);
+//        } catch (Exception e) {
+//            logger.error("获取列表失败", e);
+//            model.put("errMsg", "获取列表失败");
+//        }
+//        return "paper/list";
+//
+//    }
 
 
     /**
